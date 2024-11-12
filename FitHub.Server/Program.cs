@@ -1,7 +1,7 @@
 using FitHub.AccountManagement.Features.Add;
-using FitHub.AccoutManagement.Domain.RegularUser;
-using FitHub.AccoutManagement.Infrastructure;
-using FitHub.AccoutManagement.Infrastructure.UserDataAccess;
+using FitHub.AccountManagement.Domain.RegularUser;
+using FitHub.AccountManagement.Infrastructure;
+using FitHub.AccountManagement.Infrastructure.UserDataAccess;
 using FitHub.ModuleIntegration.AccountManagement.RegularUser;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

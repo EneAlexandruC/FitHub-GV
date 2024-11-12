@@ -1,11 +1,6 @@
-﻿using FitHub.AccoutManagement.Domain.RegularUser;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FitHub.AccountManagement.Domain.RegularUser;
 
-namespace FitHub.AccoutManagement.Infrastructure.UserDataAccess
+namespace FitHub.AccountManagement.Infrastructure.UserDataAccess
 {
     public class RegularUserCommandRepository(RegularUserDbContext dbContext) : IRegularUserCommandRepository
     {

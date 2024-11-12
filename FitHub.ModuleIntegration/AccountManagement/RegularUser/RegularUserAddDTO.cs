@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FitHub.ModuleIntegration.AccountManagement.RegularUser
+﻿namespace FitHub.ModuleIntegration.AccountManagement.RegularUser
 {
     public class RegularUserAddDTO
     {
@@ -12,5 +6,8 @@ namespace FitHub.ModuleIntegration.AccountManagement.RegularUser
         public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
+        public double Weight { get;  set; }
+        public double Height { get;  set; }
+        public DateTime DateOfBirth { get;  set; }
     }
 }

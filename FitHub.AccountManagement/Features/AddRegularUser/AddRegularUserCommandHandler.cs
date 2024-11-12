@@ -1,9 +1,4 @@
-﻿using FitHub.AccoutManagement.Domain.RegularUser;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FitHub.AccountManagement.Domain.RegularUser;
 
 namespace FitHub.AccountManagement.Features.Add
 {
@@ -11,11 +6,11 @@ namespace FitHub.AccountManagement.Features.Add
     {
         public async Task<RegularUser> Handle(AddRegularUserCommand command)
         {
-            await repository.Add(command.regularUser);
+            await repository.Add(command.RegularUser);
 
             await repository.SaveChanges();
 
-            return command.regularUser;
+            return command.RegularUser;
         }
     }
 }

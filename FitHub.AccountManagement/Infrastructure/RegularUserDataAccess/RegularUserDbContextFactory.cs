@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.IO;
 
-namespace FitHub.AccoutManagement.Infrastructure.UserDataAccess
+namespace FitHub.AccountManagement.Infrastructure.UserDataAccess
 {
     public class RegularUserDbContextFactory : IDesignTimeDbContextFactory<RegularUserDbContext>
     {

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace FitHub.AccoutManagement.Migrations
+namespace FitHub.AccountManagement.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration

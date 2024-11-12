@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using FitHub.AccountManagement.Domain.HelperMethods;
 
-//TODO add weight, height, date of birth, age
-
-namespace FitHub.AccoutManagement.Domain.RegularUser
+namespace FitHub.AccountManagement.Domain.RegularUser
 {
     public class RegularUser
     {
@@ -20,47 +11,68 @@ namespace FitHub.AccoutManagement.Domain.RegularUser
         }
 
         public int ID { get; private set; }
-
         public string FirstName { get; private set; } = string.Empty;
         public string LastName { get; private set; } = string.Empty;
         public string Email { get; private set; } = string.Empty;
         public string Password { get; private set; } = string.Empty;
-
+        public double Weight { get; private set; }
+        public double Height { get; private set; }
+        public DateTime DateOfBirth { get; private set; }
+        public int Age => UserHelper.CalculateAge(DateOfBirth);
         public UserType Type { get; private set; }
-
-        private string HashPassword(string password)
-        {
-            return BCrypt.Net.BCrypt.HashPassword(password);
-        }
 
         private RegularUser() { }
 
-        public static RegularUser Create(string firstName, string lastName, string email, string password)
+        public static RegularUser Create(string firstName, string lastName, string email, string password, double weight, double height, DateTime dateOfBirth)
         {
-            //TODO password = password.To Hash Value
-            //TODO add weight, height, date of birth, age
+            if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
+            {
+                throw new ArgumentException("Name fields cannot be empty.");
+            }
 
-            //if (string.IsNullOrEmpty(name) || name.Length > 100)
-            //    throw new ArgumentException("Name cannot be null, empty, or exceed 100 characters.", nameof(name));
+            if (!UserHelper.IsValidName(firstName) || !UserHelper.IsValidName(lastName))
+            {
+                throw new ArgumentException("Name fields must be under 50 characters.");
+            }
 
-            return new RegularUser
+            if (!UserHelper.IsValidEmail(email))
+            {
+                throw new ArgumentException("Invalid email format.");
+            }
+
+            if (!UserHelper.IsValidPassword(password))
+            {
+                throw new ArgumentException("Password must be at least 8 characters long, contain a number and an uppercase letter.");
+            }
+
+            return new RegularUser()
             {
                 FirstName = firstName,
                 LastName = lastName,
                 Email = email,
-                Password = password,
+                Password = UserHelper.HashPassword(password),
+                Weight = weight,
+                Height = height,
+                DateOfBirth = dateOfBirth,
                 Type = UserType.Regular
             };
         }
 
         public void UpdateUserType(UserType type)
         {
-            if (Type == type)
+            if (this.Type == UserType.Regular && type == UserType.Regular)
             {
-                throw new InvalidOperationException("The new status is the same as the current status.");
+                throw new InvalidOperationException("User is already regular.");
+            }
+            else if (this.Type == UserType.Premium && type == UserType.Premium)
+            {
+                throw new InvalidOperationException("User is already premium.");
             }
 
-            Type = type;
+            this.Type = type;
         }
+
+
+
     }
 }

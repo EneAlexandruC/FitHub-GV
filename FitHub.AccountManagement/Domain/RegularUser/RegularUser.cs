@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 //TODO add weight, height, date of birth, age
 
-namespace FitHub.AccoutManagement.Domain.RegularUser
+namespace FitHub.AccountManagement.Domain.RegularUser
 {
     public class RegularUser
     {

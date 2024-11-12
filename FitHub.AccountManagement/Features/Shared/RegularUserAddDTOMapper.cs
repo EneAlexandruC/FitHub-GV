@@ -1,4 +1,4 @@
-﻿using FitHub.AccoutManagement.Domain.RegularUser;
+﻿using FitHub.AccountManagement.Domain.RegularUser;
 using FitHub.ModuleIntegration.AccountManagement.RegularUser;
 using System;
 using System.Collections.Generic;

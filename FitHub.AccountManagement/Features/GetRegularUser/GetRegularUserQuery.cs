@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FitHub.AccountManagement.Domain.PremiumUser
+namespace FitHub.AccountManagement.Features.GetRegularUser
 {
-    public interface IPremiumUserCommandRepository
+    public class GetRegularUserQuery
     {
+        public string Email;
     }
 }

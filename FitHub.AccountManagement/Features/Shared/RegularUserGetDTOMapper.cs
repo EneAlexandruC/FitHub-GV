@@ -1,4 +1,4 @@
-﻿using FitHub.AccoutManagement.Domain.RegularUser;
+﻿using FitHub.AccountManagement.Domain.RegularUser;
 using FitHub.ModuleIntegration.AccountManagement.RegularUser;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace FitHub.AccountManagement.Features.Shared
 {
     public static class RegularUserGetDTOMapper
     {
-        public static RegularUserGetDTO ToUserGetDTO(this RegularUser user)
+        public static RegularUserGetDTO ToRegularUserGetDTO(this RegularUser user)
         {
             return new RegularUserGetDTO
             {

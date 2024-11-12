@@ -1,5 +1,5 @@
-﻿using FitHub.AccoutManagement.Domain.PremiumUser;
-using FitHub.AccoutManagement.Domain.RegularUser;
+﻿using FitHub.AccountManagement.Domain.PremiumUser;
+using FitHub.AccountManagement.Domain.RegularUser;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace FitHub.AccoutManagement.Infrastructure.UserDataAccess
+namespace FitHub.AccountManagement.Infrastructure.UserDataAccess
 {
     public class RegularUserDbContext : DbContext
     {
@@ -19,7 +19,7 @@ namespace FitHub.AccoutManagement.Infrastructure.UserDataAccess
          : base(options)
         {
         }
-        public DbSet<RegularUser> Companies { get; set; }
+        public DbSet<RegularUser> RegularUsers { get; set; }
 
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

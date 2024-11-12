@@ -1,4 +1,4 @@
-﻿using FitHub.AccoutManagement.Domain.RegularUser;
+﻿using FitHub.AccountManagement.Domain.RegularUser;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace FitHub.AccountManagement.Features.Add
 {
     public class AddRegularUserCommand
     {
-        public RegularUser regularUser;
+        public RegularUser RegularUser;
     }
 }
 

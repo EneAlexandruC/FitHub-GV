@@ -1,11 +1,13 @@
 using FitHub.AccountManagement.Features.Add;
-using FitHub.AccoutManagement.Domain.RegularUser;
-using FitHub.AccoutManagement.Infrastructure;
-using FitHub.AccoutManagement.Infrastructure.UserDataAccess;
+using FitHub.AccountManagement.Domain.RegularUser;
+using FitHub.AccountManagement.Infrastructure;
+using FitHub.AccountManagement.Infrastructure.UserDataAccess;
 using FitHub.ModuleIntegration.AccountManagement.RegularUser;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using FitHub.AccountManagement.Features.GetRegularUser;
+using FitHub.AccountManagement.Infrastructure.RegularUserDataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,8 +19,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 builder.Services.AddScoped<AddRegularUserCommandHandler>();
+builder.Services.AddScoped<GetRegularUserQueryHandler>();
 builder.Services.AddScoped<IRegularUserCommandRepository, RegularUserCommandRepository>();
 builder.Services.AddScoped<IRegularUserService, RegularUserService>();
+builder.Services.AddScoped<IRegularUserQueryRepository, RegularUserQueryRepository>();
 builder.Services.AddDbContext<RegularUserDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

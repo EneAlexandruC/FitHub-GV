@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FitHub.AccoutManagement.Migrations
 {
-    [DbContext(typeof(UserDbContext))]
+    [DbContext(typeof(RegularUserDbContext))]
     partial class UserDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

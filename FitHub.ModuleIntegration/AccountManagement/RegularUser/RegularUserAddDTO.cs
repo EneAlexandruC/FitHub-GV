@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FitHub.ModuleIntegration.AccountManagement
+namespace FitHub.ModuleIntegration.AccountManagement.RegularUser
 {
-    public class UserAddDTO
+    public class RegularUserAddDTO
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;

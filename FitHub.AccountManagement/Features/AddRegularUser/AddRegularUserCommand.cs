@@ -5,10 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FitHub.AccoutManagement.Features.Add
+namespace FitHub.AccountManagement.Features.Add
 {
-    public class AddUserCommand
+    public class AddRegularUserCommand
     {
         public RegularUser regularUser;
     }
 }
+
+

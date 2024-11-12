@@ -1,8 +1,8 @@
+using FitHub.AccountManagement.Features.Add;
 using FitHub.AccoutManagement.Domain.RegularUser;
-using FitHub.AccoutManagement.Features.Add;
 using FitHub.AccoutManagement.Infrastructure;
 using FitHub.AccoutManagement.Infrastructure.UserDataAccess;
-using FitHub.ModuleIntegration.AccountManagement;
+using FitHub.ModuleIntegration.AccountManagement.RegularUser;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -16,10 +16,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
-builder.Services.AddScoped<AddUserCommandHandler>();
+builder.Services.AddScoped<AddRegularUserCommandHandler>();
 builder.Services.AddScoped<IRegularUserCommandRepository, RegularUserCommandRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddDbContext<UserDbContext>(options =>
+builder.Services.AddScoped<IRegularUserService, RegularUserService>();
+builder.Services.AddDbContext<RegularUserDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
@@ -68,7 +68,7 @@ using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 try
 {
-    var context = services.GetRequiredService<UserDbContext>();
+    var context = services.GetRequiredService<RegularUserDbContext>();
      
 }
 catch (Exception ex)

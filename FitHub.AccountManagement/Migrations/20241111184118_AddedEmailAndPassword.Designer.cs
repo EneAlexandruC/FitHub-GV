@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FitHub.AccoutManagement.Migrations
 {
-    [DbContext(typeof(UserDbContext))]
+    [DbContext(typeof(RegularUserDbContext))]
     [Migration("20241111184118_AddedEmailAndPassword")]
     partial class AddedEmailAndPassword
     {

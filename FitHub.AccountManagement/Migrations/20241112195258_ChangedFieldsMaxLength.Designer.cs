@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FitHub.AccoutManagement.Migrations
 {
-    [DbContext(typeof(UserDbContext))]
+    [DbContext(typeof(RegularUserDbContext))]
     [Migration("20241112195258_ChangedFieldsMaxLength")]
     partial class ChangedFieldsMaxLength
     {

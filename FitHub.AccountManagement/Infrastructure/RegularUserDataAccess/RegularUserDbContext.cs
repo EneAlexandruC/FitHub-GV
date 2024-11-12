@@ -13,9 +13,9 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace FitHub.AccoutManagement.Infrastructure.UserDataAccess
 {
-    public class UserDbContext : DbContext
+    public class RegularUserDbContext : DbContext
     {
-        public UserDbContext(DbContextOptions<UserDbContext> options)
+        public RegularUserDbContext(DbContextOptions<RegularUserDbContext> options)
          : base(options)
         {
         }

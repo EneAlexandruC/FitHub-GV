@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FitHub.AccoutManagement.Features.Add
+namespace FitHub.AccountManagement.Features.Add
 {
-    public class AddUserCommandHandler(IRegularUserCommandRepository repository)
+    public class AddRegularUserCommandHandler(IRegularUserCommandRepository repository)
     {
-        public async Task<RegularUser> Handle(AddUserCommand command)
+        public async Task<RegularUser> Handle(AddRegularUserCommand command)
         {
             await repository.Add(command.regularUser);
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FitHub.AccoutManagement.Infrastructure.UserDataAccess
 {
-    public class RegularUserCommandRepository(UserDbContext dbContext) : IRegularUserCommandRepository
+    public class RegularUserCommandRepository(RegularUserDbContext dbContext) : IRegularUserCommandRepository
     {
         public async Task<RegularUser> Add(RegularUser entry)
         {

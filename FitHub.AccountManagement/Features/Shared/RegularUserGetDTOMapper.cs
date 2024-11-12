@@ -1,5 +1,5 @@
 ﻿using FitHub.AccoutManagement.Domain.RegularUser;
-using FitHub.ModuleIntegration.AccountManagement;
+using FitHub.ModuleIntegration.AccountManagement.RegularUser;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +7,13 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FitHub.AccoutManagement.Features.Shared
+namespace FitHub.AccountManagement.Features.Shared
 {
-    public static class UserGetDTOMapper
+    public static class RegularUserGetDTOMapper
     {
-        public static UserGetDTO ToUserGetDTO(this RegularUser user)
+        public static RegularUserGetDTO ToUserGetDTO(this RegularUser user)
         {
-            return new UserGetDTO
+            return new RegularUserGetDTO
             {
                 ID = user.ID,
                 FirstName = user.FirstName,

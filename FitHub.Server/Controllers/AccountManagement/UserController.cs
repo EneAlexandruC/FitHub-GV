@@ -1,4 +1,4 @@
-﻿using FitHub.ModuleIntegration.AccountManagement;
+﻿using FitHub.ModuleIntegration.AccountManagement.RegularUser;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitHub.Server.Controllers.AccountManagement
@@ -7,16 +7,16 @@ namespace FitHub.Server.Controllers.AccountManagement
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserService userSerivce;
+        private readonly IRegularUserService userSerivce;
 
-        public UserController(IUserService userSerivce)
+        public UserController(IRegularUserService userSerivce)
         {
             this.userSerivce = userSerivce;
         }
 
 
         [HttpPost("add-user")]
-        public async Task<UserGetDTO> Post([FromBody] UserAddDTO userAddDTO)
+        public async Task<RegularUserGetDTO> Post([FromBody] RegularUserAddDTO userAddDTO)
         {
             if (userAddDTO == null)
             {

@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Domain\HelperMethods\" />
-    <Folder Include="Features\" />
   </ItemGroup>
 
   <ItemGroup>

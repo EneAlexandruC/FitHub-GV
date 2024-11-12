@@ -16,7 +16,7 @@ namespace FitHub.AccoutManagement.Domain.RegularUser
         public enum UserType
         {
             Regular = 0,
-            Premium = 1
+            Premium = 1 
         }
 
         public int ID { get; private set; }

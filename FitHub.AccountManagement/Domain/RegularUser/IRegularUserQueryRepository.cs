@@ -10,5 +10,7 @@ namespace FitHub.AccoutManagement.Domain.RegularUser
     public interface IRegularUserQueryRepository
     {
         Task<RegularUser> GetUserByEmail(string email);
+
+        Task SaveChanges();
     }
 }

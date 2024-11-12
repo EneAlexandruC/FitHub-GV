@@ -42,19 +42,19 @@ namespace FitHub.AccoutManagement.Infrastructure.UserDataAccess
 
                 entity.Property(c => c.LastName)
                     .IsRequired()
-                    .HasMaxLength(100);
+                    .HasMaxLength(30);
 
                 entity.Property(c => c.FirstName)
                     .IsRequired()
-                    .HasMaxLength(10);
+                    .HasMaxLength(30);
 
                 entity.Property(c => c.Email)
                     .IsRequired()
-                    .HasMaxLength(10);
+                    .HasMaxLength(50);
 
                 entity.Property(c => c.Password)
                     .IsRequired()
-                    .HasMaxLength (20);
+                    .HasMaxLength (40);
             });
 
         }

@@ -1,15 +1,6 @@
-﻿using FitHub.AccountManagement.Domain.PremiumUser;
-using FitHub.AccountManagement.Domain.RegularUser;
+﻿using FitHub.AccountManagement.Domain.RegularUser;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+
 
 namespace FitHub.AccountManagement.Infrastructure.UserDataAccess
 {
@@ -23,12 +14,6 @@ namespace FitHub.AccountManagement.Infrastructure.UserDataAccess
 
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-
-        //{
-
-        //    optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB; Database=FitHub; Trusted_Connection=true; Trust Server Certificate=true; MultipleActiveResultSets=true; Integrated Security=true;");
-
-        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -54,7 +39,17 @@ namespace FitHub.AccountManagement.Infrastructure.UserDataAccess
 
                 entity.Property(c => c.Password)
                     .IsRequired()
-                    .HasMaxLength (40);
+                    .HasMaxLength (100);
+
+                entity.Property(c => c.Weight)
+                    .IsRequired();
+
+                entity.Property(c => c.Height)
+                    .IsRequired();
+
+                entity.Property(c => c.DateOfBirth)
+                    .IsRequired()
+                    .HasColumnType("date");
             });
 
         }

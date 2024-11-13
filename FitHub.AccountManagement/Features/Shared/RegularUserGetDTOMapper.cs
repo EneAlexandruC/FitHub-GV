@@ -1,11 +1,5 @@
 ﻿using FitHub.AccountManagement.Domain.RegularUser;
 using FitHub.ModuleIntegration.AccountManagement.RegularUser;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FitHub.AccountManagement.Features.Shared
 {
@@ -20,6 +14,9 @@ namespace FitHub.AccountManagement.Features.Shared
                 LastName = user.LastName,
                 Email = user.Email,
                 Password = user.Password,
+                Weight = user.Weight,
+                Height = user.Height,
+                DateOfBirth = user.DateOfBirth,
                 Type = (int)user.Type,
             };
         }

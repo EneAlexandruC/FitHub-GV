@@ -10,7 +10,7 @@ namespace FitHub.AccountManagement.Infrastructure.UserDataAccess
          : base(options)
         {
         }
-
+        public DbSet<RegularUser> RegularUsers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -18,7 +18,7 @@ namespace FitHub.AccountManagement.Infrastructure.UserDataAccess
 
             modelBuilder.Entity<RegularUser>(entity =>
             {
-                entity.ToTable("Regular Users");
+                entity.ToTable("RegularUser");
                 entity.HasKey(c => c.ID);
 
                 entity.Property(c => c.LastName)

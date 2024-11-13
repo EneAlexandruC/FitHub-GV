@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitHub.AccountManagement.Migrations
 {
     [DbContext(typeof(RegularUserDbContext))]
-    partial class UserDbContextModelSnapshot : ModelSnapshot
+    partial class RegularUserDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -64,7 +64,7 @@ namespace FitHub.AccountManagement.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Regular Users", (string)null);
+                    b.ToTable("RegularUser", (string)null);
                 });
 #pragma warning restore 612, 618
         }

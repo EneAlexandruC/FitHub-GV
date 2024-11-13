@@ -1,4 +1,5 @@
-﻿using FitHub.ModuleIntegration.AccountManagement.RegularUser;
+﻿using FitHub.ModuleIntegration.AccountManagement.PremiumUser;
+using FitHub.ModuleIntegration.AccountManagement.RegularUser;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitHub.Server.Controllers.AccountManagement
@@ -7,15 +8,17 @@ namespace FitHub.Server.Controllers.AccountManagement
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IRegularUserService regularUserSerivce;
+        private readonly IRegularUserService regularUserService;
+        private readonly IPremiumUserService premiumUserService;
 
-        public UserController(IRegularUserService regularUserSerivce)
+        public UserController(IRegularUserService regularUserService, IPremiumUserService premiumUserService)
         {
-            this.regularUserSerivce = regularUserSerivce;
+            this.regularUserService = regularUserService;
+            this.premiumUserService = premiumUserService;
         }
 
 
-        [HttpPost("AddUser")]
+        [HttpPost("add-regularuser")]
         public async Task<RegularUserGetDTO> Post([FromBody] RegularUserAddDTO userAddDTO)
         {
             if (userAddDTO == null)
@@ -23,7 +26,17 @@ namespace FitHub.Server.Controllers.AccountManagement
                 throw new ArgumentNullException(nameof(userAddDTO));
             }
 
-            var addedUser = await regularUserSerivce.AddUser(userAddDTO);
+            var addedUser = await regularUserService.AddUser(userAddDTO);
+
+            return addedUser;
+        }
+
+        [HttpPost("add-premiumuser")]
+        public async Task<PremiumUserGetDTO> Post([FromBody] PremiumUserAddDTO userAddDTO)
+        {
+            ArgumentNullException.ThrowIfNull(userAddDTO);
+
+            var addedUser = await premiumUserService.AddPremiumUser(userAddDTO);
 
             return addedUser;
         }
@@ -31,7 +44,7 @@ namespace FitHub.Server.Controllers.AccountManagement
         [HttpGet("getUserByEmail")]
         public async Task<RegularUserGetDTO> GetUserByEmail([FromQuery] string email)
         {
-            return await regularUserSerivce.GetRegularUserByEmail(email);
+            return await regularUserService.GetRegularUserByEmail(email);
         }
     }
 }

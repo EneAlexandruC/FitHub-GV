@@ -5,7 +5,7 @@ namespace FitHub.AccountManagement.Features.Shared
 {
     public static class RegularUserGetDTOMapper
     {
-        public static RegularUserGetDTO ToUserGetDTO(this RegularUser user)
+        public static RegularUserGetDTO ToRegularUserGetDTO(this RegularUser user)
         {
             return new RegularUserGetDTO
             {

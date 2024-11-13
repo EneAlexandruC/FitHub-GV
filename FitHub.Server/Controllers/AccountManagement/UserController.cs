@@ -7,15 +7,15 @@ namespace FitHub.Server.Controllers.AccountManagement
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IRegularUserService userSerivce;
+        private readonly IRegularUserService regularUserSerivce;
 
-        public UserController(IRegularUserService userSerivce)
+        public UserController(IRegularUserService regularUserSerivce)
         {
-            this.userSerivce = userSerivce;
+            this.regularUserSerivce = regularUserSerivce;
         }
 
 
-        [HttpPost("add-user")]
+        [HttpPost("AddUser")]
         public async Task<RegularUserGetDTO> Post([FromBody] RegularUserAddDTO userAddDTO)
         {
             if (userAddDTO == null)
@@ -23,9 +23,15 @@ namespace FitHub.Server.Controllers.AccountManagement
                 throw new ArgumentNullException(nameof(userAddDTO));
             }
 
-            var addedUser = await userSerivce.AddUser(userAddDTO);
+            var addedUser = await regularUserSerivce.AddUser(userAddDTO);
 
             return addedUser;
+        }
+
+        [HttpGet("getUserByEmail")]
+        public async Task<RegularUserGetDTO> GetUserByEmail([FromQuery] string email)
+        {
+            return await regularUserSerivce.GetRegularUserByEmail(email);
         }
     }
 }

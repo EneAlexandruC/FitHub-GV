@@ -11,6 +11,10 @@ namespace FitHub.AccountManagement.Infrastructure.UserDataAccess
         {
         }
         public DbSet<RegularUser> RegularUsers { get; set; }
+
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

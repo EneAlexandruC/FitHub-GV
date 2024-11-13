@@ -23,8 +23,10 @@ builder.Services.AddCors();
 
 // regular user services
 builder.Services.AddScoped<AddRegularUserCommandHandler>();
+builder.Services.AddScoped<GetRegularUserQueryHandler>();
 builder.Services.AddScoped<IRegularUserCommandRepository, RegularUserCommandRepository>();
 builder.Services.AddScoped<IRegularUserService, RegularUserService>();
+builder.Services.AddScoped<IRegularUserQueryRepository, RegularUserQueryRepository>();
 builder.Services.AddDbContext<RegularUserDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

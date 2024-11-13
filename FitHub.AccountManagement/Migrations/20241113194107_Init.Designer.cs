@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitHub.AccountManagement.Migrations
 {
     [DbContext(typeof(RegularUserDbContext))]
-    [Migration("20241112222255_ChangedPassFieldTo100")]
-    partial class ChangedPassFieldTo100
+    [Migration("20241113194107_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,7 +34,7 @@ namespace FitHub.AccountManagement.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -67,7 +67,7 @@ namespace FitHub.AccountManagement.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Regular Users", (string)null);
+                    b.ToTable("RegularUser", (string)null);
                 });
 #pragma warning restore 612, 618
         }

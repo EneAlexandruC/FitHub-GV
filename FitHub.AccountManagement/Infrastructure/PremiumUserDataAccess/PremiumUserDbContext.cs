@@ -17,7 +17,7 @@ namespace FitHub.AccountManagement.Infrastructure.PremiumUserDataAccess
 
             modelBuilder.Entity<PremiumUser>(entity =>
             {
-                entity.ToTable("PremiumUsers");
+                entity.ToTable("PremiumUser");
                 entity.HasKey(c => c.ID);
 
                 entity.Property(c => c.RegularUserID)
@@ -37,6 +37,9 @@ namespace FitHub.AccountManagement.Infrastructure.PremiumUserDataAccess
                     .IsRequired()
                     .HasColumnType("date");
             });
+
+            // Map the existing RegularUser table
+            modelBuilder.Entity<RegularUser>().ToTable("RegularUser");
         }
     }
 }

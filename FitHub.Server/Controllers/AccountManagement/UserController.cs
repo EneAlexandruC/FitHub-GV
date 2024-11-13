@@ -44,7 +44,7 @@ namespace FitHub.Server.Controllers.AccountManagement
         [HttpGet("getUserByEmail")]
         public async Task<RegularUserGetDTO> GetUserByEmail([FromQuery] string email)
         {
-            return await regularUserSerivce.GetRegularUserByEmail(email);
+            return await regularUserService.GetRegularUserByEmail(email);
         }
     }
 }

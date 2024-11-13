@@ -43,7 +43,7 @@ namespace FitHub.AccountManagement.Migrations.PremiumUserDb
 
                     b.HasIndex("RegularUserID");
 
-                    b.ToTable("PremiumUsers", (string)null);
+                    b.ToTable("PremiumUser", (string)null);
                 });
 
             modelBuilder.Entity("FitHub.AccountManagement.Domain.RegularUser.RegularUser", b =>
@@ -84,7 +84,7 @@ namespace FitHub.AccountManagement.Migrations.PremiumUserDb
 
                     b.HasKey("ID");
 
-                    b.ToTable("RegularUser");
+                    b.ToTable("RegularUser", (string)null);
                 });
 
             modelBuilder.Entity("FitHub.AccountManagement.Domain.PremiumUser.PremiumUser", b =>

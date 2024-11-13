@@ -10,6 +10,8 @@ using FitHub.AccountManagement.Infrastructure.PremiumUserDataAccess;
 using FitHub.AccountManagement.Features.AddPremiumUser;
 using FitHub.ModuleIntegration.AccountManagement.PremiumUser;
 using FitHub.AccountManagement.Domain.PremiumUser;
+using FitHub.AccountManagement.Features.GetRegularUser;
+using FitHub.AccountManagement.Infrastructure.RegularUserDataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 

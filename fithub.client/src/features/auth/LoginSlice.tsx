@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { loginApi } from '../../utils/api';
+import { loginAPI } from '../../utils/api';
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -18,10 +18,10 @@ export const login = createAsyncThunk(
   'auth/login',
   async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await loginApi(credentials);
+      const response = await loginAPI(credentials);
       return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
+    } catch (error: any) {
+      return rejectWithValue('Login failed');
     }
   }
 );
@@ -33,6 +33,9 @@ const authSlice = createSlice({
     logout: (state) => {
       state.isAuthenticated = false;
     },
+    updateStatus: (state) => {
+      state.isAuthenticated = true;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -51,7 +54,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, updateStatus } = authSlice.actions;
 
 export const selectAuth = (state: RootState) => state.auth;
 

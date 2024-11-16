@@ -33,7 +33,7 @@ function App() {
         try {
             window.location.href = "https://localhost:7204/api/Account/login"; // Redirect to the login page
         } catch (error) {
-            console.error('Error during login:', error);
+            console.error('Error encountered during login:', error);
         }
     }
 

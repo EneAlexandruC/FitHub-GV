@@ -9,14 +9,55 @@ interface Forecast {
 }
 
 function App() {
-    const [forecasts, setForecasts] = useState<Forecast[]>();
+    const [forecasts] = useState<Forecast[]>();
+    const [authState, setAuthState] = useState<{ isAuthenticated: boolean, username: string }>({ isAuthenticated: false, username: '' });
 
     useEffect(() => {
-        populateWeatherData();
+        checkAuthentication();
     }, []);
 
+    async function checkAuthentication() {
+        const response = await fetch('https://localhost:7204/api/Account/isAuthenticated', {
+            method: 'GET',
+            credentials: 'include'
+        });
+        if (response.ok) {
+            const data = await response.json();
+            setAuthState({ isAuthenticated: data.isAuthenticated, username: data.username });
+        } else {
+            setAuthState({ isAuthenticated: false, username: '' });
+        }
+    }
+
+    async function handleLogin() {
+        try {
+            window.location.href = "https://localhost:7204/api/Account/login"; // Redirect to the login page
+        } catch (error) {
+            console.error('Error during login:', error);
+        }
+    }
+
+    async function handleLogout() {
+        const response = await fetch('https://localhost:7204/api/Account/logout', {
+            method: 'POST',
+            credentials: 'include'
+        });
+        if (response.ok) {
+            // Perform client-side redirect after successful logout
+            window.location.href = "https://localhost:5173/";
+        } else {
+            console.error('Logout failed');
+        }
+    }
+
+
+    if (!authState.isAuthenticated) {
+        return <div>Please log in to access this page.
+            <button onClick={handleLogin}>Login</button></div>;
+    }
+
     const contents = forecasts === undefined
-        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
+        ? <button onClick={handleLogout}>Logout</button>
         : <table className="table table-striped" aria-labelledby="tableLabel">
             <thead>
                 <tr>
@@ -42,15 +83,10 @@ function App() {
         <div>
             <h1 id="tableLabel">Weather forecast</h1>
             <p>This component demonstrates fetching data from the server.</p>
+            <p>Welcome, {authState.username}!</p>
             {contents}
         </div>
     );
-
-    async function populateWeatherData() {
-        const response = await fetch('https://localhost:7204/WeatherForecast');
-        const data = await response.json();
-        setForecasts(data);
-    }
 }
 
 export default App;

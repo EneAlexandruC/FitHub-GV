@@ -12,16 +12,24 @@ using FitHub.ModuleIntegration.AccountManagement.PremiumUser;
 using FitHub.AccountManagement.Domain.PremiumUser;
 using FitHub.AccountManagement.Features.GetRegularUser;
 using FitHub.AccountManagement.Infrastructure.RegularUserDataAccess;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddRazorPages();
 builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder.WithOrigins("https://localhost:5173" )
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials());
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCors();
 
 // regular user services
 builder.Services.AddScoped<AddRegularUserCommandHandler>();
@@ -39,9 +47,21 @@ builder.Services.AddScoped<IPremiumUserService, PremiumUserService>();
 builder.Services.AddDbContext<PremiumUserDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// authentication services
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/login";
+        options.LogoutPath = "/logout";
+        options.AccessDeniedPath = "/access-denied";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        options.SlidingExpiration = true;
+    });
+
 
 var app = builder.Build();
 
+#region
 //using (var scope = app.Services.CreateScope())
 //{
 //    var dbContext = scope.ServiceProvider.GetRequiredService<UserDbContext>();
@@ -59,7 +79,7 @@ var app = builder.Build();
 //        throw;
 //    }
 //}
-
+#endregion
 
 
 app.UseDefaultFiles();
@@ -73,9 +93,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
 
+app.UseCors("AllowSpecificOrigin");
+
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapRazorPages();
+app.MapDefaultControllerRoute();
 
 app.MapControllers();
 

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../app/store';
 import { login } from './LoginSlice';
@@ -9,16 +8,11 @@ const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch<AppDispatch>();
-    const navigate = useNavigate();
-    const { loading, error, isAuthenticated } = useSelector((state: RootState) => state.auth);
+    const { loading, error,  } = useSelector((state: RootState) => state.auth);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         dispatch(login({ email, password }));  
-        
-        if (isAuthenticated) {
-            navigate('/');
-        }
     };
 
     return (

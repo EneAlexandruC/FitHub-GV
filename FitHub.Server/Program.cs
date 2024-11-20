@@ -54,7 +54,7 @@ builder.Services.AddDbContext<PremiumUserDbContext>(options =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/login";
+        options.LoginPath = "/https://localhost:5173/login";
         options.LogoutPath = "/logout";
         options.AccessDeniedPath = "/access-denied";
         options.ExpireTimeSpan = TimeSpan.FromMinutes(30);

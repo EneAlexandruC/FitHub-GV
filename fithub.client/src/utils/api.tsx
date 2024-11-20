@@ -3,7 +3,12 @@ import axios from 'axios';
 // TODO: API endpoint for Login
 export const loginAPI = async (credentials: { email: string; password: string }) => {  
    try {  
-       const response = await axios.post('https://localhost:7204/api/User/login', credentials);
+       const response = await axios.post('https://localhost:7204/api/User/login', credentials, { withCredentials: true });
+
+       if (response.data.redirectUrl)
+       {
+           window.location.href = response.data.redirectUrl;
+       }
        return response;  
     } catch (error: any) {  
        if (axios.isAxiosError(error) && error.response) {  

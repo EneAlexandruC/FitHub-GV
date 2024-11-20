@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { loginAPI } from '../../utils/api';
+ 
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -41,7 +42,8 @@ const authSlice = createSlice({
     builder
       .addCase(login.pending, (state) => {
         state.loading = true;
-        state.error = null;
+          state.error = null;
+ 
       })
       .addCase(login.fulfilled, (state) => {
         state.isAuthenticated = true;

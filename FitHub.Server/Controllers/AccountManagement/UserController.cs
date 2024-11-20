@@ -89,9 +89,9 @@ namespace FitHub.Server.Controllers.AccountManagement
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 var username = User.Identity.Name;
-                return Ok(new { IsAuthenticated = true, Username = username });
+                return Ok(new { IsAuthenticated = true, Email = username });
             }
-            return Ok(new { IsAuthenticated = false, Username = string.Empty });
+            return Ok(new { IsAuthenticated = false});
         }
 
     }

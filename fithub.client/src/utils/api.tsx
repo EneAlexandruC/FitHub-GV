@@ -1,9 +1,12 @@
 import axios from 'axios';
 
-// TODO: API endpoint for Login
-export const loginAPI = async (credentials: { username: string; password: string }) => {
+
+ 
+
+// API endpoint for Login
+export const loginAPI = async (credentials: { email: string; password: string }) => {
     const params = new URLSearchParams();
-    params.append('username', credentials.username);
+    params.append('email', credentials.email);
     params.append('password', credentials.password);
 
     const response = await axios.post('https://localhost:7204/api/User/login', params, {

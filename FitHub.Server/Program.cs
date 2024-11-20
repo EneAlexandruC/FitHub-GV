@@ -13,6 +13,7 @@ using FitHub.AccountManagement.Domain.PremiumUser;
 using FitHub.AccountManagement.Features.GetRegularUser;
 using FitHub.AccountManagement.Infrastructure.RegularUserDataAccess;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using FitHub.AccountManagement.Features.UserAuth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // regular user services
+builder.Services.AddScoped<UserLoginQueryHandler>();
 builder.Services.AddScoped<AddRegularUserCommandHandler>();
 builder.Services.AddScoped<GetRegularUserQueryHandler>();
 builder.Services.AddScoped<IRegularUserCommandRepository, RegularUserCommandRepository>();
@@ -91,6 +93,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    // Added CORS policy
+    app.UseDeveloperExceptionPage();
 }
 
 

@@ -1,12 +1,15 @@
 ﻿using FitHub.AccountManagement.Features.Add;
 using FitHub.AccountManagement.Features.GetRegularUser;
 using FitHub.AccountManagement.Features.Shared;
+using FitHub.AccountManagement.Features.UserAuth;
 using FitHub.ModuleIntegration.AccountManagement.RegularUser;
 
 namespace FitHub.AccountManagement.Infrastructure
 {
-    public class RegularUserService(AddRegularUserCommandHandler addUserCommandHandler,
-        GetRegularUserQueryHandler getRegularUserQueryHandler) : IRegularUserService
+    public class RegularUserService(
+        AddRegularUserCommandHandler addUserCommandHandler,
+        GetRegularUserQueryHandler getRegularUserQueryHandler,
+        UserLoginQueryHandler userLoginQueryHandler) : IRegularUserService
     {
         public async Task<RegularUserGetDTO> AddUser(RegularUserAddDTO userAddDTO)
         {
@@ -21,6 +24,11 @@ namespace FitHub.AccountManagement.Infrastructure
         {
             var query = new GetRegularUserQuery { Email = email };
             return await getRegularUserQueryHandler.Handle(query);
+        }
+
+        public async Task<bool> CheckCredentials(UserLoginQuery userLoginQuery)
+        {
+            return await userLoginQueryHandler.Handle(userLoginQuery);
         }
     }
 }

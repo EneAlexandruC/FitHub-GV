@@ -1,6 +1,10 @@
 ﻿using FitHub.ModuleIntegration.AccountManagement.PremiumUser;
 using FitHub.ModuleIntegration.AccountManagement.RegularUser;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+using Microsoft.Extensions.Logging;
 
 namespace FitHub.Server.Controllers.AccountManagement
 {
@@ -10,11 +14,15 @@ namespace FitHub.Server.Controllers.AccountManagement
     {
         private readonly IRegularUserService regularUserService;
         private readonly IPremiumUserService premiumUserService;
+        private readonly ILogger logger;
 
-        public UserController(IRegularUserService regularUserService, IPremiumUserService premiumUserService)
+        public UserController(IRegularUserService regularUserService,
+                              IPremiumUserService premiumUserService,
+                              ILogger<UserController> logger)
         {
             this.regularUserService = regularUserService;
             this.premiumUserService = premiumUserService;
+            this.logger = logger;
         }
 
 
@@ -46,5 +54,27 @@ namespace FitHub.Server.Controllers.AccountManagement
         {
             return await regularUserService.GetRegularUserByEmail(email);
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromQuery] string email, [FromQuery] string password)
+        {
+            logger.LogInformation("Login attempt with email: {email} and password: {password}", email, password);
+            if (await regularUserService.CheckCredentials(email, password))
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, email)
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+                return Ok(new { message = "Login successful", redirectUrl = "/" });
+
+            }
+            return BadRequest(new { message = "Incorrect username or password" });
+        }
+
     }
 }

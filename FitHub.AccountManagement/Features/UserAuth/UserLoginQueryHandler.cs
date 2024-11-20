@@ -6,8 +6,14 @@ namespace FitHub.AccountManagement.Features.UserAuth
     {
         public async Task<bool> Handle(UserLoginQuery command)
         {
-            var user = await _regularUserQueryRepository.GetUserByEmail(command.User.Email);
-            return BCrypt.Net.BCrypt.Verify(command.User.Password, user.Password);
+            var user = await _regularUserQueryRepository.GetUserByEmail(command.Email);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            return BCrypt.Net.BCrypt.Verify(command.Password, user.Password);
         }
     }
 }

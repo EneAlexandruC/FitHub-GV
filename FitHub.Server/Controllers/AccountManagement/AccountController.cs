@@ -14,25 +14,25 @@ namespace FitHub.Server.Controllers.AccountManagement
             return View();
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(string username, string password)
-        {
-            if (username == "samu" && password == "123")
-            {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, username)
-                };
+        //[HttpPost("login")]
+        //public async Task<IActionResult> Login(string username, string password)
+        //{
+        //    if (username == "samu" && password == "123")
+        //    {
+        //        var claims = new List<Claim>
+        //        {
+        //            new Claim(ClaimTypes.Name, username)
+        //        };
 
-                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        //        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+        //        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-                return Redirect("/");
+        //        return Redirect("/");
 
-            }
-            return View();
-        }
+        //    }
+        //    return View();
+        //}
 
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()

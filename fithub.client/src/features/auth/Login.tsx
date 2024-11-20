@@ -12,6 +12,7 @@ const Login: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        console.log(email, password);
         dispatch(login({ email, password }));    
     };
 

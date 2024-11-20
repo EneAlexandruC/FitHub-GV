@@ -1,10 +1,17 @@
 import axios from 'axios';
 
 // TODO: API endpoint for Login
-export const loginAPI = async (credentials : { email: string; password: string }) => {
-    throw new Error('Not implemented');
+export const loginAPI = async (credentials: { username: string; password: string }) => {
+    const params = new URLSearchParams();
+    params.append('username', credentials.username);
+    params.append('password', credentials.password);
 
-    const response = await axios.post('/login', credentials);
+    const response = await axios.post('https://localhost:7204/api/User/login', params, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    });
+
     return response;
 }
 

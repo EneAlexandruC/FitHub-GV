@@ -26,9 +26,10 @@ namespace FitHub.AccountManagement.Infrastructure
             return await getRegularUserQueryHandler.Handle(query);
         }
 
-        public async Task<bool> CheckCredentials(UserLoginQuery userLoginQuery)
+        public async Task<bool> CheckCredentials(string email, string password)
         {
-            return await userLoginQueryHandler.Handle(userLoginQuery);
+            var query = new UserLoginQuery { Email = email, Password = password };
+            return await userLoginQueryHandler.Handle(query);
         }
     }
 }

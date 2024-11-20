@@ -75,5 +75,24 @@ namespace FitHub.Server.Controllers.AccountManagement
             return BadRequest(new { message = "Incorrect username or password" });
         }
 
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return NoContent();
+
+        }
+
+        [HttpGet("isAuthenticated")]
+        public IActionResult IsAuthenticated()
+        {
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                var username = User.Identity.Name;
+                return Ok(new { IsAuthenticated = true, Username = username });
+            }
+            return Ok(new { IsAuthenticated = false, Username = string.Empty });
+        }
+
     }
 }

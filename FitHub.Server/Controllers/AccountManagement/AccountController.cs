@@ -34,24 +34,24 @@ namespace FitHub.Server.Controllers.AccountManagement
         //    return View();
         //}
 
-        [HttpPost("logout")]
-        public async Task<IActionResult> Logout()
-        {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return NoContent();
+        //[HttpPost("logout")]
+        //public async Task<IActionResult> Logout()
+        //{
+        //    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        //    return NoContent();
 
-        }
+        //}
 
-        [HttpGet("isAuthenticated")]
-        public IActionResult IsAuthenticated()
-        {
-            if (User.Identity != null && User.Identity.IsAuthenticated)
-            {
-                var username = User.Identity.Name;
-                return Ok(new { IsAuthenticated = true, Username = username });
-            }
-            return Ok(new { IsAuthenticated = false, Username = string.Empty });
-        }
+        //[HttpGet("isAuthenticated")]
+        //public IActionResult IsAuthenticated()
+        //{
+        //    if (User.Identity != null && User.Identity.IsAuthenticated)
+        //    {
+        //        var username = User.Identity.Name;
+        //        return Ok(new { IsAuthenticated = true, Username = username });
+        //    }
+        //    return Ok(new { IsAuthenticated = false, Username = string.Empty });
+        //}
     }
 
 

@@ -7,7 +7,6 @@ interface RegisterState {
     lastName: string;
     email: string;
     password: string;
-    // confirmPassword: string;
     weight: number;
     height: number;
     dateOfBirth: string;
@@ -20,7 +19,6 @@ const initialState: RegisterState = {
     lastName: '',
     email: '',
     password: '',
-    // confirmPassword: '',
     weight: 0,
     height: 0,
     dateOfBirth: '',

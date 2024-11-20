@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using Microsoft.Extensions.Logging;
+using FitHub.AccountManagement.Features.UserAuth;
+using FitHub.ModuleIntegration.AccountManagement.Auth;
 
 namespace FitHub.Server.Controllers.AccountManagement
 {
@@ -14,7 +16,6 @@ namespace FitHub.Server.Controllers.AccountManagement
     {
         private readonly IRegularUserService regularUserService;
         private readonly IPremiumUserService premiumUserService;
-        private readonly ILogger logger;
 
         public UserController(IRegularUserService regularUserService,
                               IPremiumUserService premiumUserService,
@@ -22,7 +23,6 @@ namespace FitHub.Server.Controllers.AccountManagement
         {
             this.regularUserService = regularUserService;
             this.premiumUserService = premiumUserService;
-            this.logger = logger;
         }
 
 
@@ -56,14 +56,13 @@ namespace FitHub.Server.Controllers.AccountManagement
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromQuery] string email, [FromQuery] string password)
+        public async Task<IActionResult> Login([FromBody] LoginDTO user)
         {
-            logger.LogInformation("Login attempt with email: {email} and password: {password}", email, password);
-            if (await regularUserService.CheckCredentials(email, password))
+            if (await regularUserService.CheckCredentials(user.Email, user.Password))
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, email)
+                    new Claim(ClaimTypes.Name, user.Email)
                 };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

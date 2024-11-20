@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../app/store';
-import { register, noMatchingPassword, clearError } from './RegisterSlice';
+import { register, noMatchingPassword } from './RegisterSlice';
 import { updateStatus } from './LoginSlice';
 import styles from './Register.module.css';
 
@@ -32,7 +32,7 @@ const Register: React.FC = () => {
         
         dispatch(register({ firstName, lastName, email, password, weight: Number(weight), height: Number(height), dateOfBirth }));
 
-        if (error !== null) {
+        if (error === null) {
             dispatch(updateStatus());
             navigate('/');
         }

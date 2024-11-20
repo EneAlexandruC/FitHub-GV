@@ -21,7 +21,7 @@ export const login = createAsyncThunk(
       const response = await loginAPI(credentials);
       return response.data;
     } catch (error: any) {
-      return rejectWithValue('Login failed');
+      return rejectWithValue(error.message);
     }
   }
 );

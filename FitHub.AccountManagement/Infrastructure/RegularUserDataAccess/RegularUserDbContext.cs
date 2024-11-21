@@ -12,13 +12,9 @@ namespace FitHub.AccountManagement.Infrastructure.UserDataAccess
         }
         public DbSet<RegularUser> RegularUsers { get; set; }
 
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
 
             modelBuilder.Entity<RegularUser>(entity =>
             {
@@ -33,13 +29,16 @@ namespace FitHub.AccountManagement.Infrastructure.UserDataAccess
                     .IsRequired()
                     .HasMaxLength(30);
 
+                entity.HasIndex(c => c.Email)
+                    .IsUnique();
+
                 entity.Property(c => c.Email)
                     .IsRequired()
                     .HasMaxLength(50);
 
                 entity.Property(c => c.Password)
                     .IsRequired()
-                    .HasMaxLength (100);
+                    .HasMaxLength(100);
 
                 entity.Property(c => c.Weight)
                     .IsRequired();
@@ -51,7 +50,6 @@ namespace FitHub.AccountManagement.Infrastructure.UserDataAccess
                     .IsRequired()
                     .HasColumnType("date");
             });
-
         }
     }
 }

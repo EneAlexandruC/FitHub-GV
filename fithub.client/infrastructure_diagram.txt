@@ -1,0 +1,37 @@
+my-app/
+├── node_modules/
+├── public/
+│   ├── index.html
+├── src/
+│   ├── app/
+│   │   ├── store.ts
+│   │   ├── rootReducer.ts
+│   ├── features/
+│   │   ├── counter/
+│   │   │   ├── components/
+│   │   │   │   ├── Counter.tsx
+│   │   │   ├── counterSlice.ts
+│   │   │   ├── Counter.module.css
+│   │   ├── user/
+│   │   │   ├── components/
+│   │   │   │   ├── User.tsx
+│   │   │   ├── userSlice.ts
+│   │   │   ├── User.module.css
+│   ├── components/
+│   │   ├── common/
+│   │   │   ├── Header.tsx
+│   │   │   ├── Footer.tsx
+│   │   │   ├── Header.module.css
+│   │   │   ├── Footer.module.css
+│   ├── hooks/
+│   │   ├── useCustomHook.ts
+│   ├── utils/
+│   │   ├── api.ts
+│   │   ├── helpers.ts
+│   ├── styles/
+│   │   ├── global.css
+│   ├── App.tsx
+│   ├── index.tsx
+├── package.json
+├── tsconfig.json
+├── README.md

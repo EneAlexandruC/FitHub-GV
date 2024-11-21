@@ -1,6 +1,12 @@
 ﻿using FitHub.ModuleIntegration.AccountManagement.PremiumUser;
 using FitHub.ModuleIntegration.AccountManagement.RegularUser;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+using Microsoft.Extensions.Logging;
+using FitHub.AccountManagement.Features.UserAuth;
+using FitHub.ModuleIntegration.AccountManagement.Auth;
 
 namespace FitHub.Server.Controllers.AccountManagement
 {
@@ -11,7 +17,9 @@ namespace FitHub.Server.Controllers.AccountManagement
         private readonly IRegularUserService regularUserService;
         private readonly IPremiumUserService premiumUserService;
 
-        public UserController(IRegularUserService regularUserService, IPremiumUserService premiumUserService)
+        public UserController(IRegularUserService regularUserService,
+                              IPremiumUserService premiumUserService,
+                              ILogger<UserController> logger)
         {
             this.regularUserService = regularUserService;
             this.premiumUserService = premiumUserService;
@@ -41,10 +49,50 @@ namespace FitHub.Server.Controllers.AccountManagement
             return addedUser;
         }
 
-        [HttpGet("getUserByEmail")]
+        [HttpGet("get-user-by-email")]
         public async Task<RegularUserGetDTO> GetUserByEmail([FromQuery] string email)
         {
             return await regularUserService.GetRegularUserByEmail(email);
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDTO user)
+        {
+            if (await regularUserService.CheckCredentials(user.Email, user.Password))
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.Email)
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+                return Ok(new { message = "Login successful", redirectUrl = "/" });
+
+            }
+            return BadRequest(new { message = "Incorrect username or password" });
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return NoContent();
+
+        }
+
+        [HttpGet("isAuthenticated")]
+        public IActionResult IsAuthenticated()
+        {
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                var username = User.Identity.Name;
+                return Ok(new { IsAuthenticated = true, Email = username });
+            }
+            return Ok(new { IsAuthenticated = false});
+        }
+
     }
 }

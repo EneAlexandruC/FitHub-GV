@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../app/store';
+import { AppDispatch, RootState } from '../../../app/store';
 import { register, noMatchingPassword } from './RegisterSlice';
-import { updateStatus } from './LoginSlice';
+import { updateStatus } from '../login/LoginSlice';
 import styles from './Register.module.css';
 
 

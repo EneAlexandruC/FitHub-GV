@@ -1,7 +1,7 @@
 // src/app/rootReducer.ts
 import { combineReducers } from '@reduxjs/toolkit';
-import authReducer from '../features/auth/LoginSlice';
-import registerReducer from '../features/auth/RegisterSlice';
+import authReducer from '../features/auth/login/LoginSlice';
+import registerReducer from '../features/auth/register/RegisterSlice';
 
 const rootReducer = combineReducers({
     auth: authReducer,

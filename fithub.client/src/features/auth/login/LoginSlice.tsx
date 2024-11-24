@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { RootState } from '../../app/store';
-import { loginAPI } from '../../utils/api';
+import { RootState } from '../../../app/store';
+import { loginAPI } from '../../../utils/api';
  
 
 interface AuthState {

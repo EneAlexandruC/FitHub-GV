@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import { registerAPI } from "../../utils/api";
-import { RootState } from "../../app/store";
+import { registerAPI } from "../../../utils/api";
+import { RootState } from "../../../app/store";
 
 interface RegisterState {
     firstName: string;

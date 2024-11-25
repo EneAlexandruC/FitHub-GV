@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../app/store";
 import { register, noMatchingPassword } from "./RegisterSlice";
-import { updateStatus } from "../login/LoginSlice";
-import styles from "./Register.module.css";
+import { updateStatusLogin } from "../login/LoginSlice";
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -43,9 +43,10 @@ const Register: React.FC = () => {
   };
 
   useEffect(() => {
+    // If register succeded
     if (success) {
       navigate("/");
-      dispatch(updateStatus());
+      dispatch(updateStatusLogin());
     }
   }, [success, navigate, dispatch]);
 
@@ -121,106 +122,118 @@ const Register: React.FC = () => {
                     className="text-center"
                     onSubmit={handleSubmit}
                     style={{
-                      paddingLeft: "70px",
-                      paddingRight: "70px",
-                      paddingBottom: "5px",
+                      paddingLeft: "20px",
+                      paddingRight: "20px",
+                      paddingBottom: "20px",
+                      width: "100%",
+                      maxWidth: "400px",
+                      margin: "0 auto",
                     }}
                   >
-                    <div className="mb-3"></div>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="firstName"
-                      placeholder="First Name"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                    />
-                    <div className="mb-3"></div>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="lastName"
-                      placeholder="Last Name"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                    />
-                    <div className="mb-3"></div>
-                    <input
-                      className="form-control"
-                      type="email"
-                      name="email"
-                      placeholder="Email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <div className="mb-3"></div>
-                    <input
-                      className="form-control"
-                      type="password"
-                      name="password"
-                      placeholder="Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <div className="mb-3"></div>
-                    <input
-                      className="form-control"
-                      type="password"
-                      name="confirmPassword"
-                      placeholder="Confirm Password"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                    <div className="mb-3"></div>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="weight"
-                      placeholder="Weight"
-                      value={weight}
-                      onChange={(e) => setWeight(e.target.value)}
-                    />
-                    <div className="mb-3"></div>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="height"
-                      placeholder="Height"
-                      value={height}
-                      onChange={(e) => setHeight(e.target.value)}
-                    />
-                    <div className="mb-3"></div>
-                    <input
-                      className="form-control"
-                      type="date"
-                      name="dateOfBirth"
-                      placeholder="Date of Birth"
-                      value={dateOfBirth}
-                      onChange={(e) => setDateOfBirth(e.target.value)}
-                    />
-                    <div className="mb-3"></div>
-                    <button
-                      className="btn btn-primary d-block w-100"
-                      type="submit"
-                    >
-                      Save
-                    </button>
-                    <div className="mb-3"></div>
-                    <p
-                      className="text-muted"
-                      style={{
-                        marginBottom: "0px",
-                        textAlign: "center",
-                        marginLeft: "-16px",
-                        marginRight: "-32px",
-                        paddingRight: "0px",
-                      }}
-                    >
-                      Already have an account?
-                    </p>
-                    <a href="login.html">
-                      <strong>Login</strong>
-                    </a>
+                    <div className="mb-3">
+                      <input
+                        className="form-control"
+                        type="text"
+                        name="firstName"
+                        placeholder="First Name"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <input
+                        className="form-control"
+                        type="text"
+                        name="lastName"
+                        placeholder="Last Name"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <input
+                        className="form-control"
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <input
+                        className="form-control"
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <input
+                        className="form-control"
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="Confirm Password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <input
+                        className="form-control"
+                        type="text"
+                        name="weight"
+                        placeholder="Weight"
+                        value={weight}
+                        onChange={(e) => setWeight(e.target.value)}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <input
+                        className="form-control"
+                        type="text"
+                        name="height"
+                        placeholder="Height"
+                        value={height}
+                        onChange={(e) => setHeight(e.target.value)}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <input
+                        className="form-control"
+                        type="date"
+                        name="dateOfBirth"
+                        placeholder="Date of Birth"
+                        value={dateOfBirth}
+                        onChange={(e) => setDateOfBirth(e.target.value)}
+                      />
+                    </div>
+                    <div className="mb-3">
+                      <button
+                        className="btn btn-primary d-block w-100"
+                        type="submit"
+                      >
+                        {loading ? "Loading..." : "Submit"}
+                      </button>
+                    </div>
+                    <div className="mb-3">
+                      <p className="text-muted">
+                        Already have an account?{" "}
+                        <Link to="/login">
+                          <strong>Login</strong>
+                        </Link>
+                      </p>
+                    </div>
+                    {error && (
+                      <div
+                        className="alert alert-danger"
+                        style={{ marginTop: "20px" }}
+                      >
+                        {error}
+                      </div>
+                    )}
                   </form>
                 </div>
               </div>

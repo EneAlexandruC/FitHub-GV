@@ -1,19 +1,31 @@
 import React from "react";
+import { RootState, AppDispatch } from "../../app/store";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { updateStatusLogin } from "../../features/auth/login/LoginSlice";
+import { updateStatusRegister } from "../../features/auth/register/RegisterSlice";
 
 const Nav: React.FC = () => {
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleOnClick = () => {
+    dispatch(updateStatusLogin());
+    dispatch(updateStatusRegister());
+  };
+
   return (
     <nav
       className="navbar navbar-expand-md bg-body py-3"
-      style={{
-        background: "linear-gradient(black 40%, #00000e 100%), rgb(0,0,0)",
-      }}
+      style={{ background: "linear-gradient(#000010, #000010), #000010" }}
     >
       <div className="container">
         <a className="navbar-brand d-flex align-items-center" href="#">
           <span
-            className="d-flex justify-content-center align-items-center bs-icon-sm bs-icon-rounded bs-icon-primary me-2 bs-icon"
+            className="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon"
             style={{ width: "32px", height: "32px" }}
           >
             <svg
@@ -46,99 +58,92 @@ const Nav: React.FC = () => {
               ></path>
             </svg>
           </span>
-          <span style={{ color: "var(--bs-primary)" }}>FitHub</span>
+          <span style={{ color: "#ffffff" }}>FitHub</span>
         </a>
         <button
           data-bs-toggle="collapse"
-          data-bs-target="#navcol-2"
           className="navbar-toggler"
+          data-bs-target="#navcol-2"
         >
           <span className="visually-hidden">Toggle navigation</span>
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navcol-1">
+        <div className="collapse navbar-collapse" id="navcol-2">
           <ul className="navbar-nav ms-auto">
-          <Link to="/" style={{ color: "#ffffff" }} />
             <li className="nav-item">
-              <a
-                className="nav-link"
-                href="index.html"
-                style={{ color: "#ffffff" }}
-              >
+              <Link className="nav-link" to="/" style={{ color: "#ffffff" }}>
                 Home
-              </a>
+              </Link>
             </li>
-            <li className="nav-item" style={{ color: "#ffffff" }}>
+            <li className="nav-item">
               <a className="nav-link" href="#" style={{ color: "#ffffff" }}>
                 Workouts
               </a>
             </li>
-            <li className="nav-item" style={{ color: "#ffffff" }}>
+            <li className="nav-item">
               <a className="nav-link" href="#" style={{ color: "#ffffff" }}>
                 Plans
               </a>
             </li>
-            <li className="nav-item" style={{ color: "#ffffff" }}>
+            <li className="nav-item">
               <a className="nav-link" href="#" style={{ color: "#ffffff" }}>
                 Membership
               </a>
             </li>
-            <li className="nav-item" style={{ color: "#ffffff" }}>
-              <a
-                className="nav-link"
-                href="#"
-                style={{ color: "#ffffff", padding: "8px" }}
-              >
+            <li className="nav-item">
+              <a className="nav-link" href="#" style={{ color: "#ffffff" }}>
                 Progress
               </a>
             </li>
-            <li className="nav-item" style={{ color: "#ffffff" }}>
-              <a
-                className="nav-link"
-                href="#"
-                style={{ color: "#ffffff", padding: "8px" }}
-              >
-                Community
+            <li className="nav-item">
+              <a className="nav-link" href="#" style={{ color: "#ffffff" }}>
+                Comunity
               </a>
             </li>
-            <li className="nav-item" style={{ color: "#ffffff" }}>
-              <a
-                className="nav-link"
-                href="#"
-                style={{ color: "#ffffff", padding: "8px" }}
-              >
+            <li className="nav-item">
+              <a className="nav-link" href="#" style={{ color: "#ffffff" }}>
                 About
               </a>
             </li>
-            <li className="nav-item"></li>
-            <li className="nav-item"></li>
           </ul>
-          <a
-            className="btn btn-primary ms-md-2"
-            role="button"
-            href="login.html"
-            style={{
-              marginRight: "0px",
-              background: "rgb(13, 110, 253)",
-              paddingRight: "12px",
-              paddingLeft: "12px",
-            }}
-          >
-            Login
-          </a>
-          <a
-            className="btn btn-primary ms-md-2"
-            role="button"
-            href="signup.html"
-            style={{
-              paddingLeft: "12px",
-              marginRight: "1px",
-              background: "rgb(13,110,253)",
-              paddingRight: "12px",
-            }}
-          >
-            Sign Up
-          </a>
+          {!isAuthenticated ? (
+            <>
+              <Link
+                className="btn btn-primary ms-md-2"
+                to="/login"
+                role="button"
+                style={{
+                  paddingLeft: "7px",
+                  paddingRight: "7px",
+                  marginRight: "0px",
+                  background: "rgb(13, 110, 253)",
+                }}
+              >
+                LogIn
+              </Link>
+              <Link
+                className="btn btn-primary ms-md-2"
+                to="/register"
+                role="button"
+                style={{
+                  paddingLeft: "7px",
+                  marginRight: "1px",
+                  paddingRight: "7px",
+                  background: "rgb(13,110,253)",
+                }}
+              >
+                SignUp
+              </Link>
+            </>
+          ) : (
+            <button
+              className="btn btn-primary ms-md-2"
+              style={{ background: "rgb(13, 110, 253)" }}
+              onClick={handleOnClick}
+            >
+              Logout
+            </button>
+          )}
         </div>
       </div>
     </nav>

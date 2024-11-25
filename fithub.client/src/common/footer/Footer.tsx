@@ -6,7 +6,12 @@ const Footer: React.FC = () => {
   return (
     <footer
       className="bg-light footer"
-      style={{ padding: "2rem", backgroundColor: "#f0f0f0" }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        padding: "2rem",
+        backgroundColor: "#f0f0f0",
+      }}
     >
       <div className="container">
         <div className="row">

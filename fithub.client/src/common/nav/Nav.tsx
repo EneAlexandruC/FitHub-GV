@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { updateStatusLogin } from "../../features/auth/login/LoginSlice";
 import { updateStatusRegister } from "../../features/auth/register/RegisterSlice";
+import { logout } from "./NavSlice";
 
 const Nav: React.FC = () => {
   const isAuthenticated = useSelector(
@@ -12,9 +13,10 @@ const Nav: React.FC = () => {
   );
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleOnClick = () => {
+  const handleOnClick = async () => {
     dispatch(updateStatusLogin());
     dispatch(updateStatusRegister());
+    dispatch(logout());
   };
 
   return (

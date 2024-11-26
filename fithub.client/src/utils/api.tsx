@@ -1,6 +1,23 @@
 import axios from "axios";
 
-// TODO: API endpoint for Login
+export const logoutAPI = async () => {
+  try {
+    const response = await axios.post(
+      "https://localhost:7204/api/User/logout",
+      {},
+      { withCredentials: true }
+    );
+    return response;
+  } catch (error: any) {
+    if (axios.isAxiosError(error) && error.response) {
+      console.error("Error response:", error.response.data);
+    } else {
+      console.error("Error message:", error.message);
+    }
+    throw error;
+  }
+};
+
 export const loginAPI = async (credentials: {
   email: string;
   password: string;

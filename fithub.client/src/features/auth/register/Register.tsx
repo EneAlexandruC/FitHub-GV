@@ -43,7 +43,6 @@ const Register: React.FC = () => {
   };
 
   useEffect(() => {
-    // If register succeded
     if (success) {
       navigate("/");
       dispatch(updateStatusLogin());

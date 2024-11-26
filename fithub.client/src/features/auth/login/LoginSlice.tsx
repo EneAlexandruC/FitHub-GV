@@ -1,7 +1,6 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { RootState } from '../../../app/store';
-import { loginAPI } from '../../../utils/api';
- 
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { RootState } from "../../../app/store";
+import { loginAPI } from "../../../utils/api";
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -16,8 +15,11 @@ const initialState: AuthState = {
 };
 
 export const login = createAsyncThunk(
-  'auth/login',
-  async (credentials: { email: string; password: string }, { rejectWithValue }) => {
+  "auth/login",
+  async (
+    credentials: { email: string; password: string },
+    { rejectWithValue }
+  ) => {
     try {
       const response = await loginAPI(credentials);
       return response.data;
@@ -28,22 +30,18 @@ export const login = createAsyncThunk(
 );
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
-    logout: (state) => {
-      state.isAuthenticated = false;
+    updateStatusLogin: (state) => {
+      state.isAuthenticated = !state.isAuthenticated;
     },
-    updateStatus: (state) => {
-      state.isAuthenticated = true;
-    }
   },
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
         state.loading = true;
-          state.error = null;
- 
+        state.error = null;
       })
       .addCase(login.fulfilled, (state) => {
         state.isAuthenticated = true;
@@ -51,12 +49,12 @@ const authSlice = createSlice({
       })
       .addCase(login.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload.message;
       });
   },
 });
 
-export const { logout, updateStatus } = authSlice.actions;
+export const { updateStatusLogin } = authSlice.actions;
 
 export const selectAuth = (state: RootState) => state.auth;
 

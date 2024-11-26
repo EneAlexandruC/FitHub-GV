@@ -1,130 +1,9 @@
 import React from "react";
-import styles from "./Home.module.css";
+import styles from "../../assets/bootstrap/css/bootstrap.min.css";
 
 const Home: React.FC = () => {
   return (
     <>
-      <nav
-        className="navbar navbar-expand-md bg-body py-3"
-        style={{ background: "linear-gradient(#000010, #000010), #000010" }}
-      >
-        <div className="container">
-          <a className="navbar-brand d-flex align-items-center" href="#">
-            <span
-              className="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon"
-              style={{ width: "32px", height: "32px" }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="1em"
-                height="1em"
-                viewBox="0 0 24 24"
-                fill="none"
-                style={{ fontSize: "23px" }}
-              >
-                <path
-                  d="M20.2739 9.86883L16.8325 4.95392L18.4708 3.80676L21.9122 8.72167L20.2739 9.86883Z"
-                  fill="currentColor"
-                ></path>
-                <path
-                  d="M18.3901 12.4086L16.6694 9.95121L8.47783 15.687L10.1985 18.1444L8.56023 19.2916L3.97162 12.7383L5.60992 11.5912L7.33068 14.0487L15.5222 8.31291L13.8015 5.8554L15.4398 4.70825L20.0284 11.2615L18.3901 12.4086Z"
-                  fill="currentColor"
-                ></path>
-                <path
-                  d="M20.7651 7.08331L22.4034 5.93616L21.2562 4.29785L19.6179 5.445L20.7651 7.08331Z"
-                  fill="currentColor"
-                ></path>
-                <path
-                  d="M7.16753 19.046L3.72607 14.131L2.08777 15.2782L5.52923 20.1931L7.16753 19.046Z"
-                  fill="currentColor"
-                ></path>
-                <path
-                  d="M4.38208 18.5549L2.74377 19.702L1.59662 18.0637L3.23492 16.9166L4.38208 18.5549Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </span>
-            <span style={{ color: "#ffffff" }}>FitHub</span>
-          </a>
-          <button
-            data-bs-toggle="collapse"
-            className="navbar-toggler"
-            data-bs-target="#navcol-2"
-          >
-            <span className="visually-hidden">Toggle navigation</span>
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navcol-2">
-            <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href="index.html"
-                  style={{ color: "#ffffff" }}
-                >
-                  Home
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#" style={{ color: "#ffffff" }}>
-                  Workouts
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#" style={{ color: "#ffffff" }}>
-                  Plans
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#" style={{ color: "#ffffff" }}>
-                  Membership
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#" style={{ color: "#ffffff" }}>
-                  Progress
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#" style={{ color: "#ffffff" }}>
-                  Comunity
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#" style={{ color: "#ffffff" }}>
-                  About
-                </a>
-              </li>
-            </ul>
-            <a
-              className="btn btn-primary ms-md-2"
-              role="button"
-              href="login.html"
-              style={{
-                paddingLeft: "7px",
-                paddingRight: "7px",
-                marginRight: "0px",
-                background: "rgb(13, 110, 253)",
-              }}
-            >
-              LogIn
-            </a>
-            <a
-              className="btn btn-primary ms-md-2"
-              role="button"
-              href="register"
-              style={{
-                paddingLeft: "7px",
-                marginRight: "1px",
-                paddingRight: "7px",
-                background: "rgb(13,110,253)",
-              }}
-            >
-              SignUp
-            </a>
-          </div>
-        </div>
-      </nav>
       <header
         className="text-center text-white masthead"
         style={{
@@ -136,7 +15,7 @@ const Home: React.FC = () => {
         <div className="container">
           <div
             className="row"
-            style={{ paddingBottom: "0px", marginBottom: "47px" }}
+            style={{ paddingBottom: "10px", marginBottom: "0px" }}
           >
             <div
               className="col-xl-7 mx-auto position-relative"
@@ -157,10 +36,10 @@ const Home: React.FC = () => {
                     </strong>
                   </p>
                   <p style={{ marginBottom: "-5px" }}>
-                    <strong>-Weekley plans</strong>
+                    <strong>-Weekly plans</strong>
                   </p>
                   <p style={{ marginBottom: "20px" }}>
-                    <strong>-Comunity</strong>
+                    <strong>-Community</strong>
                   </p>
                 </div>
               </div>
@@ -172,7 +51,7 @@ const Home: React.FC = () => {
                     <a
                       className="btn btn-primary btn-lg"
                       role="button"
-                      href="register"
+                      href="signup.html"
                     >
                       Sign up!
                     </a>
@@ -274,7 +153,7 @@ const Home: React.FC = () => {
               className="col-lg-6 text-white order-lg-2 showcase-img"
               style={{
                 background:
-                  'url("src/assets/img/photo-1485727749690-d091e8284ef3.jpg") left / cover repeat',
+                  'url("src/assets/img/photo-1485727749690-d091e8284ef3.jpg") center / cover no-repeat',
               }}
             >
               <span></span>
@@ -332,7 +211,7 @@ const Home: React.FC = () => {
                     borderLeftColor: "var(--bs-btn-disabled-color)",
                   }}
                 >
-                  Join our comunity!
+                  Join our community!
                 </a>
               </h2>
               <p className="lead mb-0">Here you can:</p>
@@ -357,7 +236,7 @@ const Home: React.FC = () => {
         className="text-center text-white call-to-action"
         style={{
           background:
-            'linear-gradient(#000010, rgba(13,13,28,0.9509982431990265) 43%, rgba(40,40,53,0.57) 91%, rgba(68,68,79,0.7344322455647683) 100%, rgba(148,148,154,0.42187674014483384) 100%, rgba(255,255,255,0) 100%), url("assets/img/photo-1651840403916-d1e0515b32c4.jpg") bottom / cover no-repeat',
+            'linear-gradient(#000010, rgba(13,13,28,0.9509982431990265) 43%, rgba(40,40,53,0.57) 91%, rgba(68,68,79,0.7344322455647683) 100%, rgba(148,148,154,0.42187674014483384) 100%, rgba(255,255,255,0) 100%), url("src/assets/img/photo-1651840403916-d1e0515b32c4.jpg") bottom / cover no-repeat',
           marginTop: "0px",
         }}
       >
@@ -379,7 +258,7 @@ const Home: React.FC = () => {
                 <a
                   className="btn btn-primary btn-lg"
                   role="button"
-                  href="register"
+                  href="signup.html"
                 >
                   Sign up!
                 </a>
@@ -388,59 +267,6 @@ const Home: React.FC = () => {
           </form>
         </div>
       </section>
-      <footer className="bg-light footer">
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-6 text-center text-lg-start my-auto h-100">
-              <ul className="list-inline mb-2">
-                <li className="list-inline-item">
-                  <a href="#">About</a>
-                </li>
-                <li className="list-inline-item">
-                  <span>⋅</span>
-                </li>
-                <li className="list-inline-item">
-                  <a href="#">Contact</a>
-                </li>
-                <li className="list-inline-item">
-                  <span>⋅</span>
-                </li>
-                <li className="list-inline-item">
-                  <a href="#">Terms of &nbsp;Service</a>
-                </li>
-                <li className="list-inline-item">
-                  <span>⋅</span>
-                </li>
-                <li className="list-inline-item">
-                  <a href="#">Privacy Policy</a>
-                </li>
-              </ul>
-              <p className="text-muted small mb-4 mb-lg-0">
-                © FitHub 2024. All Rights Reserved.
-              </p>
-            </div>
-            <div className="col-lg-6 text-center text-lg-end my-auto h-100">
-              <ul className="list-inline mb-0">
-                <li className="list-inline-item">
-                  <a href="#">
-                    <i className="fa fa-facebook fa-2x fa-fw"></i>
-                  </a>
-                </li>
-                <li className="list-inline-item">
-                  <a href="#">
-                    <i className="fa fa-twitter fa-2x fa-fw"></i>
-                  </a>
-                </li>
-                <li className="list-inline-item">
-                  <a href="#">
-                    <i className="fa fa-instagram fa-2x fa-fw"></i>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </footer>
     </>
   );
 };

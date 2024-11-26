@@ -2,7 +2,7 @@ element.style {
 }
 
 .bs-icon.bs-icon-rounded {
-  border-radius: .5rem;
+  border-radius: 0.5rem;
 }
 
 .bs-icon.bs-icon-primary {
@@ -15,7 +15,7 @@ element.style {
 }
 
 .bs-icon {
-  --bs-icon-size: .75rem;
+  --bs-icon-size: 0.75rem;
   display: flex;
   flex-shrink: 0;
   justify-content: center;
@@ -28,4 +28,3 @@ element.style {
 
 .showcase-img {
 }
-

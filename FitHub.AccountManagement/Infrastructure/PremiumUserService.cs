@@ -12,6 +12,7 @@ namespace FitHub.AccountManagement.Infrastructure
             var addUserCommand = new AddPremiumUserCommand { PremiumUser = userDomain };
             var user = await addPremiumUserCommandHandler.Handle(addUserCommand);
 
+
             return user.ToPremiumUserGetDTO();
         }
     }

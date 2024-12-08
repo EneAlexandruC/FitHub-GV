@@ -60,7 +60,9 @@ const Nav: React.FC = () => {
               ></path>
             </svg>
           </span>
-          <span style={{ color: "#ffffff" }}>FitHub</span>
+          <Link className="nav-link" to="/" style={{ color: "#ffffff" }}>
+            FitHub
+          </Link>
         </a>
         <button
           data-bs-toggle="collapse"
@@ -72,11 +74,7 @@ const Nav: React.FC = () => {
         </button>
         <div className="collapse navbar-collapse" id="navcol-2">
           <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-              <Link className="nav-link" to="/" style={{ color: "#ffffff" }}>
-                Home
-              </Link>
-            </li>
+            <li className="nav-item"></li>
             <li className="nav-item">
               <a className="nav-link" href="#" style={{ color: "#ffffff" }}>
                 Workouts

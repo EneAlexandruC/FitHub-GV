@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitHub.AccountManagement", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitHub.ModuleIntegration", "FitHub.ModuleIntegration\FitHub.ModuleIntegration.csproj", "{667649CB-F53A-41BB-AB38-97D23B38EBA8}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitHub.WorkoutManagement", "FitHub.Workout\FitHub.WorkoutManagement.csproj", "{412197C8-41E7-4481-8901-4B0417465FE2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workout", "Workout", "{89C4842B-45A7-4E5A-A2B5-D3D822D885C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,10 @@ Global
 		{667649CB-F53A-41BB-AB38-97D23B38EBA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{667649CB-F53A-41BB-AB38-97D23B38EBA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{667649CB-F53A-41BB-AB38-97D23B38EBA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{412197C8-41E7-4481-8901-4B0417465FE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{412197C8-41E7-4481-8901-4B0417465FE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{412197C8-41E7-4481-8901-4B0417465FE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{412197C8-41E7-4481-8901-4B0417465FE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +54,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{6D51D604-F28A-496B-92AE-902F92B12955} = {EA99CB42-1584-48E2-ABAD-6220B6B2DF92}
 		{357B8863-B0B5-44A0-99BB-4A876A0BAF0F} = {6D51D604-F28A-496B-92AE-902F92B12955}
+		{412197C8-41E7-4481-8901-4B0417465FE2} = {89C4842B-45A7-4E5A-A2B5-D3D822D885C8}
+		{89C4842B-45A7-4E5A-A2B5-D3D822D885C8} = {EA99CB42-1584-48E2-ABAD-6220B6B2DF92}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {820DFFE5-E3D8-4D92-A6A0-ECAC66219A8B}

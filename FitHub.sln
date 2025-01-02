@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitHub.Server", "FitHub.Server\FitHub.Server.csproj", "{BDA037D0-CB84-4E4A-864C-5522D08B8302}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "fithub.client", "fithub.client\fithub.client.esproj", "{9A1FDA41-EBFA-4E0E-959B-08FACCB210F3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{EA99CB42-1584-48E2-ABAD-6220B6B2DF92}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AccountManagement", "AccountManagement", "{6D51D604-F28A-496B-92AE-902F92B12955}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitHub.AccountManagement", "FitHub.AccountManagement\FitHub.AccountManagement.csproj", "{357B8863-B0B5-44A0-99BB-4A876A0BAF0F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitHub.ModuleIntegration", "FitHub.ModuleIntegration\FitHub.ModuleIntegration.csproj", "{667649CB-F53A-41BB-AB38-97D23B38EBA8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BDA037D0-CB84-4E4A-864C-5522D08B8302}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDA037D0-CB84-4E4A-864C-5522D08B8302}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDA037D0-CB84-4E4A-864C-5522D08B8302}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDA037D0-CB84-4E4A-864C-5522D08B8302}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A1FDA41-EBFA-4E0E-959B-08FACCB210F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A1FDA41-EBFA-4E0E-959B-08FACCB210F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A1FDA41-EBFA-4E0E-959B-08FACCB210F3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9A1FDA41-EBFA-4E0E-959B-08FACCB210F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A1FDA41-EBFA-4E0E-959B-08FACCB210F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A1FDA41-EBFA-4E0E-959B-08FACCB210F3}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{357B8863-B0B5-44A0-99BB-4A876A0BAF0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{357B8863-B0B5-44A0-99BB-4A876A0BAF0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{357B8863-B0B5-44A0-99BB-4A876A0BAF0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{357B8863-B0B5-44A0-99BB-4A876A0BAF0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{667649CB-F53A-41BB-AB38-97D23B38EBA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{667649CB-F53A-41BB-AB38-97D23B38EBA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{667649CB-F53A-41BB-AB38-97D23B38EBA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{667649CB-F53A-41BB-AB38-97D23B38EBA8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6D51D604-F28A-496B-92AE-902F92B12955} = {EA99CB42-1584-48E2-ABAD-6220B6B2DF92}
+		{357B8863-B0B5-44A0-99BB-4A876A0BAF0F} = {6D51D604-F28A-496B-92AE-902F92B12955}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {820DFFE5-E3D8-4D92-A6A0-ECAC66219A8B}
+	EndGlobalSection
+EndGlobal

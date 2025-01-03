@@ -14,6 +14,12 @@ using FitHub.AccountManagement.Features.GetRegularUser;
 using FitHub.AccountManagement.Infrastructure.RegularUserDataAccess;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using FitHub.AccountManagement.Features.UserAuth;
+using FitHub.WorkoutManagement.Features.AddExecrise;
+using FitHub.ModuleIntegration.Workout.Exercise;
+using FitHub.WorkoutManagement.Infrastructure;
+using FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces;
+using FitHub.WorkoutManagement.Domain.Exercise;
+using FitHub.WorkoutManagement.Infrastructure.ExerciseDataAcces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +38,18 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddLogging();
+
+// exercise services
+builder.Services.AddScoped<AddExerciseCommandHandler>();
+builder.Services.AddScoped<IExerciseService, ExerciseService>();
+builder.Services.AddScoped<IExerciseCommandRepository, ExerciseCommandRepository>();
+// need further implementation
+// builder.Services.AddScoped<IExerciseQueryRepository, ExerciseQueryRepository>();
+
+// workout services
+// used the same database connection for workout and exercise
+builder.Services.AddDbContext<WorkoutDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // regular user services
 builder.Services.AddScoped<UserLoginQueryHandler>();

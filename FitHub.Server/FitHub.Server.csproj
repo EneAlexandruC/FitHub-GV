@@ -33,6 +33,7 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\FitHub.ModuleIntegration\FitHub.ModuleIntegration.csproj" />
+    <ProjectReference Include="..\FitHub.Workout\FitHub.WorkoutManagement.csproj" />
   </ItemGroup>
 
 </Project>

@@ -32,15 +32,27 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
 
                 entity.Property(c => c.Name)
                     .IsRequired()
-                    .HasMaxLength(30);
+                    .HasMaxLength(100);
 
                 entity.Property(c => c.Description)
                     .IsRequired()
                     .HasMaxLength(100);
 
-                entity.Property(c => c.MuscleGroup)
+                entity.Property(c => c.Category)
                     .IsRequired()
-                    .HasMaxLength(30);
+                    .HasMaxLength(100);
+                
+                entity.Property(c => c.Muscles)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(c => c.Equipment)
+                    .IsRequired()
+                    .HasMaxLength(100);
+                
+                entity.Property(c => c.Difficulty)
+                    .IsRequired()
+                    .HasConversion<int>();
             }
             );
         }

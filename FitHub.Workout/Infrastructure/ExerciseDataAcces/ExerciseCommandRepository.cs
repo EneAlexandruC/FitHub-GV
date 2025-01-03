@@ -3,7 +3,7 @@ using FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces;
 
 namespace FitHub.WorkoutManagement.Infrastructure.ExerciseDataAcces
 {
-    public class ExerciseCommadRepository(WorkoutDbContext dbContext) : IExerciseCommandRepository
+    public class ExerciseCommandRepository(WorkoutDbContext dbContext) : IExerciseCommandRepository
     {
         public async Task<Exercise> AddExercise(Exercise exercise)
         {

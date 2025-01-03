@@ -1,5 +1,6 @@
 ﻿using FitHub.ModuleIntegration.Workout.Exercise;
 using FitHub.WorkoutManagement.Features.AddExecrise;
+using FitHub.WorkoutManagement.Features.Shared;
 
 namespace FitHub.WorkoutManagement.Infrastructure
 {
@@ -10,14 +11,15 @@ namespace FitHub.WorkoutManagement.Infrastructure
             throw new NotImplementedException();
         }
 
-        public async Task<ExerciseGetDTO> AddExercise(ExerciseAddDTO exercise)
+        public async Task<ExerciseGetDTO> AddExercise(ExerciseAddDTO exerciseAddDTO)
         {
-            // TODO: Remake this function after how regularuser was implemented
+            // TODO: Remake this function after how regularuser was implemented (completed)
 
-            var command = new AddExerciseCommand(exercise);
-            var result = await addExerciseCommandHandler.Handle(command);
+            var exerciseDomain = exerciseAddDTO.ToDomainObject();
+            var addExerciseCommand = new AddExerciseCommand { exercise = exerciseDomain };
+            var result = await addExerciseCommandHandler.Handle(addExerciseCommand);
 
-            return new ExerciseGetDTO(result);
+            return result.ExerciseGetDTO();
         }
 
         public async Task<ExerciseGetDTO> UpdateExercise(int id, ExerciseAddDTO exercise)

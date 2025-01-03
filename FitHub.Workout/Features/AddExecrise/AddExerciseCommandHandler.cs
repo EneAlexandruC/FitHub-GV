@@ -6,11 +6,11 @@ namespace FitHub.WorkoutManagement.Features.AddExecrise
     {
         public async Task<Exercise> Handle(AddExerciseCommand command)
         {
-            await repository.AddExercise(command.Exercise);
+            await repository.AddExercise(command.exercise);
 
             await repository.SaveChanges();
 
-            return command.Exercise;
+            return command.exercise;
         }
     }
 }

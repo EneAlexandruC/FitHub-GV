@@ -1,4 +1,6 @@
-﻿namespace FitHub.WorkoutManagement.Domain.Exercise
+﻿using FitHub.WorkoutManagement.Domain.JoinEntry;
+
+namespace FitHub.WorkoutManagement.Domain.ExerciseDomain
 {
     public class Exercise
     {
@@ -17,11 +19,13 @@
         public string Equipment { get; set; } = string.Empty;
         public DifficultyLevel Difficulty { get; set; }
 
+        public List<WorkoutExercise> WorkoutExercises = new List<WorkoutExercise>();
+
         private Exercise() { }
 
         public static Exercise Create(string name, string description, string category, string muscles, string equipment, int difficulty)
         {
-            return new Exercise()
+            return new Exercise
             {
                 Name = name,
                 Description = description,

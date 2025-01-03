@@ -18,7 +18,7 @@ using FitHub.WorkoutManagement.Features.AddExecrise;
 using FitHub.ModuleIntegration.Workout.Exercise;
 using FitHub.WorkoutManagement.Infrastructure;
 using FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces;
-using FitHub.WorkoutManagement.Domain.Exercise;
+using FitHub.WorkoutManagement.Domain.ExerciseDomain;
 using FitHub.WorkoutManagement.Infrastructure.ExerciseDataAcces;
 using FitHub.WorkoutManagement.Features.GetExercise;
 

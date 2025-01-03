@@ -1,4 +1,4 @@
-﻿using FitHub.WorkoutManagement.Domain.Exercise;
+﻿using FitHub.WorkoutManagement.Domain.ExerciseDomain;
 using FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces;
 using Microsoft.EntityFrameworkCore;
 

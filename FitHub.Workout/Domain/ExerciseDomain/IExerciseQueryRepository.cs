@@ -1,4 +1,4 @@
-﻿namespace FitHub.WorkoutManagement.Domain.Exercise
+﻿namespace FitHub.WorkoutManagement.Domain.ExerciseDomain
 {
     public interface IExerciseQueryRepository
     {

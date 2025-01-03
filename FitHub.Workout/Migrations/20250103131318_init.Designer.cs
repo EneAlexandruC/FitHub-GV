@@ -24,7 +24,7 @@ namespace FitHub.WorkoutManagement.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("FitHub.WorkoutManagement.Domain.Exercise.Exercise", b =>
+            modelBuilder.Entity("FitHub.WorkoutManagement.Domain.ExerciseDomain.Exercise", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -65,7 +65,7 @@ namespace FitHub.WorkoutManagement.Migrations
                     b.ToTable("Exercise", (string)null);
                 });
 
-            modelBuilder.Entity("FitHub.WorkoutManagement.Domain.Workout.Workout", b =>
+            modelBuilder.Entity("FitHub.WorkoutManagement.Domain.WorkoutDomain.Workout", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()

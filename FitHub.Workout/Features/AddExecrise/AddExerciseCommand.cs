@@ -1,4 +1,4 @@
-﻿using FitHub.WorkoutManagement.Domain.Exercise;
+﻿using FitHub.WorkoutManagement.Domain.ExerciseDomain;
 
 namespace FitHub.WorkoutManagement.Features.AddExecrise
 {

@@ -2,5 +2,8 @@
 {
     public interface IExerciseQueryRepository
     {
+        Task<Exercise> GetExerciseById(int ID);
+
+        Task SaveChanges();
     }
 }

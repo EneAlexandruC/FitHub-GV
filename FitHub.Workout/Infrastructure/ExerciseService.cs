@@ -1,14 +1,24 @@
 ﻿using FitHub.ModuleIntegration.Workout.Exercise;
 using FitHub.WorkoutManagement.Features.AddExecrise;
+using FitHub.WorkoutManagement.Features.GetExercise;
 using FitHub.WorkoutManagement.Features.Shared;
 
 namespace FitHub.WorkoutManagement.Infrastructure
 {
-    public class ExerciseService(AddExerciseCommandHandler addExerciseCommandHandler) : IExerciseService
+    public class ExerciseService(AddExerciseCommandHandler addExerciseCommandHandler, 
+                                 GetExerciseQueryHandler getExerciseQueryHandler) : IExerciseService
     {
-        public async Task<ExerciseGetDTO> GetExercise(int id)
+        public async Task<ExerciseGetDTO?> GetExerciseById(int ID)
         {
-            throw new NotImplementedException();
+            var query = new GetExerciseQuery { ID = ID };
+            var result = await getExerciseQueryHandler.Handle(query);
+
+            if (result == null)
+            {
+                throw new Exception("Exercise not found");
+            }
+
+            return result;
         }
 
         public async Task<ExerciseGetDTO> AddExercise(ExerciseAddDTO exerciseAddDTO)

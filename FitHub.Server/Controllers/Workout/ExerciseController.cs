@@ -26,5 +26,13 @@ namespace FitHub.Server.Controllers.Workout
 
             return addedExercise;
         }
+
+        [HttpGet("get-exercise")]
+        public async Task<ExerciseGetDTO> Get([FromQuery] int ID)
+        {
+            var exercise = await exerciseService.GetExerciseById(ID);
+
+            return exercise;
+        }
     }
 }

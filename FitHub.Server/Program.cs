@@ -20,6 +20,7 @@ using FitHub.WorkoutManagement.Infrastructure;
 using FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces;
 using FitHub.WorkoutManagement.Domain.Exercise;
 using FitHub.WorkoutManagement.Infrastructure.ExerciseDataAcces;
+using FitHub.WorkoutManagement.Features.GetExercise;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,10 +42,10 @@ builder.Services.AddLogging();
 
 // exercise services
 builder.Services.AddScoped<AddExerciseCommandHandler>();
+builder.Services.AddScoped<GetExerciseQueryHandler>();
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
 builder.Services.AddScoped<IExerciseCommandRepository, ExerciseCommandRepository>();
-// need further implementation
-// builder.Services.AddScoped<IExerciseQueryRepository, ExerciseQueryRepository>();
+builder.Services.AddScoped<IExerciseQueryRepository, ExerciseQueryRepository>();
 
 // workout services
 // used the same database connection for workout and exercise

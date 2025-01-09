@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "../../assets/bootstrap/css/bootstrap.min.css";
 
 const Home: React.FC = () => {
   return (

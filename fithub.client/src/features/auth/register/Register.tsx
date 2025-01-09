@@ -131,6 +131,7 @@ const Register: React.FC = () => {
                   >
                     <div className="mb-3">
                       <input
+                        required
                         className="form-control"
                         type="text"
                         name="firstName"
@@ -141,6 +142,7 @@ const Register: React.FC = () => {
                     </div>
                     <div className="mb-3">
                       <input
+                        required
                         className="form-control"
                         type="text"
                         name="lastName"
@@ -151,6 +153,7 @@ const Register: React.FC = () => {
                     </div>
                     <div className="mb-3">
                       <input
+                        required
                         className="form-control"
                         type="email"
                         name="email"
@@ -161,6 +164,7 @@ const Register: React.FC = () => {
                     </div>
                     <div className="mb-3">
                       <input
+                        required
                         className="form-control"
                         type="password"
                         name="password"
@@ -171,6 +175,7 @@ const Register: React.FC = () => {
                     </div>
                     <div className="mb-3">
                       <input
+                        required
                         className="form-control"
                         type="password"
                         name="confirmPassword"
@@ -181,6 +186,7 @@ const Register: React.FC = () => {
                     </div>
                     <div className="mb-3">
                       <input
+                        required
                         className="form-control"
                         type="text"
                         name="weight"
@@ -191,6 +197,7 @@ const Register: React.FC = () => {
                     </div>
                     <div className="mb-3">
                       <input
+                        required
                         className="form-control"
                         type="text"
                         name="height"
@@ -201,6 +208,7 @@ const Register: React.FC = () => {
                     </div>
                     <div className="mb-3">
                       <input
+                        required
                         className="form-control"
                         type="date"
                         name="dateOfBirth"

@@ -4,10 +4,17 @@ import styles from "./Home.module.css";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+interface Exercise {
+  name: string;
+  description: string;
+  difficulty: "easy" | "medium" | "hard";
+}
+
 const Home: React.FC = () => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );
+
   const rows = [
     {
       title: "Weekly Routines and Videos",

@@ -1,7 +1,6 @@
-import React from 'react';
-import { Clock, Dumbbell, BarChart } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { Workout } from '../types';
+import { Clock, Dumbbell, BarChart } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Workout } from "../types";
 
 interface WorkoutCardProps {
   workout: Workout;
@@ -9,13 +8,13 @@ interface WorkoutCardProps {
 
 export default function WorkoutCard({ workout }: WorkoutCardProps) {
   return (
-    <Link 
+    <Link
       to={`/workout/${workout.id}`}
       className="group bg-white/10 backdrop-blur-lg rounded-2xl overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
     >
       <div className="relative h-48">
-        <img 
-          src={workout.image} 
+        <img
+          src={workout.image}
           alt={workout.name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
         />
@@ -29,7 +28,7 @@ export default function WorkoutCard({ workout }: WorkoutCardProps) {
             </span>
             <span className="flex items-center">
               <Dumbbell className="w-4 h-4 mr-1" />
-              {workout.equipment.join(', ')}
+              {workout.equipment.join(", ")}
             </span>
             <span className="flex items-center">
               <BarChart className="w-4 h-4 mr-1" />

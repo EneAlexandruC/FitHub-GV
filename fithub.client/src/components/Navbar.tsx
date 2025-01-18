@@ -1,6 +1,5 @@
-import React from 'react';
-import { Dumbbell } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Dumbbell } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
@@ -12,9 +11,24 @@ export default function Navbar() {
             <span className="text-xl font-bold text-white">FitHub</span>
           </Link>
           <div className="flex space-x-8">
-            <Link to="/" className="text-white hover:text-pink-200 transition-colors">Home</Link>
-            <Link to="/workouts" className="text-white hover:text-pink-200 transition-colors">Workouts</Link>
-            <Link to="/create" className="text-white hover:text-pink-200 transition-colors">Create Workout</Link>
+            <Link
+              to="/"
+              className="text-white hover:text-pink-200 transition-colors"
+            >
+              Home
+            </Link>
+            <Link
+              to="/workouts"
+              className="text-white hover:text-pink-200 transition-colors"
+            >
+              Workouts
+            </Link>
+            <Link
+              to="/create"
+              className="text-white hover:text-pink-200 transition-colors"
+            >
+              Create Workout
+            </Link>
           </div>
         </div>
       </div>

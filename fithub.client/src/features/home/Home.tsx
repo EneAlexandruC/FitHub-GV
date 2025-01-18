@@ -4,12 +4,6 @@ import styles from "./Home.module.css";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-interface Exercise {
-  name: string;
-  description: string;
-  difficulty: "easy" | "medium" | "hard";
-}
-
 const Home: React.FC = () => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
@@ -17,12 +11,12 @@ const Home: React.FC = () => {
 
   const rows = [
     {
-      title: "Weekly Routines and Videos",
+      title: "Weekly Routines and Videos!",
       text: `Discover a diverse range of workouts tailored to your needs,
             whether you’re focusing on flexibility, tackling full-body circuits, 
             or anything in between. No matter your goal or fitness level, 
             we’ve got the perfect workout for you!`,
-      imgSrc: "src/assets/img/pexels-photo-416778.jpeg",
+      imgSrc: "img/pexels-photo-416778.jpeg",
     },
     {
       title: "Become Premium!",
@@ -30,7 +24,7 @@ const Home: React.FC = () => {
             Personalized workout plans <br />
             Advanced progress tracking tools <br />
             Unlimited access to all programs`,
-      imgSrc: "src/assets/img/pexels-photo-949129.jpeg",
+      imgSrc: "img/pexels-photo-949129.jpeg",
     },
     {
       title: "Join our community!",
@@ -39,7 +33,7 @@ const Home: React.FC = () => {
             Share your progress and best tips<br />
             Participate in exciting challenges<br />
             Motivate others and find daily inspiration to keep going`,
-      imgSrc: "src/assets/img/pexels-photo-703012.jpeg",
+      imgSrc: "img/pexels-photo-703012.jpeg",
     },
     // Add more rows as needed
   ];

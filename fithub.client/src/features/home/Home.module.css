@@ -25,7 +25,7 @@
   object-position: top;
   z-index: -1; /* Ensure the image is below the text */
   background-image: linear-gradient(rgba(0, 0, 16, 0.92), rgba(0, 0, 16, 0.58)),
-    url("src/assets/img/photo-1651840403916-d1e0515b32c4.jpg");
+    url("img/photo-1651840403916-d1e0515b32c4.jpg");
   background-size: cover;
   background-position: center;
 }
@@ -40,7 +40,7 @@
   object-position: bottom; /* Ensure the image starts from the bottom */
   z-index: -1; /* Ensure the image is below the text */
   background-image: linear-gradient(rgba(0, 0, 16, 0.92), rgba(0, 0, 16, 0.58)),
-    url("src/assets/img/photo-1651840403916-d1e0515b32c4.jpg");
+    url("img/photo-1651840403916-d1e0515b32c4.jpg");
   background-size: cover;
   background-position: bottom; /* Ensure the image starts from the bottom */
 }

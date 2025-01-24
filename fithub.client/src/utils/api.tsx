@@ -28,13 +28,6 @@ export const loginAPI = async (credentials: {
       credentials,
       { withCredentials: true }
     );
-
-    //    if (response.data.redirectUrl)                                Am comentat blocul asta de cod pentru ca stergea toate starile curente si nu
-    //                                                                  imi seta isAuthenticated pe true. Am adaugat in Login.tsx 
-    //    {
-    //        window.location.href = response.data.redirectUrl;
-    //    }
-
     return response;
   } catch (error: any) {
     if (axios.isAxiosError(error) && error.response) {

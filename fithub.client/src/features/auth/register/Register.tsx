@@ -202,11 +202,13 @@ const Register: React.FC = () => {
                     <div className="mb-3">
                       <input
                         className="form-control"
-                        type="date"
+                        type="text"
                         name="dateOfBirth"
-                        placeholder="Date of Birth"
+                        placeholder="Date of Birth (YYYY-MM-DD)"
                         value={dateOfBirth}
                         onChange={(e) => setDateOfBirth(e.target.value)}
+                        onFocus={(e) => (e.target.type = "date")}
+                        onBlur={(e) => (e.target.type = "text")}
                       />
                     </div>
                     <div className="mb-3">

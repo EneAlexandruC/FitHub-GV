@@ -1,7 +1,7 @@
 ﻿using FitHub.ModuleIntegration.Workout.Exercise;
 using FitHub.WorkoutManagement.Features.AddExecrise;
 using FitHub.WorkoutManagement.Features.GetExercise;
-using FitHub.WorkoutManagement.Features.Shared;
+using FitHub.WorkoutManagement.Features.Shared.ExerciseShared;
 
 namespace FitHub.WorkoutManagement.Infrastructure
 {

@@ -1,7 +1,7 @@
 ﻿using FitHub.ModuleIntegration.Workout.Exercise;
 using FitHub.WorkoutManagement.Domain.ExerciseDomain;
 
-namespace FitHub.WorkoutManagement.Features.Shared
+namespace FitHub.WorkoutManagement.Features.Shared.ExerciseShared
 {
     public static class ExerciseAddDTOMapper
     {

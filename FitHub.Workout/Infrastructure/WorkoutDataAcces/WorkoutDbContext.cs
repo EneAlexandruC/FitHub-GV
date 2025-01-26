@@ -14,7 +14,7 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<Workout> Workouts { get; set; }
         public DbSet<WorkoutExercise> WorkoutExercises { get; set; }
-        public DbSet<Equipment> Equipment { get; set; }
+        public DbSet<Equipment> Equipments { get; set; }
         public DbSet<ExercisesEquipments> ExercisesEquipments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

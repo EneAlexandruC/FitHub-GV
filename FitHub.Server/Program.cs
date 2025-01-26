@@ -21,6 +21,10 @@ using FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces;
 using FitHub.WorkoutManagement.Domain.ExerciseDomain;
 using FitHub.WorkoutManagement.Infrastructure.ExerciseDataAcces;
 using FitHub.WorkoutManagement.Features.GetExercise;
+using FitHub.WorkoutManagement.Features.GetEquipment;
+using FitHub.ModuleIntegration.Workout.Equipment;
+using FitHub.WorkoutManagement.Infrastructure.EquipmentDataAcces;
+using FitHub.WorkoutManagement.Domain.EquipmentDomain;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +43,13 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddLogging();
+
+// equipment services
+builder.Services.AddScoped<GetEquipmentQueryHandler>();
+builder.Services.AddScoped<IEquipmentService, EquipmentService>();
+builder.Services.AddScoped<IEquipmentQueryRepository, EquipmentQueryRepository>();
+// builder.Services.AddScoped<IEquipmentCommandRepository, EquipmentCommandRepository>();
+
 
 // exercise services
 builder.Services.AddScoped<AddExerciseCommandHandler>();

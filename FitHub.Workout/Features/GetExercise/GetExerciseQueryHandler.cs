@@ -1,6 +1,6 @@
 ﻿using FitHub.ModuleIntegration.Workout.Exercise;
 using FitHub.WorkoutManagement.Domain.ExerciseDomain;
-using FitHub.WorkoutManagement.Features.Shared;
+using FitHub.WorkoutManagement.Features.Shared.ExerciseShared;
 
 namespace FitHub.WorkoutManagement.Features.GetExercise
 {

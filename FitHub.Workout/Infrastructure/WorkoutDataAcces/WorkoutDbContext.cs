@@ -12,7 +12,7 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
         public DbSet<Workout> Workouts { get; set; }
         public DbSet<WorkoutExercise> WorkoutExercises { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
-        public DbSet<ExerciseEquipment> ExerciseEquipment { get; set; }
+        public DbSet<ExercisesEquipments> ExercisesEquipments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -95,7 +95,7 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
             });
 
             // ExerciseEquipment
-            modelBuilder.Entity<ExerciseEquipment>(entity =>
+            modelBuilder.Entity<ExercisesEquipments>(entity =>
             {
                 entity.ToTable("ExerciseEquipment");
                 entity.HasKey(ee => new { ee.ExerciseID, ee.EquipmentID });

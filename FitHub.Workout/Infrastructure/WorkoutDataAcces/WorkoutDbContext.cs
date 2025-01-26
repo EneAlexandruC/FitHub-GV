@@ -80,6 +80,7 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
                     .WithMany(e => e.WorkoutExercises)
                     .HasForeignKey(we => we.ExerciseID);
             });
+
         }
     }
 }

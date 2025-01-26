@@ -23,5 +23,11 @@ namespace FitHub.Server.Controllers.Workout
         {
             return await workoutService.GetWorkoutById(id);
         }
+
+        [HttpGet("get-all-workouts")]
+        public async Task<IEnumerable<WorkoutGetDTO>> GetAllWorkouts()
+        {
+            return await workoutService.GetAllWorkouts();
+        }
     }
 }

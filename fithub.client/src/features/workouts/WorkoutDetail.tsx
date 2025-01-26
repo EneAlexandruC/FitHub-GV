@@ -17,7 +17,7 @@ const WorkoutDetail: React.FC = () => {
       dispatch(setSelectedWorkout(id));
     }
     return () => {
-      dispatch(clearSelectedWorkout());
+        dispatch(clearSelectedWorkout()); // Clear selected workout when component unmounts
     };
   }, [dispatch, id]);
 

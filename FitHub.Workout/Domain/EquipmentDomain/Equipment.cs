@@ -1,15 +1,17 @@
-﻿using System;
+﻿using FitHub.WorkoutManagement.Domain.JoinEntry;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FitHub.WorkoutManagement.Domain.Equipment
+namespace FitHub.WorkoutManagement.Domain.EquipmentDomain
 {
     public class Equipment
     {
-        public int Id { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; } = string.Empty;
+        public List<ExercisesEquipments> ExercisesEquipments = new List<ExercisesEquipments>();
 
         private Equipment() { }
 

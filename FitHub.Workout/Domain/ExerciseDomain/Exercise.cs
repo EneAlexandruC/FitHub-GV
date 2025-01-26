@@ -21,6 +21,7 @@ namespace FitHub.WorkoutManagement.Domain.ExerciseDomain
 
         public List<WorkoutExercise> WorkoutExercises = new List<WorkoutExercise>();
 
+        public List<ExercisesEquipments> ExercisesEquipments = new List<ExercisesEquipments>();
         private Exercise() { }
 
         public static Exercise Create(string name, string description, string category, string muscles, string equipment, int difficulty)

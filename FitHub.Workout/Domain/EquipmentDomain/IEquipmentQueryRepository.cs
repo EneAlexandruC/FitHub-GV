@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FitHub.WorkoutManagement.Domain.Equipment
+namespace FitHub.WorkoutManagement.Domain.EquipmentDomain
 {
     public interface IEquipmentQueryRepository
     {

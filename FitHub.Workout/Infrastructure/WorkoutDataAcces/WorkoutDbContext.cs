@@ -1,7 +1,10 @@
-﻿using FitHub.WorkoutManagement.Domain.ExerciseDomain;
+﻿using FitHub.WorkoutManagement.Domain.EquipmentDomain;
+using FitHub.WorkoutManagement.Domain.ExerciseDomain;
 using FitHub.WorkoutManagement.Domain.JoinEntry;
 using FitHub.WorkoutManagement.Domain.WorkoutDomain;
+
 using Microsoft.EntityFrameworkCore;
+
 
 namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
 {
@@ -101,11 +104,11 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
                 entity.HasKey(ee => new { ee.ExerciseID, ee.EquipmentID });
 
                 entity.HasOne(ee => ee.Exercise)
-                    .WithMany(e => e.ExerciseEquipments)
+                    .WithMany(e => e.ExercisesEquipments)
                     .HasForeignKey(ee => ee.ExerciseID);
 
                 entity.HasOne(ee => ee.Equipment)
-                    .WithMany(e => e.ExerciseEquipments)
+                    .WithMany(e => e.ExercisesEquipments)
                     .HasForeignKey(ee => ee.EquipmentID);
             });
 

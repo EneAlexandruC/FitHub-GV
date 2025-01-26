@@ -11,6 +11,8 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<Workout> Workouts { get; set; }
         public DbSet<WorkoutExercise> WorkoutExercises { get; set; }
+        public DbSet<Equipment> Equipment { get; set; }
+        public DbSet<ExerciseEquipment> ExerciseEquipment { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -80,6 +82,33 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
                     .WithMany(e => e.WorkoutExercises)
                     .HasForeignKey(we => we.ExerciseID);
             });
+
+            // Equipment
+            modelBuilder.Entity<Equipment>(entity =>
+            {
+                entity.ToTable("Equipment");
+                entity.HasKey(c => c.ID);
+
+                entity.Property(c => c.Name)
+                    .IsRequired()
+                    .HasMaxLength(1000);
+            });
+
+            // ExerciseEquipment
+            modelBuilder.Entity<ExerciseEquipment>(entity =>
+            {
+                entity.ToTable("ExerciseEquipment");
+                entity.HasKey(ee => new { ee.ExerciseID, ee.EquipmentID });
+
+                entity.HasOne(ee => ee.Exercise)
+                    .WithMany(e => e.ExerciseEquipments)
+                    .HasForeignKey(ee => ee.ExerciseID);
+
+                entity.HasOne(ee => ee.Equipment)
+                    .WithMany(e => e.ExerciseEquipments)
+                    .HasForeignKey(ee => ee.EquipmentID);
+            });
+
         }
     }
 }

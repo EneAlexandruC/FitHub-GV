@@ -1,8 +1,12 @@
-﻿using FitHub.WorkoutManagement.Domain.JoinEntry;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace FitHub.WorkoutManagement.Domain.WorkoutDomain
+namespace FitHub.ModuleIntegration.WorkoutModule.Workout
 {
-    public class Workout
+    public class WorkoutGetDTO
     {
         public int ID { get; set; }
         public string Name { get; set; } = string.Empty;
@@ -12,7 +16,5 @@ namespace FitHub.WorkoutManagement.Domain.WorkoutDomain
         public string Image { get; set; } = string.Empty;
         public string Duration { get; set; } = string.Empty;
         public string CaloriesBurned { get; set; } = string.Empty;
-
-        public List<WorkoutExercise> WorkoutExercises { get; set; } = new List<WorkoutExercise>();
     }
 }

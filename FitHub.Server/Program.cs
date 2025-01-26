@@ -21,6 +21,9 @@ using FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces;
 using FitHub.WorkoutManagement.Domain.ExerciseDomain;
 using FitHub.WorkoutManagement.Infrastructure.ExerciseDataAcces;
 using FitHub.WorkoutManagement.Features.GetExercise;
+using FitHub.WorkoutManagement.Features.GetWorkout;
+using FitHub.ModuleIntegration.WorkoutModule.Workout;
+using FitHub.WorkoutManagement.Domain.WorkoutDomain;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +51,12 @@ builder.Services.AddScoped<IExerciseCommandRepository, ExerciseCommandRepository
 builder.Services.AddScoped<IExerciseQueryRepository, ExerciseQueryRepository>();
 
 // workout services
+builder.Services.AddScoped<GetWorkoutQueryHandler>();
+builder.Services.AddScoped<IWorkoutService, WorkoutService>();
+builder.Services.AddScoped<IWorkoutQueryRepository, WorkoutQueryRepository>();
+
+
+
 // used the same database connection for workout and exercise
 builder.Services.AddDbContext<WorkoutDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

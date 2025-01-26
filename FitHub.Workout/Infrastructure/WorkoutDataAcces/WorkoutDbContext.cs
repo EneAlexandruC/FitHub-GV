@@ -1,7 +1,10 @@
-﻿using FitHub.WorkoutManagement.Domain.ExerciseDomain;
+﻿using FitHub.WorkoutManagement.Domain.EquipmentDomain;
+using FitHub.WorkoutManagement.Domain.ExerciseDomain;
 using FitHub.WorkoutManagement.Domain.JoinEntry;
 using FitHub.WorkoutManagement.Domain.WorkoutDomain;
+
 using Microsoft.EntityFrameworkCore;
+
 
 namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
 {
@@ -11,6 +14,8 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<Workout> Workouts { get; set; }
         public DbSet<WorkoutExercise> WorkoutExercises { get; set; }
+        public DbSet<Equipment> Equipment { get; set; }
+        public DbSet<ExercisesEquipments> ExercisesEquipments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,17 +27,35 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
                 entity.ToTable("Workout");
                 entity.HasKey(c => c.ID);
 
+                entity.Property(c => c.Name)
+                     .IsRequired()
+                     .HasMaxLength(1000);
+
                 entity.Property(c => c.Description)
                     .IsRequired()
-                    .HasMaxLength(1000);
-                
-                entity.Property(c => c.Notes)
+                    .HasMaxLength(3000);
+
+                entity.Property(c => c.Type)
                     .IsRequired()
-                    .HasMaxLength(1000);
-                
-                entity.Property(c => c.Notes)
+                    .HasConversion<int>();
+
+                entity.Property(c => c.Difficulty)
                     .IsRequired()
-                    .HasMaxLength(1000);
+                    .HasConversion<int>();
+
+                entity.Property(c => c.Image)
+                    .IsRequired()
+                    .HasMaxLength(3000);
+
+                entity.Property(c => c.Duration)
+                    .IsRequired()
+                    .HasMaxLength(3000);
+
+                entity.Property(c => c.CaloriesBurned)
+                    .IsRequired()
+                    .HasMaxLength(10);
+                
+                
             });
 
             // Exercise
@@ -80,6 +103,33 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
                     .WithMany(e => e.WorkoutExercises)
                     .HasForeignKey(we => we.ExerciseID);
             });
+
+            // Equipment
+            modelBuilder.Entity<Equipment>(entity =>
+            {
+                entity.ToTable("Equipment");
+                entity.HasKey(c => c.ID);
+
+                entity.Property(c => c.Name)
+                    .IsRequired()
+                    .HasMaxLength(1000);
+            });
+
+            // ExerciseEquipment
+            modelBuilder.Entity<ExercisesEquipments>(entity =>
+            {
+                entity.ToTable("ExerciseEquipment");
+                entity.HasKey(ee => new { ee.ExerciseID, ee.EquipmentID });
+
+                entity.HasOne(ee => ee.Exercise)
+                    .WithMany(e => e.ExercisesEquipments)
+                    .HasForeignKey(ee => ee.ExerciseID);
+
+                entity.HasOne(ee => ee.Equipment)
+                    .WithMany(e => e.ExercisesEquipments)
+                    .HasForeignKey(ee => ee.EquipmentID);
+            });
+
         }
     }
 }

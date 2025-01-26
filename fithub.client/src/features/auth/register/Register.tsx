@@ -215,6 +215,8 @@ const Register: React.FC = () => {
                         placeholder="Date of Birth"
                         value={dateOfBirth}
                         onChange={(e) => setDateOfBirth(e.target.value)}
+                        onFocus={(e) => (e.target.type = "date")}
+                        onBlur={(e) => (e.target.type = "text")}
                       />
                     </div>
                     <div className="mb-3">

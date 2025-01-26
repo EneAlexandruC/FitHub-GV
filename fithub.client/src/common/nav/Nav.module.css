@@ -1,10 +1,10 @@
 .navbar {
-  background-color: #333;
+    background-color: #333;
   display: flex;
   justify-content: space-between; /* Push left and right items apart */
   align-items: center; /* Vertically center items */
   padding: 0 20px; /* Optional: Add padding for spacing */
-  overflow: hidden;
+    overflow: hidden;
   flex-wrap: wrap; /* Make the navbar responsive */
   position: sticky; /* Make the navbar sticky */
   top: 0; /* Stick to the top of the page */
@@ -13,12 +13,12 @@
 
 .navbar a {
   float: none; /* Remove float to work with flexbox */
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
 }
 
 .navbar-collapse {

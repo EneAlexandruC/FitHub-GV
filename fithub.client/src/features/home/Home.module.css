@@ -1,6 +1,11 @@
 .container {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+  padding: 20px;
 }
 
 .banner {
@@ -121,7 +126,7 @@
   .column {
     flex: 1 1 100%;
     margin-bottom: 20px; /* Add padding for spacing */
-  }
+}
 
   .row:last-child .column {
     margin-bottom: 0; /* Remove margin-bottom for columns in the last row */

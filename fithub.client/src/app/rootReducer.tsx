@@ -6,8 +6,8 @@ import navReducer from "../common/nav/NavSlice";
 import workoutsReducer from "../features/workouts/workoutsSlice";
 
 const rootReducer = combineReducers({
-  auth: authReducer,
-  register: registerReducer,
+    auth: authReducer,
+    register: registerReducer,
   nav: navReducer,
   workouts: workoutsReducer,
 });

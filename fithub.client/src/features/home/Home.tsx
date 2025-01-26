@@ -46,17 +46,17 @@ const Home: React.FC = () => {
           Whether you’re aiming to hit new milestones, boost your strength, or
           embrace the fun of staying active, we equip you with the tools,
           support, and community essential for your success.
-        </p>
+                  </p>
         <div className={styles.upperBannerImage} />
-      </div>
+                </div>
       <div className={styles.container}>
         {rows.map((row, index) => (
-          <div
+        <div
             key={index}
             className={`${styles.row} ${
               index % 2 === 0 ? styles.rowReverse : ""
             }`}
-          >
+              >
             <div className={styles.column}>
               <img
                 src={row.imgSrc}
@@ -67,10 +67,10 @@ const Home: React.FC = () => {
             <div className={styles.column}>
               <h2>{row.title}</h2>
               <p dangerouslySetInnerHTML={{ __html: row.text }}></p>
-            </div>
           </div>
+        </div>
         ))}
-      </div>
+            </div>
       {!isAuthenticated ? (
         <div className={styles.banner}>
           <h2>Sounds good? Start your journey now!</h2>
@@ -78,18 +78,18 @@ const Home: React.FC = () => {
             SignUp
           </Link>
           <div className={styles.lowerBannerImage} />
-        </div>
+            </div>
       ) : (
         <div className={styles.banner}>
           <h2>Logged in text</h2>
           <button
             className="btn btn-primary ms-md-2"
             style={{ background: "rgb(13, 110, 253)" }}
-          >
+                >
             Logged in button
           </button>
           <div className={styles.lowerBannerImage} />
-        </div>
+            </div>
       )}
     </>
   );

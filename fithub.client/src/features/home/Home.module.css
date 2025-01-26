@@ -8,52 +8,127 @@
   padding: 20px;
 }
 
-.header {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #333;
+.banner {
+  position: relative;
+  padding: 15vh; /* Add padding to ensure text is not covered */
+  z-index: 1; /* Ensure the banner text is above the image */
+  color: white; /* Set text color to ensure visibility */
+  text-align: center; /* Center the text */
 }
 
-.content {
-  font-size: 1rem;
-  color: #666;
-  text-align: center;
-  max-width: 600px;
+.banner p {
+  color: #ffffff; /* Change text color to tomato */
 }
 
-.footer {
-  margin-top: 20px;
-  font-size: 0.875rem;
-  color: #999;
+.upperBannerImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  z-index: -1; /* Ensure the image is below the text */
+  background-image: linear-gradient(rgba(0, 0, 16, 0.92), rgba(0, 0, 16, 0.58)),
+    url("img/photo-1651840403916-d1e0515b32c4.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
-.container {
+.lowerBannerImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: bottom; /* Ensure the image starts from the bottom */
+  z-index: -1; /* Ensure the image is below the text */
+  background-image: linear-gradient(rgba(0, 0, 16, 0.92), rgba(0, 0, 16, 0.58)),
+    url("img/photo-1651840403916-d1e0515b32c4.jpg");
+  background-size: cover;
+  background-position: bottom; /* Ensure the image starts from the bottom */
+}
+
+.row {
+  display: flex;
+  height: 50vh; /* Adjust the height as a percentage of the viewport height */
+}
+
+.rowReverse {
+  flex-direction: row-reverse;
+}
+
+.column {
+  flex: 1 1 50%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background-color: #f0f0f0;
-  padding: 20px;
+  justify-content: center; /* Center content vertically */
 }
 
-.header {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.content {
-  font-size: 1rem;
-  color: #666;
+.column h2 {
+  font-size: calc(17px + 1vw);
+  margin: 10px 0;
   text-align: center;
-  max-width: 600px;
+}
+.column p {
+  font-size: 16px;
+  margin: 10px 0;
+  text-align: center;
+}
+.image {
+  width: 100%;
+  height: 100%; /* Ensure the image fits within the div */
+  object-fit: cover; /* Maintain aspect ratio and cover the div */
 }
 
-.footer {
-  margin-top: 20px;
-  font-size: 0.875rem;
-  color: #999;
+.button {
+  display: inline-block;
+  padding: 0.5em 1em;
+  font-size: 1.2em;
+  border: 2px solid rgb(255, 255, 255); /* Black border */
+  border-radius: 25px; /* Rounded corners */
+  background: transparent; /* Transparent background */
+  color: rgb(255, 255, 255); /* Black text color */
+  text-align: center;
+  text-decoration: none; /* Remove underline */
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s; /* Smooth transition */
+}
+
+.button:hover {
+  background: rgba(0, 0, 16, 0.92); /* Black background on hover */
+  color: rgb(255, 255, 255); /* White text color on hover */
+}
+
+/* Media query for phones */
+
+@media (max-width: 768px) {
+  .banner {
+    padding: 20vh 5vw; /* Increase padding for smaller screens */
+  }
+
+  .banner h2 {
+    font-size: 2em; /* Increase font size for smaller screens */
+  }
+
+  .button {
+    font-size: 1em; /* Adjust button font size for smaller screens */
+    margin-top: 2vh; /* Adjust button margin for smaller screens */
+    padding: 0.7em 1.8em; /* Adjust button padding for smaller screens */
+  }
+
+  .row {
+    flex-direction: column;
+    height: auto; /* Let the height adjust based on content */
+  }
+
+  .column {
+    flex: 1 1 100%;
+    margin-bottom: 20px; /* Add padding for spacing */
+}
+
+  .row:last-child .column {
+    margin-bottom: 0; /* Remove margin-bottom for columns in the last row */
+  }
 }

@@ -3,6 +3,7 @@ import { RootState, AppDispatch } from "../../app/store";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import styles from "./Nav.module.css";
 import { updateStatusLogin } from "../../features/auth/login/LoginSlice";
 import { updateStatusRegister } from "../../features/auth/register/RegisterSlice";
 import { logout } from "./NavSlice";
@@ -25,6 +26,7 @@ const Nav: React.FC = () => {
       style={{ background: "linear-gradient(#000010, #000010), #000010" }}
     >
       <div className="container">
+        {/* Left-aligned FitHub link */}
         <a className="navbar-brand d-flex align-items-center" href="#">
           <span
             className="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon"
@@ -60,8 +62,11 @@ const Nav: React.FC = () => {
               ></path>
             </svg>
           </span>
-          <span style={{ color: "#ffffff" }}>FitHub</span>
+          <Link className={styles.button} to="/">
+            FitHub
+          </Link>
         </a>
+        {/* Right-aligned navigation links */}
         <button
           data-bs-toggle="collapse"
           className="navbar-toggler"
@@ -70,81 +75,52 @@ const Nav: React.FC = () => {
           <span className="visually-hidden">Toggle navigation</span>
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navcol-2">
+        <div className="collapse navbar-collapse navbar-collapse" id="navcol-2">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/" style={{ color: "#ffffff" }}>
-                Home
+              <Link className={styles.button} to="/workouts" role="button">
+                Workouts
               </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#" style={{ color: "#ffffff" }}>
-                Workouts
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#" style={{ color: "#ffffff" }}>
+              <Link className={styles.button} to="/login" role="button">
                 Plans
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#" style={{ color: "#ffffff" }}>
+              <Link className={styles.button} to="/login" role="button">
                 Membership
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#" style={{ color: "#ffffff" }}>
+              <Link className={styles.button} to="/login" role="button">
                 Progress
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#" style={{ color: "#ffffff" }}>
-                Comunity
-              </a>
+              <Link className={styles.button} to="/login" role="button">
+                Community
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#" style={{ color: "#ffffff" }}>
+              <Link className={styles.button} to="/login" role="button">
                 About
-              </a>
+              </Link>
             </li>
           </ul>
           {!isAuthenticated ? (
             <>
-              <Link
-                className="btn btn-primary ms-md-2"
-                to="/login"
-                role="button"
-                style={{
-                  paddingLeft: "7px",
-                  paddingRight: "7px",
-                  marginRight: "0px",
-                  background: "rgb(13, 110, 253)",
-                }}
-              >
+              <Link className={styles.button} to="/login" role="button">
                 LogIn
               </Link>
-              <Link
-                className="btn btn-primary ms-md-2"
-                to="/register"
-                role="button"
-                style={{
-                  paddingLeft: "7px",
-                  marginRight: "1px",
-                  paddingRight: "7px",
-                  background: "rgb(13,110,253)",
-                }}
-              >
+              <Link className={styles.button} to="/register" role="button">
                 SignUp
               </Link>
             </>
           ) : (
-            <button
-              className="btn btn-primary ms-md-2"
-              style={{ background: "rgb(13, 110, 253)" }}
-              onClick={handleOnClick}
-            >
+            <Link className={styles.button} to="/" onClick={handleOnClick}>
               Logout
-            </button>
+            </Link>
           )}
         </div>
       </div>

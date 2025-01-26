@@ -53,7 +53,7 @@ const Register: React.FC = () => {
     <div
       style={{
         backgroundImage:
-          'linear-gradient(rgba(0, 0, 16, 0.92), rgba(0, 0, 16, 0.58)), url("src/assets/img/pexels-photo-669576.jpeg")',
+          'linear-gradient(rgba(0, 0, 16, 0.92), rgba(0, 0, 16, 0.58)), url("img/pexels-photo-669576.jpeg")',
         backgroundSize: "cover",
         backgroundPosition: "center",
         minHeight: "100vh",
@@ -131,6 +131,7 @@ const Register: React.FC = () => {
                   >
                     <div className="mb-3">
                       <input
+                        required
                         className="form-control"
                         type="text"
                         name="firstName"
@@ -141,6 +142,7 @@ const Register: React.FC = () => {
                     </div>
                     <div className="mb-3">
                       <input
+                        required
                         className="form-control"
                         type="text"
                         name="lastName"
@@ -151,6 +153,7 @@ const Register: React.FC = () => {
                     </div>
                     <div className="mb-3">
                       <input
+                        required
                         className="form-control"
                         type="email"
                         name="email"
@@ -161,6 +164,7 @@ const Register: React.FC = () => {
                     </div>
                     <div className="mb-3">
                       <input
+                        required
                         className="form-control"
                         type="password"
                         name="password"
@@ -171,6 +175,7 @@ const Register: React.FC = () => {
                     </div>
                     <div className="mb-3">
                       <input
+                        required
                         className="form-control"
                         type="password"
                         name="confirmPassword"
@@ -181,6 +186,7 @@ const Register: React.FC = () => {
                     </div>
                     <div className="mb-3">
                       <input
+                        required
                         className="form-control"
                         type="text"
                         name="weight"
@@ -191,6 +197,7 @@ const Register: React.FC = () => {
                     </div>
                     <div className="mb-3">
                       <input
+                        required
                         className="form-control"
                         type="text"
                         name="height"
@@ -201,10 +208,11 @@ const Register: React.FC = () => {
                     </div>
                     <div className="mb-3">
                       <input
+                        required
                         className="form-control"
-                        type="text"
+                        type="date"
                         name="dateOfBirth"
-                        placeholder="Date of Birth (YYYY-MM-DD)"
+                        placeholder="Date of Birth"
                         value={dateOfBirth}
                         onChange={(e) => setDateOfBirth(e.target.value)}
                         onFocus={(e) => (e.target.type = "date")}

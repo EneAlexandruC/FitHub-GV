@@ -24,7 +24,7 @@ export const login = createAsyncThunk(
       const response = await loginAPI(credentials);
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data.message);
     }
   }
 );
@@ -49,7 +49,7 @@ const authSlice = createSlice({
       })
       .addCase(login.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
-        state.error = action.payload.message;
+        state.error = action.payload;
       });
   },
 });

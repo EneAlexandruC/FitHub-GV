@@ -29,7 +29,7 @@ const Login: React.FC = () => {
     <div
       style={{
         backgroundImage:
-          'linear-gradient(rgba(0, 0, 16, 0.92), rgba(0, 0, 16, 0.58)), url("src/assets/img/pexels-photo-669576.jpeg")',
+          'linear-gradient(rgba(0, 0, 16, 0.92), rgba(0, 0, 16, 0.58)), url("img/pexels-photo-669576.jpeg")',
         backgroundSize: "cover",
         backgroundPosition: "center",
         minHeight: "100vh",

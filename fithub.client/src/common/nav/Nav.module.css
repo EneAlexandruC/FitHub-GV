@@ -1,10 +1,18 @@
 .navbar {
     background-color: #333;
+  display: flex;
+  justify-content: space-between; /* Push left and right items apart */
+  align-items: center; /* Vertically center items */
+  padding: 0 20px; /* Optional: Add padding for spacing */
     overflow: hidden;
+  flex-wrap: wrap; /* Make the navbar responsive */
+  position: sticky; /* Make the navbar sticky */
+  top: 0; /* Stick to the top of the page */
+  z-index: 1000; /* Ensure it stays above other content */
 }
 
 .navbar a {
-    float: left;
+  float: none; /* Remove float to work with flexbox */
     display: block;
     color: #f2f2f2;
     text-align: center;
@@ -13,12 +21,31 @@
     font-size: 17px;
 }
 
-.navbar a:hover {
-    background-color: #ddd;
-    color: black;
+.navbar-collapse {
+  display: flex;
+  justify-content: flex-end; /* Align items to the right */
+  align-items: center; /* Vertically center items */
+  gap: 10px; /* Optional: Add spacing between items */
 }
 
-.navbar a.active {
-    background-color: #4CAF50;
-    color: white;
+.navbar-brand {
+  margin-right: auto; /* Push brand link to the far left */
+}
+
+.button {
+  display: inline-block;
+  padding: 0.5em 1em;
+  font-size: 1.2em;
+  border-radius: 25px; /* Rounded corners */
+  background: transparent; /* Transparent background */
+  color: rgb(255, 255, 255); /* Black text color */
+  text-align: center;
+  text-decoration: none; /* Remove underline */
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s; /* Smooth transition */
+}
+
+.button:hover {
+  background: rgba(32, 32, 32, 0.92); /* Black background on hover */
+  color: rgb(255, 255, 255); /* White text color on hover */
 }

@@ -27,17 +27,35 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
                 entity.ToTable("Workout");
                 entity.HasKey(c => c.ID);
 
+                entity.Property(c => c.Name)
+                     .IsRequired()
+                     .HasMaxLength(1000);
+
                 entity.Property(c => c.Description)
                     .IsRequired()
-                    .HasMaxLength(1000);
-                
-                entity.Property(c => c.Notes)
+                    .HasMaxLength(3000);
+
+                entity.Property(c => c.Type)
                     .IsRequired()
-                    .HasMaxLength(1000);
-                
-                entity.Property(c => c.Notes)
+                    .HasConversion<int>();
+
+                entity.Property(c => c.Difficulty)
                     .IsRequired()
-                    .HasMaxLength(1000);
+                    .HasConversion<int>();
+
+                entity.Property(c => c.Image)
+                    .IsRequired()
+                    .HasMaxLength(3000);
+
+                entity.Property(c => c.Duration)
+                    .IsRequired()
+                    .HasMaxLength(3000);
+
+                entity.Property(c => c.CaloriesBurned)
+                    .IsRequired()
+                    .HasMaxLength(10);
+                
+                
             });
 
             // Exercise

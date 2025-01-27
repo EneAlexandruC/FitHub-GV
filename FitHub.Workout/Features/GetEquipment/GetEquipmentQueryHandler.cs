@@ -1,4 +1,4 @@
-﻿using FitHub.ModuleIntegration.Workout.Equipment;
+﻿using FitHub.ModuleIntegration.WorkoutModule.Equipment;
 using FitHub.WorkoutManagement.Domain.EquipmentDomain;
 using FitHub.WorkoutManagement.Features.Shared.EquipmentShared;
 

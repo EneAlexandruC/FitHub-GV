@@ -1,4 +1,4 @@
-﻿using FitHub.ModuleIntegration.Workout.Equipment;
+﻿using FitHub.ModuleIntegration.WorkoutModule.Equipment;
 using FitHub.WorkoutManagement.Features.GetEquipment;
 
 namespace FitHub.WorkoutManagement.Infrastructure

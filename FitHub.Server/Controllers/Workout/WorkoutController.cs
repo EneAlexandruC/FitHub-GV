@@ -1,5 +1,7 @@
-﻿using FitHub.AccountManagement.Infrastructure;
+﻿using Azure;
+using FitHub.AccountManagement.Infrastructure;
 using FitHub.ModuleIntegration.AccountManagement.RegularUser;
+using FitHub.ModuleIntegration.Workout.Exercise;
 using FitHub.ModuleIntegration.WorkoutModule.Workout;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,17 +14,25 @@ namespace FitHub.Server.Controllers.Workout
     public class WorkoutController : ControllerBase
     {
         private readonly IWorkoutService workoutService;
+        private readonly IExerciseService exerciseService;
 
-        public WorkoutController(IWorkoutService workoutService)
+        public WorkoutController(IWorkoutService workoutService, IExerciseService exerciseService)
         {
             this.workoutService = workoutService;
+            this.exerciseService = exerciseService;
         }
 
         [HttpGet("get-workout-by-id")]
         public async Task<WorkoutGetDTO> GetWorkoutById([FromQuery] int id)
         {
-            return await workoutService.GetWorkoutById(id);
+            var response = await workoutService.GetWorkoutById(id);
+            var workoutExercises = await exerciseService.GetExercisesForWorkout(id);
+
+            response.Exercises = workoutExercises;
+
+            return response;
         }
+
 
         [HttpGet("get-all-workouts")]
         public async Task<IEnumerable<WorkoutGetDTO>> GetAllWorkouts()

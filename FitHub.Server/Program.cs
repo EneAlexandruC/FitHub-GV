@@ -25,6 +25,7 @@ using FitHub.WorkoutManagement.Features.GetWorkout;
 using FitHub.ModuleIntegration.WorkoutModule.Workout;
 using FitHub.WorkoutManagement.Domain.WorkoutDomain;
 using FitHub.WorkoutManagement.Features.GetAllWorkouts;
+using FitHub.WorkoutManagement.Features.GetExercisesForWorkout;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +48,7 @@ builder.Services.AddLogging();
 // exercise services
 builder.Services.AddScoped<AddExerciseCommandHandler>();
 builder.Services.AddScoped<GetExerciseQueryHandler>();
+builder.Services.AddScoped<GetExercisesForWorkoutQueryHandler>();
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
 builder.Services.AddScoped<IExerciseCommandRepository, ExerciseCommandRepository>();
 builder.Services.AddScoped<IExerciseQueryRepository, ExerciseQueryRepository>();

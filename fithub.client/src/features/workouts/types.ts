@@ -1,18 +1,21 @@
 export interface Exercise {
   id: string;
   name: string;
-  sets: number;
-  reps: number;
   description: string;
+  category: string;
+  muscles: string;
+  equipment: string;
+  difficulty: number;
 }
 
 export interface Workout {
-  id: string;
-
-  title: string;
-  duration: "short" | "medium" | "long";
-  equipment: "bodyweight" | "dumbbells" | "machines";
-  exercises: Exercise[];
+  id: number;
+  name: string;
   description: string;
-  imageUrl: string;
+  type: string;
+  difficulty: string;
+  image: string;
+  duration: string;
+  caloriesBurned: string;
+  exercises: Exercise[];
 }

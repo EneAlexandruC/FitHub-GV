@@ -7,7 +7,6 @@ import Nav from "./common/nav/Nav";
 import Footer from "./common/footer/Footer";
 import WorkoutsList from "./features/workouts/WorkoutsList";
 import WorkoutDetail from "./features/workouts/WorkoutDetail";
- 
 
 const App: React.FC = () => {
   return (

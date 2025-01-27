@@ -1,12 +1,15 @@
 ﻿using FitHub.ModuleIntegration.Workout.Exercise;
 using FitHub.WorkoutManagement.Features.AddExecrise;
 using FitHub.WorkoutManagement.Features.GetExercise;
+using FitHub.WorkoutManagement.Features.GetExercisesForWorkout;
 using FitHub.WorkoutManagement.Features.Shared;
+using Microsoft.IdentityModel.Protocols;
 
 namespace FitHub.WorkoutManagement.Infrastructure
 {
     public class ExerciseService(AddExerciseCommandHandler addExerciseCommandHandler, 
-                                 GetExerciseQueryHandler getExerciseQueryHandler) : IExerciseService
+                                 GetExerciseQueryHandler getExerciseQueryHandler,
+                                 GetExercisesForWorkoutQueryHandler getExercisesForWorkoutQueryHandler) : IExerciseService
     {
         public async Task<ExerciseGetDTO?> GetExerciseById(int ID)
         {
@@ -16,6 +19,19 @@ namespace FitHub.WorkoutManagement.Infrastructure
             if (result == null)
             {
                 throw new Exception("Exercise not found");
+            }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<ExerciseGetDTO?>> GetExercisesForWorkout(int ID)
+        {
+            var query = new GetExercisesForWorkoutQuery { ID = ID };
+            var result = await getExercisesForWorkoutQueryHandler.Handle(query);
+
+            if (result == null)
+            {
+                throw new Exception("No exercises found for this workout");
             }
 
             return result;

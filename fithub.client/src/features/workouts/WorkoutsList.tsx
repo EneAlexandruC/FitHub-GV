@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { RootState } from "../../app/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../app/store";
 import WorkoutCard from "./WorkoutCard";
+import { fetchWorkouts } from "./workoutsSlice";
 
-const WorkoutsList: React.FC = () => {
-  const workouts = useSelector((state: RootState) => state.workouts.workouts);
+const WorkoutsList = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { workouts, loading, error } = useSelector(
+    (state: RootState) => state.workouts
+  );
 
+  useEffect(() => {
+    dispatch(fetchWorkouts());
+  }, [dispatch]);
+
+  if (loading) return <p>Loading workouts...</p>;
+  if (error) return <p>Error: {error}</p>;
   return (
     <Container className="py-5">
       <h1 className="mb-4">Available Workouts</h1>

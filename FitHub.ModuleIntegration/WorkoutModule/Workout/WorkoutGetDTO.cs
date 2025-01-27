@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FitHub.ModuleIntegration.Workout.Exercise;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,7 @@ namespace FitHub.ModuleIntegration.WorkoutModule.Workout
         public string Image { get; set; } = string.Empty;
         public string Duration { get; set; } = string.Empty;
         public string CaloriesBurned { get; set; } = string.Empty;
+
+        public IEnumerable<ExerciseGetDTO> Exercises { get; set; } = new List<ExerciseGetDTO>();
     }
 }

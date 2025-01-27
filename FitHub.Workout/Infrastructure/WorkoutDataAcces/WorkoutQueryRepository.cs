@@ -1,4 +1,5 @@
-﻿using FitHub.WorkoutManagement.Domain.WorkoutDomain;
+﻿using FitHub.WorkoutManagement.Domain.ExerciseDomain;
+using FitHub.WorkoutManagement.Domain.WorkoutDomain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

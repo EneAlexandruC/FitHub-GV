@@ -4,16 +4,24 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FitHub.WorkoutManagement.Infrastructure.ExerciseDataAcces
 {
-    public class ExerciseQueryRepository(WorkoutDbContext workoutDbContext) : IExerciseQueryRepository
+    public class ExerciseQueryRepository(WorkoutDbContext dbContext) : IExerciseQueryRepository
     {
         public async Task<Exercise?> GetExerciseById(int ID)
         {
-            return await workoutDbContext.Exercises.FirstOrDefaultAsync(x => x.ID == ID);
+            return await dbContext.Exercises.FirstOrDefaultAsync(x => x.ID == ID);
+        }
+
+        public async Task<IEnumerable<Exercise>> GetExercisesForWorkout(int id)
+        {
+            return await dbContext.WorkoutExercises
+                .Where(we => we.WorkoutID == id)
+                .Select(we => we.Exercise)
+                .ToListAsync();
         }
 
         public async Task SaveChanges()
         {
-            await workoutDbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync();
         }
     }
 }

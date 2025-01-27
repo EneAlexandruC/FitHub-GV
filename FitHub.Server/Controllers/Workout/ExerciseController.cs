@@ -1,4 +1,5 @@
 ﻿using FitHub.ModuleIntegration.Workout.Exercise;
+using FitHub.ModuleIntegration.WorkoutModule.Workout;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitHub.Server.Controllers.Workout
@@ -12,6 +13,7 @@ namespace FitHub.Server.Controllers.Workout
         public ExerciseController(IExerciseService exerciseService)
         {
             this.exerciseService = exerciseService;
+
         }
 
         [HttpPost("add-exercise")]
@@ -25,6 +27,13 @@ namespace FitHub.Server.Controllers.Workout
             var addedExercise = await exerciseService.AddExercise(exerciseAddDTO);
 
             return addedExercise;
+        }
+
+        [HttpGet("get-exercises-for-workout")]
+        public async Task<IEnumerable<ExerciseGetDTO>> GetExercisesForWorkout([FromQuery] int ID)
+        {
+            var exercises = await exerciseService.GetExercisesForWorkout(ID);
+            return exercises;
         }
 
         [HttpGet("get-exercise")]

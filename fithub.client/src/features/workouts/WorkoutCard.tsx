@@ -19,14 +19,14 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout }) => {
     >
       <Card.Img
         variant="top"
-        src={workout.imageUrl}
+        src={workout.image}
         style={{ height: "200px", objectFit: "cover" }}
       />
       <Card.Body className="d-flex flex-column">
-        <Card.Title>{workout.title}</Card.Title>
+        <Card.Title>{workout.name}</Card.Title>
         <div className="mt-2">
           <span className="badge bg-primary me-2">{workout.duration}</span>
-          <span className="badge bg-secondary">{workout.equipment}</span>
+          <span className="badge bg-secondary">{workout.caloriesBurned}</span>
         </div>
       </Card.Body>
     </Card>

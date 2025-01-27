@@ -2,6 +2,7 @@
 using FitHub.WorkoutManagement.Domain.ExerciseDomain;
 using FitHub.WorkoutManagement.Features.Shared;
 
+
 namespace FitHub.WorkoutManagement.Features.GetExercise
 {
     public class GetExerciseQueryHandler(IExerciseQueryRepository exerciseQueryRepository)

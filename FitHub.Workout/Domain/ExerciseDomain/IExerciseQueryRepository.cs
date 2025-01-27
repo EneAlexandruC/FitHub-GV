@@ -4,6 +4,8 @@
     {
         Task<Exercise> GetExerciseById(int ID);
 
+        Task<IEnumerable<Exercise>> GetExercisesForWorkout(int id);
+
         Task SaveChanges();
     }
 }

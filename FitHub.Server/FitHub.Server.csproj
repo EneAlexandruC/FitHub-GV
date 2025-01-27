@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FitHub.AccountManagement\FitHub.AccountManagement.csproj" />
+    <ProjectReference Include="..\FitHub.Admin\FitHub.AdminManagement.csproj" />
     <ProjectReference Include="..\fithub.client\fithub.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>

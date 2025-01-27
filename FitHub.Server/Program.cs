@@ -25,9 +25,9 @@ using FitHub.WorkoutManagement.Features.GetWorkout;
 using FitHub.ModuleIntegration.WorkoutModule.Workout;
 using FitHub.WorkoutManagement.Domain.WorkoutDomain;
 using FitHub.WorkoutManagement.Features.GetEquipment;
-using FitHub.ModuleIntegration.Workout.Equipment;
 using FitHub.WorkoutManagement.Infrastructure.EquipmentDataAcces;
 using FitHub.WorkoutManagement.Domain.EquipmentDomain;
+using FitHub.ModuleIntegration.WorkoutModule.Equipment;
 
 var builder = WebApplication.CreateBuilder(args);
 

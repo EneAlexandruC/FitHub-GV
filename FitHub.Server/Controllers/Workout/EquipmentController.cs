@@ -1,4 +1,4 @@
-﻿using FitHub.ModuleIntegration.Workout.Equipment;
+﻿using FitHub.ModuleIntegration.WorkoutModule.Equipment;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitHub.Server.Controllers.Workout

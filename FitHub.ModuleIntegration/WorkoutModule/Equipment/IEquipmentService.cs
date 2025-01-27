@@ -1,4 +1,4 @@
-﻿namespace FitHub.ModuleIntegration.Workout.Equipment
+﻿namespace FitHub.ModuleIntegration.WorkoutModule.Equipment
 {
     public interface IEquipmentService
     {

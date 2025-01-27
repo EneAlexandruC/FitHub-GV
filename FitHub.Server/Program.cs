@@ -28,6 +28,7 @@ using FitHub.WorkoutManagement.Features.GetEquipment;
 using FitHub.WorkoutManagement.Infrastructure.EquipmentDataAcces;
 using FitHub.WorkoutManagement.Domain.EquipmentDomain;
 using FitHub.ModuleIntegration.WorkoutModule.Equipment;
+using FitHub.WorkoutManagement.Features.GetAllWorkouts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,6 +64,7 @@ builder.Services.AddScoped<IExerciseQueryRepository, ExerciseQueryRepository>();
 
 // workout services
 builder.Services.AddScoped<GetWorkoutQueryHandler>();
+builder.Services.AddScoped<GetAllWorkoutsQueryHandler>();
 builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 builder.Services.AddScoped<IWorkoutQueryRepository, WorkoutQueryRepository>();
 

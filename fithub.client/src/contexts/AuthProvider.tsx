@@ -1,21 +1,11 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from './auth';
+import { API_BASE_URL } from '../config/api';
 
 interface User {
   email: string;
-  // Add other user properties as needed
 }
-
-interface AuthContextType {
-  user: User | null;
-  isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-import { API_BASE_URL } from '../config/api';
 
 const checkSession = async () => {
   try {
@@ -41,10 +31,6 @@ const checkSession = async () => {
 };
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // For testing purposes - uncomment this line to clear auth state on each app start
-  // sessionStorage.removeItem('isLoggedIn'); sessionStorage.removeItem('userEmail');
-  
-  // Check if there's a logged in user in sessionStorage
   const userEmail = sessionStorage.getItem('userEmail');
   const [user, setUser] = useState<User | null>(userEmail ? { email: userEmail } : null);
   const [isAuthenticated, setIsAuthenticated] = useState(sessionStorage.getItem('isLoggedIn') === 'true');
@@ -101,7 +87,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       if (data.message === 'Login successful') {
-        // Set login state in session storage
         sessionStorage.setItem('isLoggedIn', 'true');
         sessionStorage.setItem('userEmail', email);
         
@@ -131,21 +116,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
 
       console.log('Logout response status:', response.status);
-      
-      // Always clear session storage regardless of response
-      sessionStorage.removeItem('isLoggedIn');
-      sessionStorage.removeItem('userEmail');
-      
-      setUser(null);
-      setIsAuthenticated(false);
-      navigate('/login');
     } catch (error) {
       console.error('Logout error:', error);
-      
-      // Clear session storage even on error
+    } finally {
+      // Întotdeauna curățăm datele locale
       sessionStorage.removeItem('isLoggedIn');
       sessionStorage.removeItem('userEmail');
-      
       setUser(null);
       setIsAuthenticated(false);
       navigate('/login');
@@ -153,7 +129,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   if (isLoading) {
-    return null; // or a loading spinner
+    return null;
   }
 
   return (
@@ -162,11 +138,3 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     </AuthContext.Provider>
   );
 };
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-}; 

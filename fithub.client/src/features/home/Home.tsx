@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Home: React.FC = () => {
   const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
+    (state: RootState) => state.auth?.isAuthenticated ?? false
   );
 
   const rows = [

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, ChangeEvent } from 'react';
 import {
   Box,
   Container,
@@ -10,7 +10,6 @@ import {
   CardContent as MuiCardContent,
   LinearProgress,
   Avatar,
-  Divider,
   Dialog,
   DialogActions,
   DialogContent,
@@ -24,16 +23,19 @@ import {
   Select,
   MenuItem,
   IconButton,
-  SelectChangeEvent
+  SelectChangeEvent,
+  Tooltip
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import StarIcon from '@mui/icons-material/Star';
 import PersonIcon from '@mui/icons-material/Person';
 import AddIcon from '@mui/icons-material/Add';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { useAuth } from '../../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
 import { workouts as availableWorkouts } from '../../data/workouts';
+import { UserStats } from './types/UserStats';
+import StatsOverview from './components/StatsOverview';
 
 const PageContainer = styled(Box)({
   minHeight: '100vh',
@@ -53,7 +55,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   backdropFilter: 'blur(10px)',
 }));
 
-const ProgressCard = styled(Card)(({ theme }) => ({
+const ProgressCard = styled(Card)(() => ({
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
@@ -63,7 +65,7 @@ const ProgressCard = styled(Card)(({ theme }) => ({
   },
 }));
 
-const FeatureCard = styled(Card)(({ theme }) => ({
+const FeatureCard = styled(Card)(() => ({
   height: '200px', // Fixed height for feature cards
   display: 'flex',
   flexDirection: 'column',
@@ -73,7 +75,7 @@ const FeatureCard = styled(Card)(({ theme }) => ({
   },
 }));
 
-const StyledCardContent = styled(MuiCardContent)(({ theme }) => ({
+const StyledCardContent = styled(MuiCardContent)(() => ({
   flexGrow: 1,
   display: 'flex',
   flexDirection: 'column',
@@ -92,13 +94,40 @@ interface UserProfileData {
   isPremium: boolean;
   weeklyProgress: WorkoutProgress[];
   id?: string;
+  profilePicture?: string;
+  stats?: UserStats;
 }
 
 const UserProfile: React.FC = () => {
   const { user } = useAuth();
-  const navigate = useNavigate();
   const [profileData, setProfileData] = useState<UserProfileData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [profilePicture, setProfilePicture] = useState<string | null>(null);
+
+  // Încărcăm poza de profil din localStorage la pornirea componentei
+  useEffect(() => {
+    const savedProfilePicture = localStorage.getItem(`profilePicture_${user?.email}`);
+    if (savedProfilePicture) {
+      setProfilePicture(savedProfilePicture);
+    }
+  }, [user?.email]);
+
+  // Funcție pentru încărcarea pozei de profil
+  const handleProfilePictureChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setProfilePicture(base64String);
+        // Salvăm poza în localStorage
+        if (user?.email) {
+          localStorage.setItem(`profilePicture_${user.email}`, base64String);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   const [error, setError] = useState<string | null>(null);
   const [upgradeDialogOpen, setUpgradeDialogOpen] = useState(false);
   const [snackbar, setSnackbar] = useState<{
@@ -158,7 +187,7 @@ const UserProfile: React.FC = () => {
               'Content-Type': 'application/json',
             },
             mode: 'cors'
-          }).catch(err => {
+          }).catch(() => {
             console.log('Premium check endpoint not available, falling back to workaround');
             return null; // Returnăm null în loc de { ok: false }
           });
@@ -179,26 +208,81 @@ const UserProfile: React.FC = () => {
       }
       
       // Adăugăm datele de progres săptămânal dacă nu sunt disponibile
+      // Calculăm statisticile bazate pe progresul săptămânal
+      const weeklyProgress = userData.weeklyProgress || [
+        {
+          date: new Date().toISOString(),
+          completed: 3,
+          total: 5
+        },
+        {
+          date: new Date(Date.now() - 86400000).toISOString(), // yesterday
+          completed: 2,
+          total: 4
+        },
+        {
+          date: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
+          completed: 4,
+          total: 4
+        }
+      ];
+
+      // Calculăm statisticile
+      const calculateStats = (progress: WorkoutProgress[]): UserStats => {
+        const totalWorkouts = progress.reduce((sum, p) => sum + p.completed, 0);
+        const totalPlanned = progress.reduce((sum, p) => sum + p.total, 0);
+        
+        // Calculăm streak-ul
+        let currentStreak = 0;
+        let bestStreak = 0;
+        let tempStreak = 0;
+        
+        const sortedDates = [...progress]
+          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        
+        for (let i = 0; i < sortedDates.length; i++) {
+          const current = new Date(sortedDates[i].date);
+          const prev = i > 0 ? new Date(sortedDates[i-1].date) : null;
+          
+          if (sortedDates[i].completed > 0) {
+            if (!prev || Math.abs(current.getTime() - prev.getTime()) <= 86400000) {
+              tempStreak++;
+              currentStreak = Math.max(currentStreak, tempStreak);
+            } else {
+              tempStreak = 1;
+            }
+            bestStreak = Math.max(bestStreak, tempStreak);
+          } else {
+            tempStreak = 0;
+          }
+        }
+
+        // Calculăm media pe săptămână
+        const weeksSpan = Math.ceil(progress.length / 7);
+        const averageWorkoutsPerWeek = totalWorkouts / weeksSpan;
+
+        // Calculăm antrenamentele din luna curentă
+        const now = new Date();
+        const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const totalWorkoutsThisMonth = progress
+          .filter(p => new Date(p.date) >= firstDayOfMonth)
+          .reduce((sum, p) => sum + p.completed, 0);
+
+        return {
+          totalWorkouts,
+          currentStreak,
+          bestStreak,
+          completionRate: Math.round((totalWorkouts / totalPlanned) * 100),
+          totalWorkoutsThisMonth,
+          averageWorkoutsPerWeek: Math.round(averageWorkoutsPerWeek * 10) / 10
+        };
+      };
+
       const profileWithProgress = {
         ...userData,
-        isPremium: isPremiumUser, // Folosim statutul premium detectat
-        weeklyProgress: userData.weeklyProgress || [
-          {
-            date: new Date().toISOString(),
-            completed: 3,
-            total: 5
-          },
-          {
-            date: new Date(Date.now() - 86400000).toISOString(), // yesterday
-            completed: 2,
-            total: 4
-          },
-          {
-            date: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
-            completed: 4,
-            total: 4
-          }
-        ]
+        isPremium: isPremiumUser,
+        weeklyProgress,
+        stats: calculateStats(weeklyProgress)
       };
       
       setProfileData(profileWithProgress);
@@ -287,7 +371,7 @@ const UserProfile: React.FC = () => {
           
           if (response.ok) {
             // Răspunsul a fost de succes, actualizăm starea
-            const updatedData = await response.json();
+            await response.json();
             
             setProfileData({
               ...profileData,
@@ -445,11 +529,55 @@ const UserProfile: React.FC = () => {
       <Container maxWidth="lg" sx={{ mt: 4 }}>
         <StyledPaper>
           <Grid container spacing={3}>
+            {profileData?.stats && (
+              <Grid item xs={12}>
+                <StatsOverview stats={profileData.stats} />
+              </Grid>
+            )}
             <Grid item xs={12} md={4}>
               <Box display="flex" flexDirection="column" alignItems="center">
-                <Avatar sx={{ width: 100, height: 100, mb: 2 }}>
-                  <PersonIcon sx={{ fontSize: 60 }} />
-                </Avatar>
+                <Box position="relative">
+                  <Avatar 
+                    sx={{ 
+                      width: 100, 
+                      height: 100, 
+                      mb: 2,
+                      border: '2px solid #fff',
+                      boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                    }}
+                    src={profilePicture || undefined}
+                  >
+                    <PersonIcon sx={{ fontSize: 60 }} />
+                  </Avatar>
+                  <Tooltip title="Schimbă poza de profil">
+                    <label htmlFor="profile-picture-input">
+                      <input
+                        type="file"
+                        id="profile-picture-input"
+                        accept="image/*"
+                        style={{ display: 'none' }}
+                        onChange={handleProfilePictureChange}
+                      />
+                      <IconButton
+                        sx={{
+                          position: 'absolute',
+                          bottom: 16,
+                          right: -10,
+                          backgroundColor: 'primary.main',
+                          color: 'white',
+                          '&:hover': {
+                            backgroundColor: 'primary.dark',
+                          },
+                          width: 32,
+                          height: 32,
+                        }}
+                        component="span"
+                      >
+                        <AddAPhotoIcon sx={{ fontSize: 18 }} />
+                      </IconButton>
+                    </label>
+                  </Tooltip>
+                </Box>
                 <Typography variant="h5" gutterBottom>
                   {user?.email}
                 </Typography>

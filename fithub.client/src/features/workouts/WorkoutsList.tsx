@@ -5,7 +5,7 @@ import { RootState } from "../../app/store";
 import WorkoutCard from "./WorkoutCard";
 
 const WorkoutsList: React.FC = () => {
-  const workouts = useSelector((state: RootState) => state.workouts.workouts);
+  const workouts = useSelector((state: RootState) => state.workouts?.workouts ?? []);
 
   return (
     <Container className="py-5">

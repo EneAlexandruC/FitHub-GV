@@ -1,4 +1,4 @@
-﻿using FitHub.ModuleIntegration.AccountManagement.PremiumUser;
+using FitHub.ModuleIntegration.AccountManagement.PremiumUser;
 using FitHub.ModuleIntegration.AccountManagement.RegularUser;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
@@ -27,16 +27,39 @@ namespace FitHub.Server.Controllers.AccountManagement
 
 
         [HttpPost("add-regularuser")]
-        public async Task<RegularUserGetDTO> Post([FromBody] RegularUserAddDTO userAddDTO)
+        public async Task<IActionResult> Post([FromBody] RegularUserAddDTO userAddDTO)
         {
             if (userAddDTO == null)
+                return BadRequest(new { message = "User data is required" });
+
+            try
             {
-                throw new ArgumentNullException(nameof(userAddDTO));
+                var addedUser = await regularUserService.AddUser(userAddDTO);
+                return Ok(addedUser);
             }
+            catch (Exception ex)
+            {
+                // Verificăm recursiv toate InnerException pentru "Duplicate entry"
+                Exception? current = ex;
+                while (current != null)
+                {
+                    if (current.Message.Contains("Duplicate entry"))
+                    {
+                        return Conflict(new { message = "Email already exists. Please use another email address." });
+                    }
+                    current = current.InnerException;
+                }
+                // Orice altă eroare
+                return StatusCode(500, new { message = "Internal server error. Please try again later." });
+            }
+        }
 
-            var addedUser = await regularUserService.AddUser(userAddDTO);
-
-            return addedUser;
+        [HttpGet("check-session")]
+        public IActionResult CheckSession()
+        {
+            bool isAuthenticated = User?.Identity?.IsAuthenticated ?? false;
+            string? email = isAuthenticated ? User.Identity.Name : null;
+            return Ok(new { isAuthenticated, email });
         }
 
         [HttpPost("add-premiumuser")]

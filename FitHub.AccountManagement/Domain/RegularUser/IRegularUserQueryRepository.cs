@@ -3,6 +3,8 @@
     public interface IRegularUserQueryRepository
     {
         Task<RegularUser> GetUserByEmail(string email);
+        
+        Task<RegularUser> GetUserById(int userId);
 
         Task SaveChanges();
     }

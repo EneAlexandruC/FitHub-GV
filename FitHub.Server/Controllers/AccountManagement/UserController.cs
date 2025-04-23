@@ -44,9 +44,28 @@ namespace FitHub.Server.Controllers.AccountManagement
         {
             ArgumentNullException.ThrowIfNull(userAddDTO);
 
-            var addedUser = await premiumUserService.AddPremiumUser(userAddDTO);
+            try {
+                // Obținem utilizatorul normal
+                var regularUser = await regularUserService.GetRegularUserById(userAddDTO.RegularUserID);
+                if (regularUser == null)
+                {
+                    throw new InvalidOperationException($"No user found with ID {userAddDTO.RegularUserID}");
+                }
 
-            return addedUser;
+                // Adăugăm utilizatorul la tabela PremiumUser
+                var addedUser = await premiumUserService.AddPremiumUser(userAddDTO);
+
+                // Actualizăm și tipul utilizatorului în tabela RegularUser la Premium (Type = 1)
+                await regularUserService.UpdateUserType(userAddDTO.RegularUserID, 1);
+
+                return addedUser;
+            }
+            catch (Exception ex)
+            {
+                // Logăm eroarea dar o retrimitem pentru a fi capturată de middleware
+                Console.WriteLine($"Error adding premium user: {ex.Message}");
+                throw;
+            }
         }
 
         [HttpGet("get-user-by-email")]
@@ -92,6 +111,29 @@ namespace FitHub.Server.Controllers.AccountManagement
                 return Ok(new { IsAuthenticated = true, Email = username });
             }
             return Ok(new { IsAuthenticated = false});
+        }
+
+        [HttpGet("check-premium")]
+        public async Task<IActionResult> CheckPremiumStatus([FromQuery] int userId)
+        {
+            try
+            {
+                // Verificăm dacă utilizatorul există
+                var regularUser = await regularUserService.GetRegularUserById(userId);
+                if (regularUser == null)
+                {
+                    return NotFound(new { message = "User not found" });
+                }
+
+                // Verificăm în baza de date dacă există o înregistrare PremiumUser pentru acest utilizator
+                var isPremium = regularUser.Type == 1; // Verificăm din câmpul Type
+                
+                return Ok(new { IsPremium = isPremium });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error checking premium status", error = ex.Message });
+            }
         }
 
     }

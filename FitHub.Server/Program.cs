@@ -29,6 +29,7 @@ using FitHub.WorkoutManagement.Infrastructure.EquipmentDataAcces;
 using FitHub.WorkoutManagement.Domain.EquipmentDomain;
 using FitHub.ModuleIntegration.WorkoutModule.Equipment;
 using FitHub.WorkoutManagement.Features.GetAllWorkouts;
+using FitHub.AccountManagement.Features.UpdateRegularUser;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,10 +39,13 @@ builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
-        builder => builder.WithOrigins("https://localhost:5173" )
-                            .AllowAnyHeader()
-                            .AllowAnyMethod()
-                            .AllowCredentials());
+        builder => builder
+            .WithOrigins("http://localhost:5173", "https://localhost:5173",
+                        "http://localhost:5174", "https://localhost:5174")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .SetIsOriginAllowed(origin => true));
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -72,34 +76,36 @@ builder.Services.AddScoped<IWorkoutQueryRepository, WorkoutQueryRepository>();
 
 // used the same database connection for workout and exercise
 builder.Services.AddDbContext<WorkoutDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
 
 // regular user services
 builder.Services.AddScoped<UserLoginQueryHandler>();
 builder.Services.AddScoped<AddRegularUserCommandHandler>();
 builder.Services.AddScoped<GetRegularUserQueryHandler>();
+builder.Services.AddScoped<UpdateUserTypeCommandHandler>();
 builder.Services.AddScoped<IRegularUserCommandRepository, RegularUserCommandRepository>();
 builder.Services.AddScoped<IRegularUserService, RegularUserService>();
 builder.Services.AddScoped<IRegularUserQueryRepository, RegularUserQueryRepository>();
 builder.Services.AddDbContext<RegularUserDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
 
 // premium user services
 builder.Services.AddScoped<AddPremiumUserCommandHandler>();
 builder.Services.AddScoped<IPremiumUserCommandRepository, PremiumUserCommandRepository>();
 builder.Services.AddScoped<IPremiumUserService, PremiumUserService>();
 builder.Services.AddDbContext<PremiumUserDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
 
 // authentication services
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/https://localhost:5173/login";
+        options.LoginPath = "/login";
         options.LogoutPath = "/logout";
-        options.AccessDeniedPath = "/access-denied";
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-        options.SlidingExpiration = true;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.Cookie.SameSite = SameSiteMode.None;
+        options.Cookie.HttpOnly = true;
+        options.Cookie.Name = "FitHub.Auth";
     });
 
 

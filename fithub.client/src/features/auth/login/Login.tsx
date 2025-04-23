@@ -1,29 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../app/store";
-import { login } from "./LoginSlice";
+import { useAuth } from "../../../contexts/AuthContext";
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-  const { isAuthenticated, loading, error } = useSelector(
-    (state: RootState) => state.auth
-  );
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    dispatch(login({ email, password }));
-  };
-
+  // Set default test values for easier login testing
+  const [email, setEmail] = useState("john@example.com");
+  const [password, setPassword] = useState("password");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { login } = useAuth();
+  
+  // Reset input fields when component mounts
   useEffect(() => {
-    if (!error && isAuthenticated) {
-      navigate("/");
+    setEmail("");
+    setPassword("");
+    setError(null);
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    
+    try {
+      console.log('Login attempt with:', { email, password });
+      await login(email, password);
+      // No need to navigate, as AuthContext's login function will handle it
+    } catch (err: any) {
+      console.error('Login component error:', err);
+      setError(err.message || "Login failed");
+    } finally {
+      setLoading(false);
     }
-  }, [error, isAuthenticated, navigate]);
+  };
 
   return (
     <div
@@ -95,7 +104,7 @@ const Login: React.FC = () => {
                         onChange={(e) => setPassword(e.target.value)}
                       />
                     </div>
-                    <div className="mb-3">
+                    <div>
                       <button
                         className="btn btn-primary d-block w-100"
                         type="submit"
@@ -134,6 +143,5 @@ const Login: React.FC = () => {
     </div>
   );
 };
-
 
 export default Login;

@@ -13,19 +13,36 @@ namespace FitHub.AccountManagement.Features.GetRegularUser
     {
         public async Task<RegularUserGetDTO?> Handle(GetRegularUserQuery query)
         {
-            if (string.IsNullOrEmpty(query.Email))
+            RegularUser? user = null;
+            
+            if (!string.IsNullOrEmpty(query.Email))
             {
-                throw new ArgumentException("An email address must be provided", nameof(query.Email));
+                user = await regularUserQueryRepository.GetUserByEmail(query.Email);
             }
-
-            var user = await regularUserQueryRepository.GetUserByEmail(query.Email);
+            else if (query.UserId.HasValue)
+            {
+                user = await regularUserQueryRepository.GetUserById(query.UserId.Value);
+            }
+            else
+            {
+                throw new ArgumentException("Either Email or UserId must be provided");
+            }
 
             if (user == null)
             {
-                throw new InvalidOperationException($"No user found with email {query.Email}");
+                string errorMessage = !string.IsNullOrEmpty(query.Email) 
+                    ? $"No user found with email {query.Email}"
+                    : $"No user found with ID {query.UserId}";
+                    
+                throw new InvalidOperationException(errorMessage);
             }
 
             return user.ToRegularUserGetDTO();
+        }
+        
+        public async Task<RegularUser?> GetUserDomain(int userId)
+        {
+            return await regularUserQueryRepository.GetUserById(userId);
         }
     }
 }

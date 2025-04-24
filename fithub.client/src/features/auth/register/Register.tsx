@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../app/store";
 import { register, noMatchingPassword } from "./RegisterSlice";
-import { updateStatusLogin } from "../login/LoginSlice";
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -21,7 +20,12 @@ const Register: React.FC = () => {
     (state: RootState) => state.register
   );
 
-  const handleSubmit = (event: React.FormEvent) => {
+  useEffect(() => {
+    // Resetăm starea când componenta este montată
+    dispatch({ type: 'register/resetState' });
+  }, [dispatch]);
+
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (password !== confirmPassword) {
@@ -44,10 +48,10 @@ const Register: React.FC = () => {
 
   useEffect(() => {
     if (success) {
-      navigate("/");
-      dispatch(updateStatusLogin());
+      // Redirectăm către login după înregistrare reușită
+      navigate("/login");
     }
-  }, [success, navigate, dispatch]);
+  }, [success, navigate]);
 
   return (
     <div
@@ -83,6 +87,16 @@ const Register: React.FC = () => {
             <h2>
               <strong>Sign Up</strong>
             </h2>
+            {error && (
+              <div className="alert alert-danger" role="alert">
+                {error}
+              </div>
+            )}
+            {success && (
+              <div className="alert alert-success" role="alert">
+                Registration successful! Redirecting to login...
+              </div>
+            )}
             <p className="w-lg-50" style={{ fontSize: "18px" }}>
               <strong>Start your journey with us!</strong>
             </p>
@@ -223,8 +237,10 @@ const Register: React.FC = () => {
                       <button
                         className="btn btn-primary d-block w-100"
                         type="submit"
+                        style={{ marginTop: "0px" }}
+                        disabled={loading}
                       >
-                        {loading ? "Loading..." : "Submit"}
+                        {loading ? "Creating account..." : "Sign Up"}
                       </button>
                     </div>
                     <div className="mb-3">

@@ -1,4 +1,4 @@
-﻿using FitHub.ModuleIntegration.AccountManagement.PremiumUser;
+using FitHub.ModuleIntegration.AccountManagement.PremiumUser;
 using FitHub.ModuleIntegration.AccountManagement.RegularUser;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
@@ -27,16 +27,39 @@ namespace FitHub.Server.Controllers.AccountManagement
 
 
         [HttpPost("add-regularuser")]
-        public async Task<RegularUserGetDTO> Post([FromBody] RegularUserAddDTO userAddDTO)
+        public async Task<IActionResult> Post([FromBody] RegularUserAddDTO userAddDTO)
         {
             if (userAddDTO == null)
+                return BadRequest(new { message = "User data is required" });
+
+            try
             {
-                throw new ArgumentNullException(nameof(userAddDTO));
+                var addedUser = await regularUserService.AddUser(userAddDTO);
+                return Ok(addedUser);
             }
+            catch (Exception ex)
+            {
+                // Verificăm recursiv toate InnerException pentru "Duplicate entry"
+                Exception? current = ex;
+                while (current != null)
+                {
+                    if (current.Message.Contains("Duplicate entry"))
+                    {
+                        return Conflict(new { message = "Email already exists. Please use another email address." });
+                    }
+                    current = current.InnerException;
+                }
+                // Orice altă eroare
+                return StatusCode(500, new { message = "Internal server error. Please try again later." });
+            }
+        }
 
-            var addedUser = await regularUserService.AddUser(userAddDTO);
-
-            return addedUser;
+        [HttpGet("check-session")]
+        public IActionResult CheckSession()
+        {
+            bool isAuthenticated = User?.Identity?.IsAuthenticated ?? false;
+            string? email = isAuthenticated ? User.Identity.Name : null;
+            return Ok(new { isAuthenticated, email });
         }
 
         [HttpPost("add-premiumuser")]
@@ -44,9 +67,28 @@ namespace FitHub.Server.Controllers.AccountManagement
         {
             ArgumentNullException.ThrowIfNull(userAddDTO);
 
-            var addedUser = await premiumUserService.AddPremiumUser(userAddDTO);
+            try {
+                // Obținem utilizatorul normal
+                var regularUser = await regularUserService.GetRegularUserById(userAddDTO.RegularUserID);
+                if (regularUser == null)
+                {
+                    throw new InvalidOperationException($"No user found with ID {userAddDTO.RegularUserID}");
+                }
 
-            return addedUser;
+                // Adăugăm utilizatorul la tabela PremiumUser
+                var addedUser = await premiumUserService.AddPremiumUser(userAddDTO);
+
+                // Actualizăm și tipul utilizatorului în tabela RegularUser la Premium (Type = 1)
+                await regularUserService.UpdateUserType(userAddDTO.RegularUserID, 1);
+
+                return addedUser;
+            }
+            catch (Exception ex)
+            {
+                // Logăm eroarea dar o retrimitem pentru a fi capturată de middleware
+                Console.WriteLine($"Error adding premium user: {ex.Message}");
+                throw;
+            }
         }
 
         [HttpGet("get-user-by-email")]
@@ -92,6 +134,29 @@ namespace FitHub.Server.Controllers.AccountManagement
                 return Ok(new { IsAuthenticated = true, Email = username });
             }
             return Ok(new { IsAuthenticated = false});
+        }
+
+        [HttpGet("check-premium")]
+        public async Task<IActionResult> CheckPremiumStatus([FromQuery] int userId)
+        {
+            try
+            {
+                // Verificăm dacă utilizatorul există
+                var regularUser = await regularUserService.GetRegularUserById(userId);
+                if (regularUser == null)
+                {
+                    return NotFound(new { message = "User not found" });
+                }
+
+                // Verificăm în baza de date dacă există o înregistrare PremiumUser pentru acest utilizator
+                var isPremium = regularUser.Type == 1; // Verificăm din câmpul Type
+                
+                return Ok(new { IsPremium = isPremium });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error checking premium status", error = ex.Message });
+            }
         }
 
     }

@@ -10,6 +10,11 @@ namespace FitHub.AccountManagement.Infrastructure.RegularUserDataAccess
         {
             return await dbContext.RegularUsers.FirstOrDefaultAsync(x => x.Email == email);
         }
+        
+        public async Task<RegularUser?> GetUserById(int userId)
+        {
+            return await dbContext.RegularUsers.FirstOrDefaultAsync(x => x.ID == userId);
+        }
 
         public async Task SaveChanges()
         {

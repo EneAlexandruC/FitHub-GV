@@ -1,23 +1,14 @@
 import React from "react";
-import { RootState, AppDispatch } from "../../app/store";
-import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./Nav.module.css";
-import { updateStatusLogin } from "../../features/auth/login/LoginSlice";
-import { updateStatusRegister } from "../../features/auth/register/RegisterSlice";
-import { logout } from "./NavSlice";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Nav: React.FC = () => {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
-  );
-  const dispatch = useDispatch<AppDispatch>();
+  const { isAuthenticated, logout } = useAuth();
 
-  const handleOnClick = async () => {
-    dispatch(updateStatusLogin());
-    dispatch(updateStatusRegister());
-    dispatch(logout());
+  const handleLogout = async () => {
+    await logout();
   };
 
   return (
@@ -27,7 +18,7 @@ const Nav: React.FC = () => {
     >
       <div className="container">
         {/* Left-aligned FitHub link */}
-        <a className="navbar-brand d-flex align-items-center" href="#">
+        <Link className="navbar-brand d-flex align-items-center" to="/">
           <span
             className="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon"
             style={{ width: "32px", height: "32px" }}
@@ -62,10 +53,8 @@ const Nav: React.FC = () => {
               ></path>
             </svg>
           </span>
-          <Link className={styles.button} to="/">
-            FitHub
-          </Link>
-        </a>
+          <span className={styles.button}>FitHub</span>
+        </Link>
         {/* Right-aligned navigation links */}
         <button
           data-bs-toggle="collapse"
@@ -83,27 +72,22 @@ const Nav: React.FC = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className={styles.button} to="/login" role="button">
-                Plans
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className={styles.button} to="/login" role="button">
+              <Link className={styles.button} to="/membership" role="button">
                 Membership
               </Link>
             </li>
             <li className="nav-item">
-              <Link className={styles.button} to="/login" role="button">
-                Progress
+              <Link className={styles.button} to="/profile" role="button">
+                Profile
               </Link>
             </li>
             <li className="nav-item">
-              <Link className={styles.button} to="/login" role="button">
+              <Link className={styles.button} to="/community" role="button">
                 Community
               </Link>
             </li>
             <li className="nav-item">
-              <Link className={styles.button} to="/login" role="button">
+              <Link className={styles.button} to="/about" role="button">
                 About
               </Link>
             </li>
@@ -118,7 +102,7 @@ const Nav: React.FC = () => {
               </Link>
             </>
           ) : (
-            <Link className={styles.button} to="/" onClick={handleOnClick}>
+            <Link className={styles.button} to="#" onClick={handleLogout}>
               Logout
             </Link>
           )}

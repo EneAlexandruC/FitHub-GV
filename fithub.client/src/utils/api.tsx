@@ -1,9 +1,11 @@
 import axios from "axios";
 
+const API_BASE_URL = "http://localhost:5012";
+
 export const logoutAPI = async () => {
   try {
     const response = await axios.post(
-      "https://localhost:7204/api/User/logout",
+      `${API_BASE_URL}/api/User/logout`,
       {},
       { withCredentials: true }
     );
@@ -24,7 +26,7 @@ export const loginAPI = async (credentials: {
 }) => {
   try {
     const response = await axios.post(
-      "https://localhost:7204/api/User/login",
+      `${API_BASE_URL}/api/User/login`,
       credentials,
       { withCredentials: true }
     );
@@ -57,7 +59,7 @@ export const registerAPI = async (credentials: {
 }) => {
   try {
     const response = await axios.post(
-      "https://localhost:7204/api/User/add-regularuser",
+      `${API_BASE_URL}/api/User/add-regularuser`,
       credentials
     );
     return response;

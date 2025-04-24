@@ -11,6 +11,14 @@ namespace FitHub.AccountManagement.Infrastructure.UserDataAccess
 
             return entry;
         }
+        
+        public async Task<RegularUser> Update(RegularUser entry)
+        {
+            dbContext.Update(entry);
+            await dbContext.SaveChangesAsync();
+            
+            return entry;
+        }
 
         public async Task SaveChanges()
         {

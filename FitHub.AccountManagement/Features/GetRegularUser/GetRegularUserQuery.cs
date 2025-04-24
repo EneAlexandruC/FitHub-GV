@@ -8,6 +8,7 @@ namespace FitHub.AccountManagement.Features.GetRegularUser
 {
     public class GetRegularUserQuery
     {
-        public string Email;
+        public string? Email { get; set; }
+        public int? UserId { get; set; }
     }
 }

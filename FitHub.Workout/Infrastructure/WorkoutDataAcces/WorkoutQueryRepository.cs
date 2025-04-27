@@ -20,7 +20,10 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
         }
         public async Task<IEnumerable<Workout>> GetAllWorkouts()
         {
-            return await dbContext.Workouts.ToListAsync();
+            return await dbContext.Workouts
+                .Include(w => w.WorkoutExercises)
+                .ThenInclude(we => we.Exercise)
+                .ToListAsync();
         }
 
         public async Task SaveChanges()

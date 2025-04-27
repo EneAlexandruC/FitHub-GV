@@ -1,6 +1,4 @@
-﻿using FitHub.AccountManagement.Infrastructure;
-using FitHub.ModuleIntegration.AccountManagement.RegularUser;
-using FitHub.ModuleIntegration.WorkoutModule.Workout;
+using FitHub.WorkoutManagement.Features.Shared.Workouts;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -19,7 +17,7 @@ namespace FitHub.Server.Controllers.Workout
         }
 
         [HttpGet("get-workout-by-id")]
-        public async Task<WorkoutGetDTO> GetWorkoutById([FromQuery] int id)
+        public async Task<WorkoutGetDTO?> GetWorkoutById([FromQuery] int id)
         {
             return await workoutService.GetWorkoutById(id);
         }

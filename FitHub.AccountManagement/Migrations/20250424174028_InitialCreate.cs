@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FitHub.AccountManagement.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,6 +30,12 @@ namespace FitHub.AccountManagement.Migrations
                 {
                     table.PrimaryKey("PK_RegularUser", x => x.ID);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RegularUser_Email",
+                table: "RegularUser",
+                column: "Email",
+                unique: true);
         }
 
         /// <inheritdoc />

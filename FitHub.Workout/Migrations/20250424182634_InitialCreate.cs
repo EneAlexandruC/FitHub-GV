@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace FitHub.AccountManagement.Migrations
+namespace FitHub.WorkoutManagement.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

@@ -1,6 +1,6 @@
-﻿using FitHub.ModuleIntegration.WorkoutModule.Workout;
-using FitHub.WorkoutManagement.Domain.WorkoutDomain;
 
+using FitHub.WorkoutManagement.Domain.WorkoutDomain;
+using FitHub.WorkoutManagement.Features.Shared.Exercises;
 
 namespace FitHub.WorkoutManagement.Features.Shared.Workouts
 {
@@ -18,6 +18,16 @@ namespace FitHub.WorkoutManagement.Features.Shared.Workouts
                 Image = workout.Image,
                 Duration = workout.Duration,
                 CaloriesBurned = workout.CaloriesBurned,
+                Exercises = workout.WorkoutExercises?.Select(we => new ExerciseGetDTO
+                {
+                    ID = we.Exercise.ID,
+                    Name = we.Exercise.Name,
+                    Description = we.Exercise.Description,
+                    Category = we.Exercise.Category,
+                    Muscles = we.Exercise.Muscles,
+                    Equipment = we.Exercise.Equipment,
+                    Difficulty = we.Exercise.Difficulty.ToString()
+                }).ToList() ?? new List<ExerciseGetDTO>()
             };
         }
     }

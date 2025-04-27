@@ -17,7 +17,7 @@ namespace FitHub.AccountManagement.Migrations.PremiumUserDb
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "8.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -84,7 +84,10 @@ namespace FitHub.AccountManagement.Migrations.PremiumUserDb
 
                     b.HasKey("ID");
 
-                    b.ToTable("RegularUser", (string)null);
+                    b.ToTable("RegularUser", null, t =>
+                        {
+                            t.ExcludeFromMigrations();
+                        });
                 });
 
             modelBuilder.Entity("FitHub.AccountManagement.Domain.PremiumUser.PremiumUser", b =>
@@ -93,7 +96,8 @@ namespace FitHub.AccountManagement.Migrations.PremiumUserDb
                         .WithMany()
                         .HasForeignKey("RegularUserID")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_PremiumUser_RegularUser");
                 });
 #pragma warning restore 612, 618
         }

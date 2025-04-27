@@ -10,17 +10,21 @@ const WorkoutDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const workouts = useSelector((state: RootState) => state.workouts.workouts);
   const workout = useSelector((state: RootState) => state.workouts.selectedWorkout);
 
   useEffect(() => {
-    if (id) {
+    if (id && workouts.length > 0) {
       dispatch(setSelectedWorkout(id));
     }
     return () => {
-        dispatch(clearSelectedWorkout()); // Clear selected workout when component unmounts
+      dispatch(clearSelectedWorkout()); // Clear selected workout when component unmounts
     };
-  }, [dispatch, id]);
+  }, [dispatch, id, workouts]);
 
+  if (workouts.length > 0 && !workout) {
+    return <div>Workout not found</div>;
+  }
   if (!workout) {
     return <div>Loading...</div>;
   }
@@ -56,7 +60,7 @@ const WorkoutDetail: React.FC = () => {
 
       <h2 className="mt-5 mb-4">Exercises</h2>
       <Row xs={1} md={2} className="g-4">
-        {workout.exercises.map((exercise) => (
+        {(workout.exercises ?? []).map((exercise) => (
           <Col key={exercise.id}>
             <Card>
               <Card.Body>

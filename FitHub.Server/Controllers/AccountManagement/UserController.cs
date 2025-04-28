@@ -49,8 +49,8 @@ namespace FitHub.Server.Controllers.AccountManagement
                     }
                     current = current.InnerException;
                 }
-                // Orice altă eroare
-                return StatusCode(500, new { message = "Internal server error. Please try again later." });
+                // Orice altă eroare - DEBUG: returnăm mesajul excepției pentru a identifica sursa problemei
+                return StatusCode(500, new { message = ex.ToString() });
             }
         }
 

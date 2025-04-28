@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
@@ -14,7 +14,7 @@ namespace FitHub.AccountManagement.Infrastructure.UserDataAccess
                .Build();
 
             var optionsBuilder = new DbContextOptionsBuilder<RegularUserDbContext>();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            optionsBuilder.UseSqlServer("Server=.;Database=FitHub;Trusted_Connection=True;TrustServerCertificate=True;");
 
             return new RegularUserDbContext(optionsBuilder.Options);
         }

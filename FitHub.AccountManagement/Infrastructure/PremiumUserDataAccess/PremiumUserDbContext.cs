@@ -1,4 +1,4 @@
-﻿using FitHub.AccountManagement.Domain.PremiumUser;
+using FitHub.AccountManagement.Domain.PremiumUser;
 using FitHub.AccountManagement.Domain.RegularUser;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,7 +27,11 @@ namespace FitHub.AccountManagement.Infrastructure.PremiumUserDataAccess
                 entity.HasOne<RegularUser>()
                       .WithMany()
                       .HasForeignKey(c => c.RegularUserID)
+                      .HasPrincipalKey("ID")
+                      .HasConstraintName("FK_PremiumUser_RegularUser")
                       .OnDelete(DeleteBehavior.Cascade);
+
+                modelBuilder.Entity<RegularUser>().ToTable("RegularUser", t => t.ExcludeFromMigrations());
 
                 entity.Property(c => c.SubscriptionStartDate)
                     .IsRequired()

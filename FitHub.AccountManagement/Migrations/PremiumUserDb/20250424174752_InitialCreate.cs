@@ -6,31 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FitHub.AccountManagement.Migrations.PremiumUserDb
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            //migrationBuilder.CreateTable(
-            //    name: "RegularUser",
-            //    columns: table => new
-            //    {
-            //        ID = table.Column<int>(type: "int", nullable: false)
-            //            .Annotation("SqlServer:Identity", "1, 1"),
-            //        FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-            //        LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-            //        Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-            //        Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-            //        Weight = table.Column<double>(type: "float", nullable: false),
-            //        Height = table.Column<double>(type: "float", nullable: false),
-            //        DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-            //        Type = table.Column<int>(type: "int", nullable: false)
-            //    },
-            //    constraints: table =>
-            //    {
-            //        table.PrimaryKey("PK_RegularUser", x => x.ID);
-            //    });
-
             migrationBuilder.CreateTable(
                 name: "PremiumUser",
                 columns: table => new
@@ -45,7 +25,7 @@ namespace FitHub.AccountManagement.Migrations.PremiumUserDb
                 {
                     table.PrimaryKey("PK_PremiumUser", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_PremiumUser_RegularUser_RegularUserID",
+                        name: "FK_PremiumUser_RegularUser",
                         column: x => x.RegularUserID,
                         principalTable: "RegularUser",
                         principalColumn: "ID",
@@ -63,9 +43,6 @@ namespace FitHub.AccountManagement.Migrations.PremiumUserDb
         {
             migrationBuilder.DropTable(
                 name: "PremiumUser");
-
-            //migrationBuilder.DropTable(
-            //    name: "RegularUser");
         }
     }
 }

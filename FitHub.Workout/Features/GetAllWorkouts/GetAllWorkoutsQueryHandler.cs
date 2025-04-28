@@ -1,6 +1,7 @@
-﻿using FitHub.ModuleIntegration.WorkoutModule.Workout;
+
 using FitHub.WorkoutManagement.Domain.WorkoutDomain;
 using FitHub.WorkoutManagement.Features.Shared.Workouts;
+using static FitHub.WorkoutManagement.Features.Shared.Workouts.WorkoutGetDTOMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;

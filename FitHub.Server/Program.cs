@@ -22,7 +22,8 @@ using FitHub.WorkoutManagement.Domain.ExerciseDomain;
 using FitHub.WorkoutManagement.Infrastructure.ExerciseDataAcces;
 using FitHub.WorkoutManagement.Features.GetExercise;
 using FitHub.WorkoutManagement.Features.GetWorkout;
-using FitHub.ModuleIntegration.WorkoutModule.Workout;
+using FitHub.WorkoutManagement.Features.Shared.Workouts;
+using FitHub.WorkoutManagement.Infrastructure;
 using FitHub.WorkoutManagement.Domain.WorkoutDomain;
 using FitHub.WorkoutManagement.Features.GetEquipment;
 using FitHub.WorkoutManagement.Infrastructure.EquipmentDataAcces;
@@ -69,14 +70,14 @@ builder.Services.AddScoped<IExerciseQueryRepository, ExerciseQueryRepository>();
 // workout services
 builder.Services.AddScoped<GetWorkoutQueryHandler>();
 builder.Services.AddScoped<GetAllWorkoutsQueryHandler>();
-builder.Services.AddScoped<IWorkoutService, WorkoutService>();
+builder.Services.AddScoped<FitHub.WorkoutManagement.Features.Shared.Workouts.IWorkoutService, FitHub.WorkoutManagement.Infrastructure.WorkoutService>();
 builder.Services.AddScoped<IWorkoutQueryRepository, WorkoutQueryRepository>();
 
 
 
 // used the same database connection for workout and exercise
 builder.Services.AddDbContext<WorkoutDbContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // regular user services
 builder.Services.AddScoped<UserLoginQueryHandler>();
@@ -87,14 +88,14 @@ builder.Services.AddScoped<IRegularUserCommandRepository, RegularUserCommandRepo
 builder.Services.AddScoped<IRegularUserService, RegularUserService>();
 builder.Services.AddScoped<IRegularUserQueryRepository, RegularUserQueryRepository>();
 builder.Services.AddDbContext<RegularUserDbContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // premium user services
 builder.Services.AddScoped<AddPremiumUserCommandHandler>();
 builder.Services.AddScoped<IPremiumUserCommandRepository, PremiumUserCommandRepository>();
 builder.Services.AddScoped<IPremiumUserService, PremiumUserService>();
 builder.Services.AddDbContext<PremiumUserDbContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // authentication services
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

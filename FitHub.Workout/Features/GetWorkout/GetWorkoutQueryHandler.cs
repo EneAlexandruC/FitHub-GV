@@ -1,4 +1,4 @@
-﻿using FitHub.ModuleIntegration.WorkoutModule.Workout;
+
 using FitHub.WorkoutManagement.Domain.WorkoutDomain;
 using FitHub.WorkoutManagement.Features.Shared.Workouts;
 using System;

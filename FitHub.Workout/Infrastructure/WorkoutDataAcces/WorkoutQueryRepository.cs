@@ -1,4 +1,4 @@
-﻿using FitHub.WorkoutManagement.Domain.WorkoutDomain;
+using FitHub.WorkoutManagement.Domain.WorkoutDomain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,11 +13,17 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
 
         public async Task<Workout?> GetWorkoutByID(int id)
         {
-            return await dbContext.Workouts.FindAsync(id);
+            return await dbContext.Workouts
+                .Include(w => w.WorkoutExercises)
+                .ThenInclude(we => we.Exercise)
+                .FirstOrDefaultAsync(w => w.ID == id);
         }
         public async Task<IEnumerable<Workout>> GetAllWorkouts()
         {
-            return await dbContext.Workouts.ToListAsync();
+            return await dbContext.Workouts
+                .Include(w => w.WorkoutExercises)
+                .ThenInclude(we => we.Exercise)
+                .ToListAsync();
         }
 
         public async Task SaveChanges()

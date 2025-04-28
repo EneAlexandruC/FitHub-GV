@@ -1,4 +1,4 @@
-﻿namespace FitHub.AccountManagement.Domain.RegularUser
+namespace FitHub.AccountManagement.Domain.RegularUser
 {
     public interface IRegularUserCommandRepository
     {

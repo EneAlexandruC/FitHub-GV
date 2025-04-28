@@ -17,6 +17,7 @@ import WorkoutDetail from "./features/workouts/WorkoutDetail";
 import SearchResults from "./features/workouts/SearchResults";
 import Faq from "./features/faq/faq";
 import Footer from "./common/footer/Footer";
+import AIChatWidget from "./features/AIChatWidget";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="/faq" element={<Faq />} />
         </Routes>
         <Footer />
+        <AIChatWidget />
       </AuthProvider>
     </Router>
   );

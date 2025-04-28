@@ -7,7 +7,8 @@ import Nav from "./common/nav/Nav";
 import Footer from "./common/footer/Footer";
 import WorkoutsList from "./features/workouts/WorkoutsList";
 import WorkoutDetail from "./features/workouts/WorkoutDetail";
- 
+import SearchResults from "./features/workouts/SearchResults";
+import Faq from "./features/faq/faq"
 
 const App: React.FC = () => {
   return (
@@ -19,6 +20,8 @@ const App: React.FC = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/workouts" element={<WorkoutsList />} />
         <Route path="/workouts/:id" element={<WorkoutDetail />} />
+        <Route path="/search-results" element={<SearchResults />} />
+        <Route path="/faq" element={<Faq />} />
       </Routes>
       <Footer />
     </Router>

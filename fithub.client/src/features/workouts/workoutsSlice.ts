@@ -16,8 +16,9 @@ const initialState: WorkoutsState = {
       title: "Full Body Strength",
       duration: "medium",
       equipment: "dumbbells",
+      difficulty: "beginner",
       description:
-        "A comprehensive full-body workout targeting all major muscle groups",
+      "A comprehensive full-body workout targeting all major muscle groups",
       imageUrl: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438",
       exercises: [
         {
@@ -70,7 +71,8 @@ const initialState: WorkoutsState = {
       title: "HIIT Cardio",
 
       duration: "short",
-      equipment: "bodyweight",
+      equipment: "machines",
+      difficulty: "intermediate",
       description:
         "High-intensity interval training to boost cardiovascular fitness",
       imageUrl: "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3",
@@ -97,6 +99,7 @@ const initialState: WorkoutsState = {
       title: "HIIT Cardio",
       duration: "short",
       equipment: "bodyweight",
+      difficulty: "intermediate",
       description:
         "High-intensity interval training to boost cardiovascular fitness",
       imageUrl: "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3",
@@ -123,6 +126,7 @@ const initialState: WorkoutsState = {
       title: "HIIT Cardio",
       duration: "short",
       equipment: "bodyweight",
+      difficulty: "intermediate",
       description:
         "High-intensity interval training to boost cardiovascular fitness",
       imageUrl: "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3",
@@ -149,6 +153,115 @@ const initialState: WorkoutsState = {
       title: "HIIT Cardio",
       duration: "short",
       equipment: "bodyweight",
+      difficulty: "intermediate",
+      description:
+        "High-intensity interval training to boost cardiovascular fitness",
+      imageUrl: "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3",
+      exercises: [
+        {
+          id: "2-1",
+          name: "Burpees",
+          sets: 4,
+          reps: 10,
+          description: "Full body exercise combining squat, push-up, and jump",
+        },
+        {
+          id: "2-2",
+          name: "Mountain Climbers",
+          sets: 3,
+          reps: 20,
+          description: "Dynamic plank exercise targeting core and cardio",
+        },
+      ],
+    },
+    {
+      id: "6",
+
+      title: "HIIT Cardio",
+      duration: "short",
+      equipment: "bodyweight",
+      difficulty: "intermediate",
+      description:
+        "High-intensity interval training to boost cardiovascular fitness",
+      imageUrl: "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3",
+      exercises: [
+        {
+          id: "2-1",
+          name: "Burpees",
+          sets: 4,
+          reps: 10,
+          description: "Full body exercise combining squat, push-up, and jump",
+        },
+        {
+          id: "2-2",
+          name: "Mountain Climbers",
+          sets: 3,
+          reps: 20,
+          description: "Dynamic plank exercise targeting core and cardio",
+        },
+      ],
+    },
+    {
+      id: "7",
+
+      title: "HIIT Cardio",
+      duration: "short",
+      equipment: "bodyweight",
+      difficulty: "intermediate",
+      description:
+        "High-intensity interval training to boost cardiovascular fitness",
+      imageUrl: "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3",
+      exercises: [
+        {
+          id: "2-1",
+          name: "Burpees",
+          sets: 4,
+          reps: 10,
+          description: "Full body exercise combining squat, push-up, and jump",
+        },
+        {
+          id: "2-2",
+          name: "Mountain Climbers",
+          sets: 3,
+          reps: 20,
+          description: "Dynamic plank exercise targeting core and cardio",
+        },
+      ],
+    },
+    {
+      id: "8",
+
+      title: "HIIT Cardio",
+      duration: "short",
+      equipment: "bodyweight",
+      difficulty: "intermediate",
+      description:
+        "High-intensity interval training to boost cardiovascular fitness",
+      imageUrl: "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3",
+      exercises: [
+        {
+          id: "2-1",
+          name: "Burpees",
+          sets: 4,
+          reps: 10,
+          description: "Full body exercise combining squat, push-up, and jump",
+        },
+        {
+          id: "2-2",
+          name: "Mountain Climbers",
+          sets: 3,
+          reps: 20,
+          description: "Dynamic plank exercise targeting core and cardio",
+        },
+      ],
+    },
+    {
+      id: "9",
+
+      title: "HIIT Cardio",
+      duration: "short",
+      equipment: "bodyweight",
+      difficulty: "intermediate",
       description:
         "High-intensity interval training to boost cardiovascular fitness",
       imageUrl: "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3",

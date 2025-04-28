@@ -1,0 +1,72 @@
+.workoutsPage {
+    background-image:linear-gradient(rgba(0, 0, 0, 0.74),rgba(0, 0, 0, 0.405)),linear-gradient(#17143D,#1A234E ,#484E69); /* Replace with your desired color */
+    background-size: cover; /* Ensure the background covers the entire page */
+}
+.workoutsPage h1{
+    color: #42424e;
+
+}
+.containerlist{
+    margin-top: 5vh;
+    margin-bottom: 10vh;
+    
+}
+
+.searchbar {
+    background-color: #42424e;
+    border: #000000;
+    
+}
+.searchbar::placeholder {
+    color: #000000; /* Change this to the desired color for the placeholder text */
+    
+}
+.searchbar:focus {
+    outline: none; /* Remove the default outline on focus */
+    box-shadow: 0 0 5px #000000; /* Add a custom shadow on focus */
+}
+
+.searchbar:focus::placeholder {
+    color: #000000; /* Change this to the desired color for the placeholder text when focused */
+}
+
+.offcanvas {
+    background-color: #0c0c1f;
+    color: #ffffff; /* Change this to the desired color for the text */
+    border: #ffffff;
+    width: 50%;
+}
+.closeButton{
+    color: #ffffff; /* Change this to the desired color for the close button */
+    background-color: #0c0c1f; /* Change this to the desired color for the close button */
+    border: #ffffff; /* Change this to the desired color for the close button */
+}
+.closeButton:hover{
+    background-color: #000000e6; /* Change this to the desired color for the close button on hover */
+    border: #0c0c1f; /* Change this to the desired color for the close button on hover */
+}
+.searchButton{
+    position: absolute;
+    right: 0; 
+    top: 50%; 
+    transform: translateY(-50%);
+    background-color: transparent; 
+    border: none;
+}
+.searchButton i{
+    color: #aaa;
+}
+.openFilter{
+    background-color: transparent; 
+    border: none;
+    color: #0D6EFD;   /* Change this to the desired color for the filter button */
+    font-size: 1.2rem; /* Adjust the font size as needed */
+}
+.openFilter:hover{
+    background-color:#0D6EFD; /* Change this to the desired color for the filter button on hover */
+}
+
+
+/* 1A234E */
+/* 17143D */
+/* 484E69 */

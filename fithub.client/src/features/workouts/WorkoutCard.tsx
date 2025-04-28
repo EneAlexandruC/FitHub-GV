@@ -27,6 +27,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout }) => {
         <div className="mt-2">
           <span className="badge bg-primary me-2">{workout.duration}</span>
           <span className="badge bg-secondary">{workout.equipment}</span>
+          {/*<span className="badge bg-success ms-2">{workout.difficulty}</span>*/}
         </div>
       </Card.Body>
     </Card>

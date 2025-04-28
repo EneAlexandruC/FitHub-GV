@@ -11,6 +11,7 @@ const Footer: React.FC = () => {
         flexDirection: "column",
         padding: "2rem",
         backgroundColor: "#f0f0f0",
+        
       }}
     >
       <div className="container">

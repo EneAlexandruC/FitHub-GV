@@ -1,0 +1,29 @@
+.workoutDetail {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.74),rgba(0, 0, 0, 0.405)), linear-gradient(#17143d,#1a234e ,#484e69);
+    background-size: cover; /* Ensure the background covers the entire page */
+    color: #C8C8D7;
+}
+.banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    z-index: -1; /* Ensure the image is below the text */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.74),rgba(0, 0, 0, 0.405)), linear-gradient(#17143d82,#1a234ea0), url("img/photo-1637713871652-4c9f1e601209.jpg"); /* Replace with your desired color */
+    background-size: cover;
+    background-position: center;
+}
+.card{
+    background: #42424e;
+    color:#1c1b1b;
+}
+.list{
+    background: #42424e;
+    border-color: #1c1b1b;
+    color: #C8C8D7;
+}
+
+

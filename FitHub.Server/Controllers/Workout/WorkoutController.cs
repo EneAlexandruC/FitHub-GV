@@ -27,5 +27,15 @@ namespace FitHub.Server.Controllers.Workout
         {
             return await workoutService.GetAllWorkouts();
         }
+
+        [HttpGet("search-workouts")]
+        public async Task<IEnumerable<WorkoutGetDTO>> SearchWorkouts([FromQuery] string searchInput)
+        {
+            var workouts = await workoutService.GetAllWorkouts();
+            return workouts
+                .Where(w => w.Name.Contains(searchInput, StringComparison.OrdinalIgnoreCase) ||
+                            w.Description.Contains(searchInput, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
     }
 }

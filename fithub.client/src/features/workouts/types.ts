@@ -12,6 +12,7 @@ export interface Workout {
   title: string;
   duration: "short" | "medium" | "long";
   equipment: "bodyweight" | "dumbbells" | "machines";
+  difficulty: "beginner" | "intermediate" | "advanced";
   exercises: Exercise[];
   description: string;
   imageUrl: string;

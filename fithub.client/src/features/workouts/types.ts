@@ -1,19 +1,21 @@
 export interface Exercise {
   id: string;
   name: string;
-  sets: number;
-  reps: number;
   description: string;
+  gif: string; // filename of the gif in exerciseGIFS
+  sets?: number;
+  reps?: number;
+  duration?: number; // in seconds, if applicable
 }
 
 export interface Workout {
   id: string;
-
-  title: string;
-  duration: "short" | "medium" | "long";
-  equipment: "bodyweight" | "dumbbells" | "machines";
-  difficulty: "beginner" | "intermediate" | "advanced";
-  exercises: Exercise[];
+  name: string;
   description: string;
-  imageUrl: string;
+  shortDescription?: string;
+  difficulty: "beginner" | "intermediate" | "advanced";
+  duration: number; // in minutes
+  equipment: string[]; // e.g. ['bodyweight', 'dumbbells']
+  exercises: Exercise[];
+  gif: string;
 }

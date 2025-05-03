@@ -23,21 +23,23 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <Nav />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
-          <Route path="/membership" element={<Membership />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/workouts" element={<WorkoutsList />} />
-          <Route path="/workouts/:id" element={<WorkoutDetail />} />
-          <Route path="/search-results" element={<SearchResults />} />
-          <Route path="/faq" element={<Faq />} />
-        </Routes>
-        <Footer />
+        <div className="app-container">
+          <Nav />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
+              <Route path="/membership" element={<Membership />} />
+              <Route path="/community" element={<Community />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/workouts" element={<WorkoutsList />} />
+              <Route path="/workouts/:id" element={<WorkoutDetail />} />
+              <Route path="/search-results" element={<SearchResults />} />
+              <Route path="/faq" element={<Faq />} />
+            </Routes>
+          <Footer />
+        </div>
         <AIChatWidget />
       </AuthProvider>
     </Router>

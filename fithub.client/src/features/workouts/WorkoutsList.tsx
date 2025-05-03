@@ -8,8 +8,13 @@ import styles from "./WorkoutsList.module.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { AppDispatch } from "../../app/store";
 import { fetchWorkouts } from "./workoutsSlice";
+import { Workout } from "./types";
 
-const WorkoutsList: React.FC = () => {
+interface WorkoutsListProps {
+  searchResults?: Workout[];
+}
+
+const WorkoutsList: React.FC<WorkoutsListProps> = ({ searchResults }) => {
   const dispatch = useDispatch<AppDispatch>();
   const workouts = useSelector((state: RootState) => state.workouts?.workouts ?? []);
 
@@ -24,7 +29,15 @@ const WorkoutsList: React.FC = () => {
   const [equipment, setEquipment] = useState<string[]>([]);
   const [difficulty, setDifficulty] = useState<string[]>([]);
   const [duration, setDuration] = useState<string[]>([]);
-  const [filteredWorkouts, setFilteredWorkouts] = useState(workouts);
+  const [filteredWorkouts, setFilteredWorkouts] = useState<Workout[]>(workouts);
+
+  // Dynamically extract all unique equipment options from the workouts
+  const allWorkouts = searchResults && searchResults.length > 0 ? searchResults : workouts;
+  const equipmentOptions = Array.from(
+    new Set(
+      allWorkouts.flatMap((workout) => workout.equipment)
+    )
+  );
 
   useEffect(() => { 
     document.body.classList.add(styles.workoutsPage);
@@ -41,38 +54,52 @@ const WorkoutsList: React.FC = () => {
 
   const handleFilter = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Filter logic based on the Workout interface
-    const matchingWorkouts = workouts.filter((workout) => {
-      const matchesEquipment = equipment.length === 0 || equipment.includes(workout.equipment);
-      const matchesDifficulty = difficulty.length === 0 || difficulty.includes(workout.difficulty);
-      const matchesDuration = duration.length === 0 || duration.includes(workout.duration);
-    
-      return matchesEquipment && matchesDifficulty && matchesDuration;
-    });
-
-    const nonMatchingWorkouts = workouts.filter(
-      (workout) => !matchingWorkouts.includes(workout)
-        );
-
-    setFilteredWorkouts([...matchingWorkouts, ...nonMatchingWorkouts]);
-
-    setShowFilter(false); // Close the filter sidebar after applying filters
+    setShowFilter(false); // Just close the sidebar, filtering is handled by useEffect
   };
 
-  const handleClearFilters = () => {
-    // Reset all filters and show all workouts
-    setEquipment([]);
-    setDifficulty([]);
-    setDuration([]);
-    setFilteredWorkouts(workouts);
-
-    setShowFilter(false); // Close the filter sidebar after clearing filters
+  // Helper function to determine if a workout duration matches the selected duration filter
+  const getDurationCategory = (durationMinutes: number): string => {
+    if (durationMinutes <= 30) return "short";
+    if (durationMinutes <= 45) return "medium";
+    return "long";
   };
 
   useEffect(() => {
-    setFilteredWorkouts(workouts); // Reset filtered workouts when the workouts list changes
-  }, [workouts]);
+    // Use searchResults if provided, otherwise use all workouts
+    const sourceWorkouts = searchResults && searchResults.length > 0 ? searchResults : workouts;
+
+    const matchingWorkouts = sourceWorkouts.filter((workout: Workout) => {
+      // Check if any workout equipment matches any selected equipment
+      const matchesEquipment =
+        equipment.length === 0 ||
+        workout.equipment.some((eq: string) => equipment.includes(eq));
+
+      // Check if workout difficulty matches any selected difficulty
+      const matchesDifficulty =
+        difficulty.length === 0 ||
+        difficulty.includes(workout.difficulty);
+
+      // Map the workout's numeric duration to a category and check if it's in the selected durations
+      const workoutDurationCategory = getDurationCategory(workout.duration);
+      const matchesDuration =
+        duration.length === 0 ||
+        duration.includes(workoutDurationCategory);
+
+      return matchesEquipment && matchesDifficulty && matchesDuration;
+    });
+
+    // Only show matching workouts, not all workouts
+    setFilteredWorkouts(matchingWorkouts);
+  }, [searchResults, workouts, equipment, difficulty, duration]);
+
+
+  const handleClearFilters = () => {
+    // Reset all filters
+    setEquipment([]);
+    setDifficulty([]);
+    setDuration([]);
+    setShowFilter(false); // Close the filter sidebar after clearing filters
+  };
 
   return (
       <Container className={styles.containerlist}>
@@ -99,7 +126,7 @@ const WorkoutsList: React.FC = () => {
                 <Form.Group controlId="equipmentFilter" className="mb-3">
                   <Form.Label>Equipment</Form.Label>
                   <div>
-                    {["bodyweight", "dumbbells", "machines"].map((option) => (
+                    {equipmentOptions.map((option) => (
                       <Form.Check
                         key={option}
                         type="checkbox"

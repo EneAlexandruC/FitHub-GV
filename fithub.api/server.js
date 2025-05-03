@@ -28,7 +28,7 @@ app.post('/api/ai-assistant-stream', async (req, res) => {
         model: 'mistral',
         stream: true,
         messages: [
-          { role: 'system', content: 'You are a helpful fitness assistant for the FitHub app. Answer in English.' },
+          { role: 'system', content: 'You are a helpful fitness assistant for the FitHub app. Answer in English, be concise and pragmatic, and always format your answer using Markdown (with paragraphs, bold, lists, etc).' },
           { role: 'user', content: message },
         ]
       })

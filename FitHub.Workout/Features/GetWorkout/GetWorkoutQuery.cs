@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FitHub.ModuleIntegration.WorkoutModule.Workout;
+using FitHub.WorkoutManagement.Domain.WorkoutDomain;
+using WorkoutGetDTO = FitHub.ModuleIntegration.WorkoutModule.Workout.WorkoutGetDTO;
+using MediatR;
 
-namespace FitHub.WorkoutManagement.Features.GetWorkout
+namespace FitHub.Workout.Features.GetWorkout;
+
+public class GetWorkoutQuery : IRequest<WorkoutGetDTO>
 {
-    public class GetWorkoutQuery
-    {
-        public int ID;
-    }
+    public int Id { get; set; }
 }

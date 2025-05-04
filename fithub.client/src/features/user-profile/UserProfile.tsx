@@ -1,86 +1,81 @@
-import React, { useEffect, useState, useCallback, ChangeEvent } from 'react';
+import React, { useEffect, useState, useCallback, ChangeEvent, useRef } from 'react';
 import {
   Box,
-  Container,
   Typography,
   Paper,
   Grid,
   Button,
-  Card,
-  CardContent as MuiCardContent,
   LinearProgress,
-  Avatar,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Container,
   Snackbar,
   Alert,
-  TextField,
-  FormControl,
-  InputLabel,
   Select,
   MenuItem,
-  IconButton,
-  SelectChangeEvent,
-  Tooltip
+  FormControl,
+  InputLabel,
+  TextField,
+  SelectChangeEvent
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import { styled } from '@mui/material/styles'; 
 import StarIcon from '@mui/icons-material/Star';
-import PersonIcon from '@mui/icons-material/Person';
-import AddIcon from '@mui/icons-material/Add';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { useAuth } from '../../contexts/AuthContext';
 import { workouts as availableWorkouts } from '../../data/workouts';
 import { UserStats } from './types/UserStats';
 import StatsOverview from './components/StatsOverview';
+import ProgressChart from './components/ProgressChart';
+import WorkoutHistory from "./components/WorkoutHistory";
 
 const PageContainer = styled(Box)({
   minHeight: '100vh',
-  backgroundImage: 'url(/img/photo-1651840403916-d1e0515b32c4.jpg)',
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  backgroundAttachment: 'fixed',
-  padding: '2rem 0',
+  padding: '2rem',
+  backgroundColor: '#f5f5f5',
 });
 
-const StyledPaper = styled(Paper)(({ theme }) => ({
+const ProfileHeader = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
   marginBottom: theme.spacing(3),
-  borderRadius: '12px',
-  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-  backgroundColor: 'rgba(255, 255, 255, 0.9)',
-  backdropFilter: 'blur(10px)',
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spacing(3),
 }));
 
-const ProgressCard = styled(Card)(() => ({
+const ProfileImageContainer = styled(Box)({
+  position: 'relative',
+  width: '120px',
+  height: '120px',
+});
+
+const ProfileImage = styled('img')({
+  width: '100%',
   height: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  transition: 'transform 0.2s',
+  borderRadius: '50%',
+  objectFit: 'cover',
+  border: '4px solid #fff',
+  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+});
+
+const ProfileImageUploadButton = styled(Button)(({ theme }) => ({
+  position: 'absolute',
+  bottom: 0,
+  right: 0,
+  backgroundColor: theme.palette.primary.main,
+  color: 'white',
   '&:hover': {
-    transform: 'translateY(-4px)',
+    backgroundColor: theme.palette.primary.dark,
   },
+  width: 32,
+  height: 32,
 }));
 
-const FeatureCard = styled(Card)(() => ({
-  height: '200px', // Fixed height for feature cards
-  display: 'flex',
-  flexDirection: 'column',
-  transition: 'transform 0.2s',
-  '&:hover': {
-    transform: 'translateY(-4px)',
-  },
-}));
-
-const StyledCardContent = styled(MuiCardContent)(() => ({
-  flexGrow: 1,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-}));
+const ProfileInfo = styled(Box)({
+  flex: 1,
+});
 
 interface WorkoutProgress {
   date: string;
@@ -96,13 +91,65 @@ interface UserProfileData {
   id?: string;
   profilePicture?: string;
   stats?: UserStats;
+  createdAt?: string;
+  firstName?: string;
+  lastName?: string;
 }
+
+// Calculate statistics for the user's workout progress
+function calculateStats(progress: WorkoutProgress[]): UserStats {
+  const totalWorkouts = progress.reduce((sum, p) => sum + p.completed, 0);
+  const totalPlanned = progress.reduce((sum, p) => sum + p.total, 0);
+
+  // Calculate streaks
+  let currentStreak = 0;
+  let bestStreak = 0;
+  let tempStreak = 0;
+
+  const sortedDates = [...progress].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  for (let i = 0; i < sortedDates.length; i++) {
+    const current = new Date(sortedDates[i].date);
+    const prev = i > 0 ? new Date(sortedDates[i - 1].date) : null;
+    if (sortedDates[i].completed > 0) {
+      if (!prev || Math.abs(current.getTime() - prev.getTime()) <= 86400000) {
+        tempStreak++;
+        currentStreak = Math.max(currentStreak, tempStreak);
+      } else {
+        tempStreak = 1;
+      }
+      bestStreak = Math.max(bestStreak, tempStreak);
+    } else {
+      tempStreak = 0;
+    }
+  }
+
+  // Calculate average per week
+  const weeksSpan = Math.ceil(progress.length / 7);
+  const averageWorkoutsPerWeek = totalWorkouts / weeksSpan;
+
+  // Calculate this month's workouts
+  const now = new Date();
+  const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const totalWorkoutsThisMonth = progress.filter(p => new Date(p.date) >= firstDayOfMonth).reduce((sum, p) => sum + p.completed, 0);
+
+  return {
+    totalWorkouts,
+    currentStreak,
+    bestStreak,
+    completionRate: totalPlanned > 0 ? Math.round((totalWorkouts / totalPlanned) * 100) : 0,
+    totalWorkoutsThisMonth,
+    averageWorkoutsPerWeek: Math.round(averageWorkoutsPerWeek * 10) / 10,
+  };
+}
+
 
 const UserProfile: React.FC = () => {
   const { user } = useAuth();
   const [profileData, setProfileData] = useState<UserProfileData | null>(null);
   const [loading, setLoading] = useState(true);
   const [profilePicture, setProfilePicture] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Încărcăm poza de profil din localStorage la pornirea componentei
   useEffect(() => {
@@ -128,6 +175,13 @@ const UserProfile: React.FC = () => {
       reader.readAsDataURL(file);
     }
   };
+
+  const handleFileInputClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
   const [error, setError] = useState<string | null>(null);
   const [upgradeDialogOpen, setUpgradeDialogOpen] = useState(false);
   const [snackbar, setSnackbar] = useState<{
@@ -180,6 +234,7 @@ const UserProfile: React.FC = () => {
       try {
         // Încercăm să obținem informații despre premiumUser folosind ID-ul utilizatorului
         if (userData && userData.id) {
+          console.log(`Checking premium status for user ID: ${userData.id}`);
           const checkPremiumResponse = await fetch(`http://localhost:5012/api/User/check-premium?userId=${userData.id}`, {
             credentials: 'include',
             headers: {
@@ -187,109 +242,68 @@ const UserProfile: React.FC = () => {
               'Content-Type': 'application/json',
             },
             mode: 'cors'
-          }).catch(() => {
-            console.log('Premium check endpoint not available, falling back to workaround');
+          }).catch((error) => {
+            console.error('Error during premium status API fetch:', error);
+            console.warn('Falling back to user type due to fetch error.');
             return null; // Returnăm null în loc de { ok: false }
           });
           
           if (checkPremiumResponse && checkPremiumResponse.ok) {
             const premiumData = await checkPremiumResponse.json();
+            console.log('Premium check API response:', premiumData);
             isPremiumUser = premiumData.isPremium;
           } else {
-            // Dacă API-ul nu există, vom folosi Type din obiectul utilizator ca o măsură temporară
-            // În utilizatorul RegularUser, câmpul Type poate fi 0 (regular) sau 1 (premium)
+            // Log non-OK response from API (e.g., 404 Not Found)
+            console.warn(`Premium check API failed with status: ${checkPremiumResponse?.status}. Falling back to user type.`);
+            // Fallback: Use 'type' field from user data if API fails or doesn't exist
             isPremiumUser = userData.type === 1;
           }
-        }
-      } catch (error) {
-        console.error('Error checking premium status:', error);
-        // Dacă verificarea eșuează, presupunem că utilizatorul nu este premium
-        isPremiumUser = false;
-      }
-      
-      // Adăugăm datele de progres săptămânal dacă nu sunt disponibile
-      // Calculăm statisticile bazate pe progresul săptămânal
-      const weeklyProgress = userData.weeklyProgress || [
-        {
-          date: new Date().toISOString(),
-          completed: 3,
-          total: 5
-        },
-        {
-          date: new Date(Date.now() - 86400000).toISOString(), // yesterday
-          completed: 2,
-          total: 4
-        },
-        {
-          date: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
-          completed: 4,
-          total: 4
-        }
-      ];
-
-      // Calculăm statisticile
-      const calculateStats = (progress: WorkoutProgress[]): UserStats => {
-        const totalWorkouts = progress.reduce((sum, p) => sum + p.completed, 0);
-        const totalPlanned = progress.reduce((sum, p) => sum + p.total, 0);
-        
-        // Calculăm streak-ul
-        let currentStreak = 0;
-        let bestStreak = 0;
-        let tempStreak = 0;
-        
-        const sortedDates = [...progress]
-          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-        
-        for (let i = 0; i < sortedDates.length; i++) {
-          const current = new Date(sortedDates[i].date);
-          const prev = i > 0 ? new Date(sortedDates[i-1].date) : null;
-          
-          if (sortedDates[i].completed > 0) {
-            if (!prev || Math.abs(current.getTime() - prev.getTime()) <= 86400000) {
-              tempStreak++;
-              currentStreak = Math.max(currentStreak, tempStreak);
-            } else {
-              tempStreak = 1;
-            }
-            bestStreak = Math.max(bestStreak, tempStreak);
-          } else {
-            tempStreak = 0;
-          }
+        } else {
+          console.warn('User data or user ID missing, cannot check premium status via API. Assuming not premium.');
+          isPremiumUser = false; // Default if no ID
         }
 
-        // Calculăm media pe săptămână
-        const weeksSpan = Math.ceil(progress.length / 7);
-        const averageWorkoutsPerWeek = totalWorkouts / weeksSpan;
+        console.log('Final isPremiumUser status:', isPremiumUser);
+        // Adăugăm datele de progres săptămânal dacă nu sunt disponibile
+        // Calculăm statisticile bazate pe progresul săptămânal
+        const weeklyProgress = userData.weeklyProgress || [
+          {
+            date: new Date().toISOString(),
+            completed: 3,
+            total: 5
+          },
+          {
+            date: new Date(Date.now() - 86400000).toISOString(), // yesterday
+            completed: 2,
+            total: 4
+          },
+          {
+            date: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
+            completed: 4,
+            total: 4,
+          },
+        ];
 
-        // Calculăm antrenamentele din luna curentă
-        const now = new Date();
-        const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-        const totalWorkoutsThisMonth = progress
-          .filter(p => new Date(p.date) >= firstDayOfMonth)
-          .reduce((sum, p) => sum + p.completed, 0);
-
-        return {
-          totalWorkouts,
-          currentStreak,
-          bestStreak,
-          completionRate: Math.round((totalWorkouts / totalPlanned) * 100),
-          totalWorkoutsThisMonth,
-          averageWorkoutsPerWeek: Math.round(averageWorkoutsPerWeek * 10) / 10
+        const profileWithProgress = {
+          ...userData,
+          isPremium: isPremiumUser,
+          weeklyProgress,
+          stats: calculateStats(weeklyProgress),
+          createdAt: userData.createdAt || userData.dateCreated || userData.created || '',
+          firstName: userData.firstName,
+          lastName: userData.lastName,
         };
-      };
 
-      const profileWithProgress = {
-        ...userData,
-        isPremium: isPremiumUser,
-        weeklyProgress,
-        stats: calculateStats(weeklyProgress)
-      };
-      
-      setProfileData(profileWithProgress);
+        setProfileData(profileWithProgress);
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
+        setError('Failed to load profile data. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
     } catch (error) {
       console.error('Error fetching user profile:', error);
       setError('Failed to load profile data. Please try again later.');
-    } finally {
       setLoading(false);
     }
   }, [user?.email]);
@@ -301,10 +315,7 @@ const UserProfile: React.FC = () => {
   useEffect(() => {
     // Folosim workouturile din data/workouts.ts pentru început
     // În viitor, am putea face un apel API către /api/Workout/get-all-workouts
-    setWorkoutsList(availableWorkouts.map(w => ({
-      id: w.id,
-      name: w.name
-    })));
+    setWorkoutsList(availableWorkouts.map((w) => ({ id: w.id, name: w.name })));
   }, []);
 
   const handleUpgradeDialogOpen = () => {
@@ -322,11 +333,11 @@ const UserProfile: React.FC = () => {
   const handleUpgradeToPremium = async () => {
     handleUpgradeDialogClose();
     setLoading(true);
-    
+
     try {
       // Încercăm mai întâi să obținem ID-ul utilizatorului dacă nu îl avem deja
       let userId = profileData?.id;
-      
+
       if (!userId && user?.email) {
         try {
           // Încercăm să obținem ID-ul utilizatorului
@@ -336,9 +347,9 @@ const UserProfile: React.FC = () => {
               'Accept': 'application/json',
               'Content-Type': 'application/json',
             },
-            mode: 'cors'
+            mode: 'cors',
           });
-          
+
           if (userResponse.ok) {
             const userData = await userResponse.json();
             if (userData && userData.id) {
@@ -350,7 +361,7 @@ const UserProfile: React.FC = () => {
           // Continuăm cu modul demonstrativ dacă obținerea ID-ului eșuează
         }
       }
-      
+
       // Dacă avem un ID de utilizator, încercăm să facem upgrade prin API
       if (userId) {
         try {
@@ -363,29 +374,29 @@ const UserProfile: React.FC = () => {
             credentials: 'include',
             mode: 'cors',
             body: JSON.stringify({
-              regularUserID: userId,
-              subscriptionStartDate: new Date().toISOString(),
-              subscriptionEndDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString() // 1 an abonament
+              RegularUserId: userId,
+              SubscriptionStartDate: new Date().toISOString(),
+              SubscriptionEndDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString(), // 1 an abonament
             }),
           });
-          
+
           if (response.ok) {
             // Răspunsul a fost de succes, actualizăm starea
             await response.json();
-            
+
             setProfileData({
               ...profileData,
               isPremium: true,
               id: userId.toString(),
-              weeklyProgress: profileData?.weeklyProgress || []
+              weeklyProgress: profileData?.weeklyProgress || [],
             });
-            
+
             setSnackbar({
               open: true,
               message: 'Felicitări! Acum ești membru Premium!',
               severity: 'success',
             });
-            
+
             setLoading(false);
             return;
           }
@@ -394,31 +405,30 @@ const UserProfile: React.FC = () => {
           // Continuăm cu modul demonstrativ dacă apelul API eșuează
         }
       }
-      
+
       // Mod demonstrativ - se folosește când API-ul nu funcționează
       console.log('Simulating premium upgrade in demo mode');
-      
+
       setTimeout(() => {
         // Creăm o versiune actualizată a datelor de profil cu isPremium setat la true
         const simulatedUpdatedData: UserProfileData = {
           email: user?.email || '',
           isPremium: true,
           weeklyProgress: profileData?.weeklyProgress || [],
-          id: profileData?.id || '1' // Folosim ID-ul existent sau un ID fictiv
+          id: profileData?.id || '1', // Folosim ID-ul existent sau un ID fictiv
         };
-        
+
         // Actualizăm starea cu datele simulate
         setProfileData(simulatedUpdatedData);
-        
+
         setSnackbar({
           open: true,
           message: 'Felicitări! Acum ești membru Premium! (Mod demonstrativ)',
           severity: 'success',
         });
-        
+
         setLoading(false);
       }, 1000); // Adăugăm o mică întârziere pentru a simula cererea de rețea
-      
     } catch (error) {
       console.error('Error upgrading to premium:', error);
       setSnackbar({
@@ -442,58 +452,57 @@ const UserProfile: React.FC = () => {
     const { name, value } = e.target;
     setNewWorkout({
       ...newWorkout,
-      [name]: name === 'date' ? value : Number(value),
+      [name]: name === 'date' ? value : value === '' ? '' : Number(value),
     });
   };
 
   const handleWorkoutSelectChange = (e: SelectChangeEvent) => {
     const value = e.target.value;
-    
+
     // Găsim numele workout-ului selectat
-    const selectedWorkout = workoutsList.find(w => w.id === value);
-    
+    const selectedWorkout = workoutsList.find((w) => w.id === value);
+
     setNewWorkout({
       ...newWorkout,
       workoutId: value,
-      workoutName: selectedWorkout?.name || ''
+      workoutName: selectedWorkout?.name || '',
     });
   };
 
   const handleAddWorkout = async () => {
     // In a real app, you would send this to the server
     // For now, we'll just update the local state
-    
+
     // Create a new workout entry
     const workoutEntry = {
       date: new Date(newWorkout.date).toISOString(),
-      completed: newWorkout.completed,
-      total: newWorkout.total,
-      workoutName: newWorkout.workoutName, // Adăugăm numele workout-ului
+      completed: Number(newWorkout.completed),
+      total: Number(newWorkout.total),
+      workoutName: newWorkout.workoutName,
     };
-    
-    // Add it to the existing progress data
+
     if (profileData) {
       const updatedProgress = [
         workoutEntry,
         ...(profileData.weeklyProgress || []),
-      ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()); // Sort by date
-      
-      // Update the profile data
+      ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+      // Recalculate stats
+      const updatedStats = calculateStats(updatedProgress);
+
       setProfileData({
         ...profileData,
         weeklyProgress: updatedProgress,
+        stats: updatedStats,
       });
-      
-      // In a real app, you would send this data to the server
-      // For now, we'll just show a success message
+
       setSnackbar({
         open: true,
         message: 'Workout progress added successfully!',
         severity: 'success',
       });
     }
-    
-    // Close the dialog and reset the form
+
     handleWorkoutDialogClose();
     setNewWorkout({
       date: new Date().toISOString().split('T')[0],
@@ -526,174 +535,74 @@ const UserProfile: React.FC = () => {
 
   return (
     <PageContainer>
-      <Container maxWidth="lg" sx={{ mt: 4 }}>
-        <StyledPaper>
-          <Grid container spacing={3}>
-            {profileData?.stats && (
-              <Grid item xs={12}>
-                <StatsOverview stats={profileData.stats} />
-              </Grid>
+      <ProfileHeader elevation={2}>
+        <ProfileImageContainer>
+          <ProfileImage
+            src={profilePicture || "/default-avatar.png"}
+            alt="User Profile"
+          />
+          <ProfileImageUploadButton
+            variant="contained"
+            onClick={handleFileInputClick}
+          >
+            <AddAPhotoIcon fontSize="small" />
+          </ProfileImageUploadButton>
+          <input
+            type="file"
+            accept="image/*"
+            style={{ display: 'none' }}
+            ref={fileInputRef}
+            onChange={handleProfilePictureChange}
+          />
+        </ProfileImageContainer>
+        <ProfileInfo>
+          <Typography variant="h4" gutterBottom>
+            {profileData?.firstName && profileData?.lastName ? `${profileData.firstName} ${profileData.lastName}` : ''}
+            {profileData?.isPremium && (
+              <Box component="span" sx={{ ml: 1, verticalAlign: 'middle', display: 'inline-flex', alignItems: 'center' }}>
+                <StarIcon sx={{ color: '#FFD700', fontSize: 32, mr: 0.5 }} />
+                <Typography variant="subtitle1" sx={{ color: '#FFD700', fontWeight: 'bold', ml: 0.5 }}>
+                  Premium Member
+                </Typography>
+              </Box>
             )}
-            <Grid item xs={12} md={4}>
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <Box position="relative">
-                  <Avatar 
-                    sx={{ 
-                      width: 100, 
-                      height: 100, 
-                      mb: 2,
-                      border: '2px solid #fff',
-                      boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-                    }}
-                    src={profilePicture || undefined}
-                  >
-                    <PersonIcon sx={{ fontSize: 60 }} />
-                  </Avatar>
-                  <Tooltip title="Schimbă poza de profil">
-                    <label htmlFor="profile-picture-input">
-                      <input
-                        type="file"
-                        id="profile-picture-input"
-                        accept="image/*"
-                        style={{ display: 'none' }}
-                        onChange={handleProfilePictureChange}
-                      />
-                      <IconButton
-                        sx={{
-                          position: 'absolute',
-                          bottom: 16,
-                          right: -10,
-                          backgroundColor: 'primary.main',
-                          color: 'white',
-                          '&:hover': {
-                            backgroundColor: 'primary.dark',
-                          },
-                          width: 32,
-                          height: 32,
-                        }}
-                        component="span"
-                      >
-                        <AddAPhotoIcon sx={{ fontSize: 18 }} />
-                      </IconButton>
-                    </label>
-                  </Tooltip>
-                </Box>
-                <Typography variant="h5" gutterBottom>
-                  {user?.email}
-                </Typography>
-                <Typography variant="subtitle1" color="textSecondary">
-                  {profileData?.isPremium ? 'Premium Member' : 'Regular Member'}
-                </Typography>
-                {!profileData?.isPremium && (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<StarIcon />}
-                    onClick={handleUpgradeDialogOpen}
-                    sx={{ mt: 2 }}
-                  >
-                    Upgrade to Premium
-                  </Button>
-                )}
-              </Box>
-            </Grid>
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            {user?.email || 'No email provided'}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+            Member since {profileData?.createdAt ? new Date(profileData.createdAt).toLocaleDateString() : 'N/A'}
+          </Typography>
+          {!profileData?.isPremium && (
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<StarIcon />}
+              onClick={handleUpgradeDialogOpen}
+              sx={{ mt: 2 }}
+            >
+              Upgrade to Premium
+            </Button>
+          )}
+        </ProfileInfo>
+      </ProfileHeader>
 
-            <Grid item xs={12} md={8}>
-              <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                <Typography variant="h6">Weekly Workout Progress</Typography>
-                <IconButton 
-                  color="primary" 
-                  onClick={handleWorkoutDialogOpen}
-                  sx={{ 
-                    backgroundColor: (theme) => theme.palette.primary.main + '20',
-                    '&:hover': {
-                      backgroundColor: (theme) => theme.palette.primary.main + '30',
-                    }
-                  }}
-                >
-                  <AddIcon />
-                </IconButton>
-              </Box>
-              <Grid container spacing={2}>
-                {profileData?.weeklyProgress?.map((progress, index) => (
-                  <Grid item xs={12} sm={6} key={index}>
-                    <ProgressCard>
-                      <StyledCardContent>
-                        <Typography variant="subtitle2" color="textSecondary">
-                          {new Date(progress.date).toLocaleDateString()}
-                        </Typography>
-                        <Box display="flex" alignItems="center" gap={1} mb={1}>
-                          <FitnessCenterIcon color="primary" />
-                          <Typography variant="body2">
-                            {progress.workoutName ? `${progress.workoutName}: ` : ''}{progress.completed}/{progress.total} workouts completed
-                          </Typography>
-                        </Box>
-                        <LinearProgress
-                          variant="determinate"
-                          value={(progress.completed / progress.total) * 100}
-                          sx={{ height: 8, borderRadius: 4 }}
-                        />
-                      </StyledCardContent>
-                    </ProgressCard>
-                  </Grid>
-                ))}
-              </Grid>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={4}>
+          {profileData?.stats && <StatsOverview stats={profileData.stats} />}
+        </Grid>
+        <Grid item xs={12} md={8}>
+          <WorkoutHistory 
+            weeklyProgress={profileData?.weeklyProgress} 
+            onAddWorkout={handleWorkoutDialogOpen}
+          />
+          <Box mt={3}>
+            <ProgressChart progress={profileData?.weeklyProgress || []} />
+          </Box>
+        </Grid>
+      </Grid>
 
-              {!profileData?.isPremium && (
-                <Box mt={4}>
-                  <Typography variant="h6" gutterBottom>
-                    Premium Features
-                  </Typography>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} sm={4}>
-                      <FeatureCard>
-                        <StyledCardContent>
-                          <Box>
-                            <Typography variant="h6" gutterBottom>
-                              Advanced Workouts
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary">
-                              Access to exclusive workout programs and personalized training plans
-                            </Typography>
-                          </Box>
-                        </StyledCardContent>
-                      </FeatureCard>
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                      <FeatureCard>
-                        <StyledCardContent>
-                          <Box>
-                            <Typography variant="h6" gutterBottom>
-                              Progress Tracking
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary">
-                              Detailed analytics and progress tracking tools
-                            </Typography>
-                          </Box>
-                        </StyledCardContent>
-                      </FeatureCard>
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                      <FeatureCard>
-                        <StyledCardContent>
-                          <Box>
-                            <Typography variant="h6" gutterBottom>
-                              Expert Support
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary">
-                              Direct access to fitness experts and nutritionists
-                            </Typography>
-                          </Box>
-                        </StyledCardContent>
-                      </FeatureCard>
-                    </Grid>
-                  </Grid>
-                </Box>
-              )}
-            </Grid>
-          </Grid>
-        </StyledPaper>
-      </Container>
+      {/* Aici a fost eliminată secțiunea de membership, care acum există ca pagină separată */}
 
       {/* Premium Upgrade Dialog */}
       <Dialog
@@ -760,6 +669,7 @@ const UserProfile: React.FC = () => {
               value={newWorkout.date}
               onChange={handleWorkoutInputChange}
               sx={{ mb: 2 }}
+              required
             />
             <TextField
               margin="dense"
@@ -771,6 +681,13 @@ const UserProfile: React.FC = () => {
               onChange={handleWorkoutInputChange}
               InputProps={{ inputProps: { min: 0, max: 10 } }}
               sx={{ mb: 2 }}
+              error={newWorkout.completed > newWorkout.total}
+              helperText={
+                newWorkout.completed > newWorkout.total
+                  ? 'Completed workouts cannot exceed total planned.'
+                  : ''
+              }
+              required
             />
             <TextField
               margin="dense"
@@ -781,6 +698,7 @@ const UserProfile: React.FC = () => {
               value={newWorkout.total}
               onChange={handleWorkoutInputChange}
               InputProps={{ inputProps: { min: 1, max: 10 } }}
+              required
             />
           </Box>
         </DialogContent>
@@ -791,9 +709,24 @@ const UserProfile: React.FC = () => {
             variant="contained" 
             color="primary"
             disabled={newWorkout.completed > newWorkout.total || !newWorkout.workoutId}
+            sx={{ minWidth: 160 }}
           >
             Add Progress
           </Button>
+          {(!newWorkout.workoutId || newWorkout.completed > newWorkout.total) && (
+            <Box mt={1}>
+              {!newWorkout.workoutId && (
+                <Typography variant="caption" color="error">
+                  Please select a workout type.
+                </Typography>
+              )}
+              {newWorkout.completed > newWorkout.total && (
+                <Typography variant="caption" color="error">
+                  Completed workouts cannot exceed total planned.
+                </Typography>
+              )}
+            </Box>
+          )}
         </DialogActions>
       </Dialog>
 

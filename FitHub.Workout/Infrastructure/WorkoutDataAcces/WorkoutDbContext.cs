@@ -2,9 +2,8 @@
 using FitHub.WorkoutManagement.Domain.ExerciseDomain;
 using FitHub.WorkoutManagement.Domain.JoinEntry;
 using FitHub.WorkoutManagement.Domain.WorkoutDomain;
-
+using FitHub.ModuleIntegration.WorkoutModule.Workout;
 using Microsoft.EntityFrameworkCore;
-
 
 namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
 {
@@ -12,7 +11,7 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
     {
         public WorkoutDbContext(DbContextOptions<WorkoutDbContext> options) : base(options) { }
         public DbSet<Exercise> Exercises { get; set; }
-        public DbSet<Workout> Workouts { get; set; }
+        public DbSet<Domain.WorkoutDomain.Workout> Workouts { get; set; }
         public DbSet<WorkoutExercise> WorkoutExercises { get; set; }
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<ExercisesEquipments> ExercisesEquipments { get; set; }
@@ -22,7 +21,7 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
             base.OnModelCreating(modelBuilder);
 
             // Workout
-            modelBuilder.Entity<Workout>(entity =>
+            modelBuilder.Entity<Domain.WorkoutDomain.Workout>(entity =>
             {
                 entity.ToTable("Workout");
                 entity.HasKey(c => c.ID);
@@ -43,7 +42,7 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
                     .IsRequired()
                     .HasConversion<int>();
 
-                entity.Property(c => c.Image)
+                entity.Property(c => c.ImageUrl)
                     .IsRequired()
                     .HasMaxLength(3000);
 
@@ -54,8 +53,65 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
                 entity.Property(c => c.CaloriesBurned)
                     .IsRequired()
                     .HasMaxLength(10);
-                
-                
+
+                // Seed data
+                entity.HasData(
+                    new Domain.WorkoutDomain.Workout
+                    {
+                        ID = 1,
+                        Name = "Full Body Workout",
+                        Description = "A complete workout targeting all major muscle groups",
+                        Type = WorkoutType.Strength,
+                        Difficulty = WorkoutDifficulty.Intermediate,
+                        ImageUrl = "/assets/img/pexels-photo-669576.jpeg",
+                        Duration = "45 minutes",
+                        CaloriesBurned = "300-400"
+                    },
+                    new Domain.WorkoutDomain.Workout
+                    {
+                        ID = 2,
+                        Name = "HIIT Cardio",
+                        Description = "High-intensity interval training for maximum calorie burn",
+                        Type = WorkoutType.Cardio,
+                        Difficulty = WorkoutDifficulty.Advanced,
+                        ImageUrl = "/assets/img/pexels-photo-703012.jpeg",
+                        Duration = "30 minutes",
+                        CaloriesBurned = "400-500"
+                    },
+                    new Domain.WorkoutDomain.Workout
+                    {
+                        ID = 3,
+                        Name = "Yoga Flow",
+                        Description = "A calming yoga session focusing on flexibility and mindfulness",
+                        Type = WorkoutType.Flexibility,
+                        Difficulty = WorkoutDifficulty.Beginner,
+                        ImageUrl = "/assets/img/photo-1485727749690-d091e8284ef3.jpg",
+                        Duration = "60 minutes",
+                        CaloriesBurned = "200-300"
+                    },
+                    new Domain.WorkoutDomain.Workout
+                    {
+                        ID = 4,
+                        Name = "Core Crusher",
+                        Description = "Intense core workout to strengthen your abs and lower back",
+                        Type = WorkoutType.Strength,
+                        Difficulty = WorkoutDifficulty.Intermediate,
+                        ImageUrl = "/assets/img/pexels-photo-416778.jpeg",
+                        Duration = "30 minutes",
+                        CaloriesBurned = "250-350"
+                    },
+                    new Domain.WorkoutDomain.Workout
+                    {
+                        ID = 5,
+                        Name = "CrossFit Challenge",
+                        Description = "High-intensity functional movements for overall fitness",
+                        Type = WorkoutType.CrossFit,
+                        Difficulty = WorkoutDifficulty.Expert,
+                        ImageUrl = "/assets/img/pexels-photo-949129.jpeg",
+                        Duration = "45 minutes",
+                        CaloriesBurned = "500-600"
+                    }
+                );
             });
 
             // Exercise
@@ -93,15 +149,15 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
             modelBuilder.Entity<WorkoutExercise>(entity =>
             {
                 entity.ToTable("WorkoutExercise");
-                entity.HasKey(we => new { we.WorkoutID, we.ExerciseID });
+                entity.HasKey(we => new { we.WorkoutId, we.ExerciseId });
 
                 entity.HasOne(we => we.Workout)
                     .WithMany(w => w.WorkoutExercises)
-                    .HasForeignKey(we => we.WorkoutID);
+                    .HasForeignKey(we => we.WorkoutId);
 
                 entity.HasOne(we => we.Exercise)
                     .WithMany(e => e.WorkoutExercises)
-                    .HasForeignKey(we => we.ExerciseID);
+                    .HasForeignKey(we => we.ExerciseId);
             });
 
             // Equipment
@@ -119,15 +175,15 @@ namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
             modelBuilder.Entity<ExercisesEquipments>(entity =>
             {
                 entity.ToTable("ExerciseEquipment");
-                entity.HasKey(ee => new { ee.ExerciseID, ee.EquipmentID });
+                entity.HasKey(ee => new { ee.ExerciseId, ee.EquipmentId });
 
                 entity.HasOne(ee => ee.Exercise)
                     .WithMany(e => e.ExercisesEquipments)
-                    .HasForeignKey(ee => ee.ExerciseID);
+                    .HasForeignKey(ee => ee.ExerciseId);
 
                 entity.HasOne(ee => ee.Equipment)
                     .WithMany(e => e.ExercisesEquipments)
-                    .HasForeignKey(ee => ee.EquipmentID);
+                    .HasForeignKey(ee => ee.EquipmentId);
             });
 
         }

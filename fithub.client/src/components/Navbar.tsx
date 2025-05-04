@@ -23,12 +23,6 @@ export default function Navbar() {
             >
               Workouts
             </Link>
-            <Link
-              to="/create"
-              className="text-white hover:text-pink-200 transition-colors"
-            >
-              Create Workout
-            </Link>
           </div>
         </div>
       </div>

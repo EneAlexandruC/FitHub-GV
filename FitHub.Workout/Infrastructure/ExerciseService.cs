@@ -1,45 +1,68 @@
-﻿using FitHub.ModuleIntegration.Workout.Exercise;
-using FitHub.WorkoutManagement.Features.AddExecrise;
-using FitHub.WorkoutManagement.Features.GetExercise;
+﻿using FitHub.WorkoutManagement.Domain.ExerciseDomain;
+using FitHub.WorkoutManagement.Features.Shared.Exercises;
 using FitHub.WorkoutManagement.Features.Shared.ExerciseShared;
+using FitHub.ModuleIntegration.Workout.Exercise;
+using static FitHub.WorkoutManagement.Features.Shared.ExerciseShared.ExerciseGetDTOMapper;
+using WorkoutIExerciseService = FitHub.ModuleIntegration.Workout.Exercise.IExerciseService;
+using WorkoutExerciseGetDTO = FitHub.ModuleIntegration.Workout.Exercise.WorkoutExerciseGetDTO;
 
 namespace FitHub.WorkoutManagement.Infrastructure
 {
-    public class ExerciseService(AddExerciseCommandHandler addExerciseCommandHandler, 
-                                 GetExerciseQueryHandler getExerciseQueryHandler) : IExerciseService
+    public class ExerciseService : WorkoutIExerciseService
     {
-        public async Task<ExerciseGetDTO?> GetExerciseById(int ID)
-        {
-            var query = new GetExerciseQuery { ID = ID };
-            var result = await getExerciseQueryHandler.Handle(query);
+        private readonly IExerciseQueryRepository exerciseQueryRepository;
+        private readonly IExerciseCommandRepository exerciseCommandRepository;
 
-            if (result == null)
+        public ExerciseService(
+            IExerciseQueryRepository exerciseQueryRepository,
+            IExerciseCommandRepository exerciseCommandRepository)
+        {
+            this.exerciseQueryRepository = exerciseQueryRepository;
+            this.exerciseCommandRepository = exerciseCommandRepository;
+        }
+
+        public async Task<WorkoutExerciseGetDTO?> GetExerciseById(int id)
+        {
+            var exercise = await exerciseQueryRepository.GetExerciseById(id);
+            return exercise?.ExerciseGetDTO();
+        }
+
+        public async Task<IEnumerable<WorkoutExerciseGetDTO>> GetAllExercises()
+        {
+            var exercises = await exerciseQueryRepository.GetAllExercises();
+            return exercises.Select(e => e.ExerciseGetDTO());
+        }
+
+        public async Task<WorkoutExerciseGetDTO> AddExercise(ExerciseAddDTO exerciseDTO)
+        {
+            var exercise = exerciseDTO.ToDomainObject();
+            var addedExercise = await exerciseCommandRepository.AddExercise(exercise);
+            return addedExercise.ExerciseGetDTO();
+        }
+
+        public async Task<WorkoutExerciseGetDTO> UpdateExercise(int id, ExerciseAddDTO exerciseDTO)
+        {
+            var existingExercise = await exerciseQueryRepository.GetExerciseById(id);
+            if (existingExercise == null)
             {
-                throw new Exception("Exercise not found");
+                throw new KeyNotFoundException($"Exercise with ID {id} not found.");
             }
 
-            return result;
-        }
-
-        public async Task<ExerciseGetDTO> AddExercise(ExerciseAddDTO exerciseAddDTO)
-        {
-            // TODO: Remake this function after how regularuser was implemented (completed)
-
-            var exerciseDomain = exerciseAddDTO.ToDomainObject();
-            var addExerciseCommand = new AddExerciseCommand { exercise = exerciseDomain };
-            var result = await addExerciseCommandHandler.Handle(addExerciseCommand);
-
+            var updatedExercise = exerciseDTO.ToDomainObject();
+            updatedExercise.ID = id;
+            var result = await exerciseCommandRepository.UpdateExercise(updatedExercise);
             return result.ExerciseGetDTO();
-        }
-
-        public async Task<ExerciseGetDTO> UpdateExercise(int id, ExerciseAddDTO exercise)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task DeleteExercise(int id)
         {
-            throw new NotImplementedException();
+            var exercise = await exerciseQueryRepository.GetExerciseById(id);
+            if (exercise == null)
+            {
+                throw new KeyNotFoundException($"Exercise with ID {id} not found.");
+            }
+
+            await exerciseCommandRepository.DeleteExercise(exercise);
         }
     }
 }

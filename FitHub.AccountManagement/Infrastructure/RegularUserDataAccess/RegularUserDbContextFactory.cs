@@ -14,7 +14,7 @@ namespace FitHub.AccountManagement.Infrastructure.UserDataAccess
                .Build();
 
             var optionsBuilder = new DbContextOptionsBuilder<RegularUserDbContext>();
-            optionsBuilder.UseSqlServer("Server=.;Database=FitHub;Trusted_Connection=True;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
 
             return new RegularUserDbContext(optionsBuilder.Options);
         }

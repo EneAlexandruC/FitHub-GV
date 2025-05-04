@@ -1,13 +1,57 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Workout } from "./types";
+import { Workout } from "./types"; // Removed Exercise import
 
-// Thunk pentru fetch
+// Thunk for fetching workouts
 export const fetchWorkouts = createAsyncThunk(
   "workouts/fetchWorkouts",
-  async () => {
-    const response = await axios.get("http://localhost:5012/api/Workout/get-all-workouts");
-    return response.data;
+  async (_, { rejectWithValue }) => {
+    try {
+      console.log('Attempting to fetch workouts from API...');
+      const response = await axios.get("http://localhost:5012/api/Workout/get-all-workouts", { withCredentials: true });
+      console.log('Fetch workouts response status:', response.status);
+      console.log('Fetch workouts response data:', response.data);
+      // Validate response data structure here if necessary
+      return response.data as Workout[]; // Assert type
+    } catch (error: unknown) {
+      let errorMessage = 'Failed to fetch workouts';
+      if (axios.isAxiosError(error) && error.response?.data) {
+        const data = error.response.data;
+        errorMessage = typeof data === 'string' ? data : JSON.stringify(data);
+        console.error('Error fetching workouts:', errorMessage);
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+        console.error('Error fetching workouts:', errorMessage);
+      }
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
+// Thunk for saving a workout
+export const saveWorkout = createAsyncThunk(
+  'workouts/saveWorkout',
+  async (newWorkout: Omit<Workout, 'id'>, { rejectWithValue }) => {
+    try {
+      console.log('Attempting to save workout to API...', newWorkout);
+      const response = await axios.post("http://localhost:5012/api/Workout/add-workout", newWorkout, { withCredentials: true });
+      console.log('Save workout response status:', response.status);
+      console.log('Save workout response data:', response.data);
+      return response.data as Workout;
+    } catch (error: unknown) {
+      let errorMessage = 'Failed to save workout';
+      if (axios.isAxiosError(error) && error.response?.data) {
+        const data = error.response.data;
+        errorMessage = typeof data === 'string' ? data :
+                       (typeof data === 'object' && data !== null && 'message' in data && typeof (data as { message: unknown }).message === 'string') ? (data as { message: string }).message :
+                       JSON.stringify(data);
+        console.error('Error saving workout:', errorMessage);
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+        console.error('Error saving workout:', errorMessage);
+      }
+      return rejectWithValue(errorMessage);
+    }
   }
 );
 
@@ -18,281 +62,9 @@ interface WorkoutsState {
   error: string | null;
 }
 
+// Minimal initial state, rely on fetchWorkouts
 const initialState: WorkoutsState = {
-  workouts: [
-    {
-      id: "1",
-
-      title: "Full Body Strength",
-      duration: "medium",
-      equipment: "dumbbells",
-      difficulty: "beginner",
-      description:
-      "A comprehensive full-body workout targeting all major muscle groups",
-      imageUrl: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438",
-      exercises: [
-        {
-          id: "1-1",
-          name: "Dumbbell Squats",
-          sets: 3,
-          reps: 12,
-          description:
-            "Stand with feet shoulder-width apart, holding dumbbells at shoulders",
-        },
-        {
-          id: "1-2",
-          name: "Push-ups",
-          sets: 3,
-          reps: 15,
-          description: "Standard push-ups with proper form",
-        },
-        {
-          id: "1-3",
-          name: "Push-ups",
-          sets: 3,
-          reps: 15,
-          description: "Standard push-ups with proper form",
-        },
-        {
-          id: "1-4",
-          name: "Push-ups",
-          sets: 3,
-          reps: 15,
-          description: "Standard push-ups with proper form",
-        },
-        {
-          id: "1-5",
-          name: "Push-ups",
-          sets: 3,
-          reps: 15,
-          description: "Standard push-ups with proper form",
-        },
-        {
-          id: "1-6",
-          name: "Push-ups",
-          sets: 3,
-          reps: 15,
-          description: "Standard push-ups with proper form",
-        },
-      ],
-    },
-    {
-      id: "2",
-      title: "HIIT Cardio",
-
-      duration: "short",
-      equipment: "machines",
-      difficulty: "intermediate",
-      description:
-        "High-intensity interval training to boost cardiovascular fitness",
-      imageUrl: "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3",
-      exercises: [
-        {
-          id: "2-1",
-          name: "Burpees",
-          sets: 4,
-          reps: 10,
-          description: "Full body exercise combining squat, push-up, and jump",
-        },
-        {
-          id: "2-2",
-          name: "Mountain Climbers",
-          sets: 3,
-          reps: 20,
-          description: "Dynamic plank exercise targeting core and cardio",
-        },
-      ],
-    },
-    {
-      id: "3",
-
-      title: "HIIT Cardio",
-      duration: "short",
-      equipment: "bodyweight",
-      difficulty: "intermediate",
-      description:
-        "High-intensity interval training to boost cardiovascular fitness",
-      imageUrl: "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3",
-      exercises: [
-        {
-          id: "2-1",
-          name: "Burpees",
-          sets: 4,
-          reps: 10,
-          description: "Full body exercise combining squat, push-up, and jump",
-        },
-        {
-          id: "2-2",
-          name: "Mountain Climbers",
-          sets: 3,
-          reps: 20,
-          description: "Dynamic plank exercise targeting core and cardio",
-        },
-      ],
-    },
-    {
-      id: "4",
-
-      title: "HIIT Cardio",
-      duration: "short",
-      equipment: "bodyweight",
-      difficulty: "intermediate",
-      description:
-        "High-intensity interval training to boost cardiovascular fitness",
-      imageUrl: "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3",
-      exercises: [
-        {
-          id: "2-1",
-          name: "Burpees",
-          sets: 4,
-          reps: 10,
-          description: "Full body exercise combining squat, push-up, and jump",
-        },
-        {
-          id: "2-2",
-          name: "Mountain Climbers",
-          sets: 3,
-          reps: 20,
-          description: "Dynamic plank exercise targeting core and cardio",
-        },
-      ],
-    },
-    {
-      id: "5",
-
-      title: "HIIT Cardio",
-      duration: "short",
-      equipment: "bodyweight",
-      difficulty: "intermediate",
-      description:
-        "High-intensity interval training to boost cardiovascular fitness",
-      imageUrl: "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3",
-      exercises: [
-        {
-          id: "2-1",
-          name: "Burpees",
-          sets: 4,
-          reps: 10,
-          description: "Full body exercise combining squat, push-up, and jump",
-        },
-        {
-          id: "2-2",
-          name: "Mountain Climbers",
-          sets: 3,
-          reps: 20,
-          description: "Dynamic plank exercise targeting core and cardio",
-        },
-      ],
-    },
-    {
-      id: "6",
-
-      title: "HIIT Cardio",
-      duration: "short",
-      equipment: "bodyweight",
-      difficulty: "intermediate",
-      description:
-        "High-intensity interval training to boost cardiovascular fitness",
-      imageUrl: "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3",
-      exercises: [
-        {
-          id: "2-1",
-          name: "Burpees",
-          sets: 4,
-          reps: 10,
-          description: "Full body exercise combining squat, push-up, and jump",
-        },
-        {
-          id: "2-2",
-          name: "Mountain Climbers",
-          sets: 3,
-          reps: 20,
-          description: "Dynamic plank exercise targeting core and cardio",
-        },
-      ],
-    },
-    {
-      id: "7",
-
-      title: "HIIT Cardio",
-      duration: "short",
-      equipment: "bodyweight",
-      difficulty: "intermediate",
-      description:
-        "High-intensity interval training to boost cardiovascular fitness",
-      imageUrl: "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3",
-      exercises: [
-        {
-          id: "2-1",
-          name: "Burpees",
-          sets: 4,
-          reps: 10,
-          description: "Full body exercise combining squat, push-up, and jump",
-        },
-        {
-          id: "2-2",
-          name: "Mountain Climbers",
-          sets: 3,
-          reps: 20,
-          description: "Dynamic plank exercise targeting core and cardio",
-        },
-      ],
-    },
-    {
-      id: "8",
-
-      title: "HIIT Cardio",
-      duration: "short",
-      equipment: "bodyweight",
-      difficulty: "intermediate",
-      description:
-        "High-intensity interval training to boost cardiovascular fitness",
-      imageUrl: "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3",
-      exercises: [
-        {
-          id: "2-1",
-          name: "Burpees",
-          sets: 4,
-          reps: 10,
-          description: "Full body exercise combining squat, push-up, and jump",
-        },
-        {
-          id: "2-2",
-          name: "Mountain Climbers",
-          sets: 3,
-          reps: 20,
-          description: "Dynamic plank exercise targeting core and cardio",
-        },
-      ],
-    },
-    {
-      id: "9",
-
-      title: "HIIT Cardio",
-      duration: "short",
-      equipment: "bodyweight",
-      difficulty: "intermediate",
-      description:
-        "High-intensity interval training to boost cardiovascular fitness",
-      imageUrl: "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3",
-      exercises: [
-        {
-          id: "2-1",
-          name: "Burpees",
-          sets: 4,
-          reps: 10,
-          description: "Full body exercise combining squat, push-up, and jump",
-        },
-        {
-          id: "2-2",
-          name: "Mountain Climbers",
-          sets: 3,
-          reps: 20,
-          description: "Dynamic plank exercise targeting core and cardio",
-        },
-      ],
-    },
-  ],
+  workouts: [], // Start empty, fetch from backend
   selectedWorkout: null,
   loading: false,
   error: null,
@@ -303,15 +75,16 @@ const workoutsSlice = createSlice({
   initialState,
   reducers: {
     setSelectedWorkout: (state, action: PayloadAction<string | number>) => {
-      state.selectedWorkout =
-        state.workouts.find((w) => String(w.id) === String(action.payload)) || null;
+      state.selectedWorkout = state.workouts.find((w) => String(w.id) === String(action.payload)) || null;
     },
     clearSelectedWorkout: (state) => {
       state.selectedWorkout = null;
     },
+    // Add reducer to handle local state update if backend save fails (optional)
   },
   extraReducers: (builder) => {
     builder
+      // Fetch Workouts Cases
       .addCase(fetchWorkouts.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -319,14 +92,28 @@ const workoutsSlice = createSlice({
       .addCase(fetchWorkouts.fulfilled, (state, action: PayloadAction<Workout[]>) => {
         state.loading = false;
         state.workouts = action.payload;
+        state.error = null;
       })
       .addCase(fetchWorkouts.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || "Failed to load workouts";
+        state.error = action.payload as string || "Failed to load workouts";
+      })
+      // Save Workout Cases
+      .addCase(saveWorkout.pending, (state) => {
+        state.loading = true; // Show loading during save
+        state.error = null;
+      })
+      .addCase(saveWorkout.fulfilled, (state, action: PayloadAction<Workout>) => {
+        state.loading = false;
+        state.workouts.push(action.payload); // Add the newly saved workout (with ID) to the list
+        state.error = null;
+      })
+      .addCase(saveWorkout.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string || "Failed to save workout";
       });
-  }
+  },
 });
 
-export const { setSelectedWorkout, clearSelectedWorkout } =
-  workoutsSlice.actions;
+export const { setSelectedWorkout, clearSelectedWorkout } = workoutsSlice.actions;
 export default workoutsSlice.reducer;

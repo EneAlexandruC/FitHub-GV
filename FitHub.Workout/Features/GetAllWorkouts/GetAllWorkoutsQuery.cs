@@ -1,12 +1,10 @@
-﻿using System;
+﻿using FitHub.ModuleIntegration.WorkoutModule.Workout;
+using MediatR;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FitHub.WorkoutManagement.Features.GetAllWorkouts
+namespace FitHub.Workout.Features.GetAllWorkouts
 {
-    public class GetAllWorkoutsQuery
+    public class GetAllWorkoutsQuery : IRequest<IEnumerable<WorkoutGetDTO>>
     {
     }
 }

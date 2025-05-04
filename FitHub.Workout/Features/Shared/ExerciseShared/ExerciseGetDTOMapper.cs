@@ -1,13 +1,13 @@
-﻿using FitHub.ModuleIntegration.Workout.Exercise;
-using FitHub.WorkoutManagement.Domain.ExerciseDomain;
+﻿using FitHub.WorkoutManagement.Domain.ExerciseDomain;
+using WorkoutExerciseGetDTO = FitHub.ModuleIntegration.Workout.Exercise.WorkoutExerciseGetDTO;
 
 namespace FitHub.WorkoutManagement.Features.Shared.ExerciseShared
 {
     public static class ExerciseGetDTOMapper
     {
-        public static ExerciseGetDTO ExerciseGetDTO(this Exercise exercise)
+        public static WorkoutExerciseGetDTO ExerciseGetDTO(this Exercise exercise)
         {
-            return new ExerciseGetDTO
+            return new WorkoutExerciseGetDTO
             {
                 ID = exercise.ID,
                 Name = exercise.Name,

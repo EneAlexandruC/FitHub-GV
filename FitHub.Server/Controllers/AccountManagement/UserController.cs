@@ -37,20 +37,32 @@ namespace FitHub.Server.Controllers.AccountManagement
                 var addedUser = await regularUserService.AddUser(userAddDTO);
                 return Ok(addedUser);
             }
-            catch (Exception ex)
+            catch (ArgumentException argEx)
             {
-                // Verificăm recursiv toate InnerException pentru "Duplicate entry"
-                Exception? current = ex;
+                // Validation error (e.g., invalid email, password, etc.)
+                // Log the exception details here as needed
+                return BadRequest(new { message = argEx.Message });
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException dbEx)
+            {
+                // Check for duplicate entry or constraint violation
+                Exception? current = dbEx;
                 while (current != null)
                 {
-                    if (current.Message.Contains("Duplicate entry"))
+                    if (current.Message.Contains("Duplicate entry") || current.Message.Contains("UNIQUE constraint failed"))
                     {
                         return Conflict(new { message = "Email already exists. Please use another email address." });
                     }
                     current = current.InnerException;
                 }
-                // Orice altă eroare - DEBUG: returnăm mesajul excepției pentru a identifica sursa problemei
-                return StatusCode(500, new { message = ex.ToString() });
+                // Other DB errors
+                // Log the exception details here as needed
+                return StatusCode(500, new { message = "A database error occurred while registering the user." });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception details here as needed
+                return StatusCode(500, new { message = "An unexpected error occurred during registration." });
             }
         }
 

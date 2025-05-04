@@ -49,6 +49,10 @@ namespace FitHub.AccountManagement.Infrastructure.UserDataAccess
                 entity.Property(c => c.DateOfBirth)
                     .IsRequired()
                     .HasColumnType("date");
+
+                entity.Property(c => c.DateCreated)
+                    .IsRequired()
+                    .HasColumnType("datetime2");
             });
         }
     }

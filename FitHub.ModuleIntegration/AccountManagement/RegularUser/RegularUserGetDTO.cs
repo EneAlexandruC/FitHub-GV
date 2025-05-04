@@ -11,5 +11,6 @@
         public double Height { get;  set; }
         public DateTime DateOfBirth { get;  set; }
         public int Type { get; set; }
+        public DateTime DateCreated { get; set; }
     }
 }

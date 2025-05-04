@@ -82,11 +82,6 @@ const Nav: React.FC = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className={styles.button} to="/community" role="button">
-                Community
-              </Link>
-            </li>
-            <li className="nav-item">
               <Link className={styles.button} to="/faq" role="button">
                 Faq
               </Link>

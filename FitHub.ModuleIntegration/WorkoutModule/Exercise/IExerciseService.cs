@@ -1,10 +1,13 @@
-﻿namespace FitHub.ModuleIntegration.Workout.Exercise
+﻿using System.Threading.Tasks;
+
+namespace FitHub.ModuleIntegration.Workout.Exercise
 {
     public interface IExerciseService
     {
-        Task<ExerciseGetDTO> GetExerciseById(int ID);
-        Task<ExerciseGetDTO> AddExercise(ExerciseAddDTO exercise);
-        Task<ExerciseGetDTO> UpdateExercise(int id, ExerciseAddDTO exercise);
+        Task<WorkoutExerciseGetDTO?> GetExerciseById(int ID);
+        Task<IEnumerable<WorkoutExerciseGetDTO>> GetAllExercises();
+        Task<WorkoutExerciseGetDTO> AddExercise(ExerciseAddDTO exercise);
+        Task<WorkoutExerciseGetDTO> UpdateExercise(int id, ExerciseAddDTO exercise);
         Task DeleteExercise(int id);
     }
 }

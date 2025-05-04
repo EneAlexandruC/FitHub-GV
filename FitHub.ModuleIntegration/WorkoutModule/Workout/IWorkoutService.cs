@@ -9,7 +9,7 @@ namespace FitHub.ModuleIntegration.WorkoutModule.Workout
 {
     public interface IWorkoutService
     {
-        Task<WorkoutGetDTO> GetWorkoutById(int id);
+        Task<WorkoutGetDTO?> GetWorkoutById(int id);
 
         Task<IEnumerable<WorkoutGetDTO>> GetAllWorkouts();
     }

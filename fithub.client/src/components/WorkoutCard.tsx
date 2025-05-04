@@ -1,9 +1,16 @@
-import { Clock, Dumbbell, BarChart } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Workout } from "../types";
+import { Clock, Dumbbell, BarChart } from "lucide-react";
+import Image from "next/image";
 
 interface WorkoutCardProps {
-  workout: Workout;
+  workout: {
+    id: string;
+    name: string;
+    imageUrl: string;
+    duration: number;
+    equipment: string[];
+    difficulty: string;
+  };
 }
 
 export default function WorkoutCard({ workout }: WorkoutCardProps) {
@@ -13,10 +20,12 @@ export default function WorkoutCard({ workout }: WorkoutCardProps) {
       className="group bg-white/10 backdrop-blur-lg rounded-2xl overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
     >
       <div className="relative h-48">
-        <img
-          src={workout.image}
+        <Image
+          src={workout.imageUrl}
           alt={workout.name}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+          fill
+          className="object-cover group-hover:scale-110 transition-transform duration-300"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
         <div className="absolute bottom-4 left-4 text-white">

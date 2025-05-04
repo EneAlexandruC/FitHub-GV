@@ -10,9 +10,10 @@ namespace FitHub.WorkoutManagement.Domain.JoinEntry
 {
     public class ExercisesEquipments
     {
-        public int ExerciseID { get; set; }
-        public Exercise Exercise { get; set; }
-        public int EquipmentID { get; set; }
-        public Equipment Equipment { get; set; }
+        public int ExerciseId { get; set; }
+        public required Exercise Exercise { get; set; }
+
+        public int EquipmentId { get; set; }
+        public required Equipment Equipment { get; set; }
     }
 }

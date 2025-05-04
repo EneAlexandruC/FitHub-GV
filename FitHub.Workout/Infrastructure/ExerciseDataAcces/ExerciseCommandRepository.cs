@@ -13,6 +13,20 @@ namespace FitHub.WorkoutManagement.Infrastructure.ExerciseDataAcces
             return exercise;
         }
 
+        public async Task<Exercise> UpdateExercise(Exercise exercise)
+        {
+            dbContext.Update(exercise);
+            await dbContext.SaveChangesAsync();
+
+            return exercise;
+        }
+
+        public async Task DeleteExercise(Exercise exercise)
+        {
+            dbContext.Remove(exercise);
+            await dbContext.SaveChangesAsync();
+        }
+
         public async Task SaveChanges()
         {
             await dbContext.SaveChangesAsync();

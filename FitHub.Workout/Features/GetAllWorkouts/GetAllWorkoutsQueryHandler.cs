@@ -1,27 +1,27 @@
-
+using FitHub.ModuleIntegration.WorkoutModule.Workout;
+using FitHub.Workout.Features.Shared.WorkoutShared;
 using FitHub.WorkoutManagement.Domain.WorkoutDomain;
-using FitHub.WorkoutManagement.Features.Shared.Workouts;
-using static FitHub.WorkoutManagement.Features.Shared.Workouts.WorkoutGetDTOMapper;
-using System;
+using MediatR;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
-namespace FitHub.WorkoutManagement.Features.GetAllWorkouts
+namespace FitHub.Workout.Features.GetAllWorkouts
 {
-    public class GetAllWorkoutsQueryHandler(IWorkoutQueryRepository workoutQueryRepository)
+    public class GetAllWorkoutsQueryHandler : IRequestHandler<GetAllWorkoutsQuery, IEnumerable<WorkoutGetDTO>>
     {
-        public async Task<IEnumerable<WorkoutGetDTO>> Handle(GetAllWorkoutsQuery query)
+        private readonly IWorkoutQueryRepository workoutQueryRepository;
+
+        public GetAllWorkoutsQueryHandler(IWorkoutQueryRepository workoutQueryRepository)
+        {
+            this.workoutQueryRepository = workoutQueryRepository;
+        }
+
+        public async Task<IEnumerable<WorkoutGetDTO>> Handle(GetAllWorkoutsQuery request, CancellationToken cancellationToken)
         {
             var workouts = await workoutQueryRepository.GetAllWorkouts();
-
-            if (workouts == null)
-            {
-                throw new InvalidOperationException("No workouts found");
-            }
-
-            return workouts.Select(workout => workout.ToWorkoutGetDTO());
+            return workouts.Select(w => w.ToDTO());
         }
     }
 }

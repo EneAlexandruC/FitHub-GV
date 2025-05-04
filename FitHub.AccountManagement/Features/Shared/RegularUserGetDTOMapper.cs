@@ -18,6 +18,7 @@ namespace FitHub.AccountManagement.Features.Shared
                 Height = user.Height,
                 DateOfBirth = user.DateOfBirth,
                 Type = (int)user.Type,
+                DateCreated = user.DateCreated,
             };
         }
     }

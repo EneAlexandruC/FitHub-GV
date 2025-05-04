@@ -1,10 +1,11 @@
-﻿using FitHub.ModuleIntegration.Workout.Exercise;
+using FitHub.ModuleIntegration.Workout.Exercise;
+using FitHub.WorkoutManagement.Features.Shared.ExerciseShared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitHub.Server.Controllers.Workout
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class ExerciseController : ControllerBase
     {
         private readonly IExerciseService exerciseService;
@@ -14,8 +15,8 @@ namespace FitHub.Server.Controllers.Workout
             this.exerciseService = exerciseService;
         }
 
-        [HttpPost("add-exercise")]
-        public async Task<ExerciseGetDTO> Post([FromBody] ExerciseAddDTO exerciseAddDTO)
+        [HttpPost]
+        public async Task<WorkoutExerciseGetDTO> Post([FromBody] ExerciseAddDTO exerciseAddDTO)
         {
             if (exerciseAddDTO == null)
             {
@@ -23,16 +24,52 @@ namespace FitHub.Server.Controllers.Workout
             }
 
             var addedExercise = await exerciseService.AddExercise(exerciseAddDTO);
-
             return addedExercise;
         }
 
-        [HttpGet("get-exercise")]
-        public async Task<ExerciseGetDTO> Get([FromQuery] int ID)
+        [HttpPut("{id}")]
+        public async Task<WorkoutExerciseGetDTO> Put(int id, [FromBody] ExerciseAddDTO exerciseAddDTO)
         {
-            var exercise = await exerciseService.GetExerciseById(ID);
+            if (exerciseAddDTO == null)
+            {
+                throw new ArgumentNullException(nameof(exerciseAddDTO));
+            }
 
-            return exercise;
+            var updatedExercise = await exerciseService.UpdateExercise(id, exerciseAddDTO);
+            return updatedExercise;
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await exerciseService.DeleteExercise(id);
+            return NoContent();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<WorkoutExerciseGetDTO?> Get(int id)
+        {
+            return await exerciseService.GetExerciseById(id);
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<WorkoutExerciseGetDTO>> GetAll()
+        {
+            return await exerciseService.GetAllExercises();
+        }
+        [HttpPost("seed-exercises")]
+        public async Task<IActionResult> SeedExercises([FromServices] FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces.WorkoutDbContext context)
+        {
+            if (!context.Exercises.Any())
+            {
+                context.Exercises.AddRange(
+    FitHub.WorkoutManagement.Domain.ExerciseDomain.Exercise.Create("Push Up", "Piept", "Bodyweight", "Piept", "None", 0),
+    FitHub.WorkoutManagement.Domain.ExerciseDomain.Exercise.Create("Squat", "Picioare", "Bodyweight", "Picioare", "None", 0),
+    FitHub.WorkoutManagement.Domain.ExerciseDomain.Exercise.Create("Pull Up", "Spate", "Bodyweight", "Spate", "Bar", 1)
+);
+                await context.SaveChangesAsync();
+            }
+            return Ok("Seeded exercises");
         }
     }
 }

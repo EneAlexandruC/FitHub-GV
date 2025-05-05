@@ -32,7 +32,7 @@ const ProgressChart: React.FC<ProgressChartProps> = ({ progress }) => {
   return (
     <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
       <Typography variant="h6" gutterBottom>
-        Evoluția Antrenamentelor (ultimele sesiuni)
+        Workout Progress (recent sessions)
       </Typography>
       <ResponsiveContainer width="100%" height={250}>
         <LineChart data={chartData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
@@ -40,8 +40,8 @@ const ProgressChart: React.FC<ProgressChartProps> = ({ progress }) => {
           <XAxis dataKey="date" />
           <YAxis allowDecimals={false} />
           <Tooltip />
-          <Line type="monotone" dataKey="completed" stroke="#1976d2" strokeWidth={2} name="Finalizate" />
-          <Line type="monotone" dataKey="total" stroke="#8884d8" strokeWidth={2} name="Planificate" />
+          <Line type="monotone" dataKey="completed" stroke="#1976d2" strokeWidth={2} name="Completed" />
+          <Line type="monotone" dataKey="total" stroke="#8884d8" strokeWidth={2} name="Planned" />
         </LineChart>
       </ResponsiveContainer>
     </Paper>

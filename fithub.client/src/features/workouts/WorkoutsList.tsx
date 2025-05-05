@@ -19,7 +19,7 @@ const WorkoutsList: React.FC<WorkoutsListProps> = ({ searchResults }) => {
   const workouts = useSelector((state: RootState) => state.workouts?.workouts ?? []);
 
   useEffect(() => {
-    dispatch(fetchWorkouts());
+    // dispatch(fetchWorkouts());
   }, [dispatch]);
 
   useEffect(() => {

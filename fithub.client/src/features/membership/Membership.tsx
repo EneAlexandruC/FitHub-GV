@@ -78,7 +78,7 @@ const Membership: React.FC = () => {
         'Priority support',
         'Exclusive content'
       ],
-      popular: true
+      popular: false
     },
     {
       name: 'Pro',

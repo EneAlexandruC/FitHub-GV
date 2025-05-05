@@ -40,14 +40,14 @@ const SearchResults: React.FC = () => {
   
     return (
       <Container className={styles.containerlist}>
-        <h1 className="mb-4">Search Results for "{searchTherm}"</h1>
+        {/* <h1 className="mb-4">Search Results for "{searchTherm}"</h1> */}
         <div className="d-flex justify-content-between aligh-items-center mb-4">
-          <Button variant="secondary" onClick={() => navigate(-1)} className="mb-4">
+          {/* <Button variant="secondary" onClick={() => navigate(-1)} className="mb-4">
             Back
-          </Button>
+          </Button> */}
           
           {/* Search Bar */}
-          <Form className="position-relative mb-4" onSubmit={handleSearch} style={{ maxWidth: "40vh", width: "100%" }}>
+          {/* <Form className="position-relative mb-4" onSubmit={handleSearch} style={{ maxWidth: "40vh", width: "100%" }}>
               <Form.Control 
                 className={`${styles.searchbar} pe-5`}
                 type="text"
@@ -58,7 +58,7 @@ const SearchResults: React.FC = () => {
               <Button type="submit" className={styles.searchButton} variant="link" >
                 <i className="fas fa-search" ></i>
               </Button>
-          </Form>
+          </Form> */}
         </div>
         {searchResults.length > 0 ? (
           <WorkoutsList searchResults={searchResults} />

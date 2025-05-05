@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {Container, Row, Col, Button, Form} from "react-bootstrap";
+import {Container, Button, Form} from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
-import WorkoutCard from "./WorkoutCard";
+import WorkoutsList from "./WorkoutsList";
 import styles from "./WorkoutsList.module.css";
 
 const SearchResults: React.FC = () => {
@@ -32,7 +32,7 @@ const SearchResults: React.FC = () => {
       // Filter workouts based on the search Therm
       const results = workouts.filter(
         (workout) =>
-          workout.title.toLowerCase().includes(searchTherm.toLowerCase()) ||
+          workout.name.toLowerCase().includes(searchTherm.toLowerCase()) ||
           workout.description.toLowerCase().includes(searchTherm.toLowerCase())
       );
       setSearchResults(results);
@@ -60,20 +60,14 @@ const SearchResults: React.FC = () => {
               </Button>
           </Form>
         </div>
-        <Row xs={1} md={2} lg={3} className="g-4">
-          {searchResults.length > 0 ? (
-            searchResults.map((workout) => ( 
-            <Col key={workout.id}> 
-              <WorkoutCard workout={workout} />
-            </Col>
-          ))
-          ) : (
-            <div >
-              <h3 style={{ color:"#C8C8D7" }}>There are no results for "{searchTherm}"</h3>
-              <p style={{ color:"#C8C8D7" }}>Try searching again</p>
-            </div>
-          )}
-        </Row>
+        {searchResults.length > 0 ? (
+          <WorkoutsList searchResults={searchResults} />
+        ) : (
+          <div>
+            <h3 style={{ color: "#C8C8D7" }}>There are no results for "{searchTherm}"</h3>
+            <p style={{ color: "#C8C8D7" }}>Try searching again</p>
+          </div>
+        )}
       </Container>
     );
   };

@@ -19,15 +19,18 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout }) => {
     >
       <Card.Img
         variant="top"
-        src={workout.imageUrl}
+        src={/^https?:\/\//.test(workout.gif) ? workout.gif : (workout.gif.startsWith('/') ? workout.gif : `/workouts/${workout.gif}`)}
         style={{ height: "200px", objectFit: "cover" }}
+        onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = '/workouts/placeholder.jpg'; }}
       />
       <Card.Body className="d-flex flex-column">
-        <Card.Title>{workout.title}</Card.Title>
+        <Card.Title>{workout.name}</Card.Title>
         <div className="mt-2">
-          <span className="badge bg-primary me-2">{workout.duration}</span>
-          <span className="badge bg-secondary">{workout.equipment}</span>
-          {/*<span className="badge bg-success ms-2">{workout.difficulty}</span>*/}
+          <span className="badge bg-primary me-2">{workout.duration} mins</span>
+          {workout.equipment.map((eq) => (
+            <span key={eq} className="badge bg-secondary me-1">{eq.charAt(0).toUpperCase() + eq.slice(1)}</span>
+          ))}
+          <span className="badge bg-success ms-2">{workout.difficulty.charAt(0).toUpperCase() + workout.difficulty.slice(1)}</span>
         </div>
       </Card.Body>
     </Card>

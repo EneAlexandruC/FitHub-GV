@@ -1,6 +1,9 @@
 .workoutsPage {
-    background-image:linear-gradient(rgba(0, 0, 0, 0.74),rgba(0, 0, 0, 0.405)),linear-gradient(#17143D,#1A234E ,#484E69); /* Replace with your desired color */
-    background-size: cover; /* Ensure the background covers the entire page */
+    min-height: 100vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.74),rgba(0, 0, 0, 0.405)), linear-gradient(#17143D,#1A234E,#484E69);
+    background-size: 100% 100%, 100% 100%;
+    background-repeat: no-repeat, no-repeat;
+    background-attachment: fixed, fixed;
 }
 .workoutsPage h1{
     color: #42424e;

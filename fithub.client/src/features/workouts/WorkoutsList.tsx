@@ -19,7 +19,7 @@ const WorkoutsList: React.FC<WorkoutsListProps> = ({ searchResults }) => {
   const workouts = useSelector((state: RootState) => state.workouts?.workouts ?? []);
 
   useEffect(() => {
-    dispatch(fetchWorkouts());
+    // dispatch(fetchWorkouts());
   }, [dispatch]);
 
   useEffect(() => {
@@ -34,6 +34,16 @@ const WorkoutsList: React.FC<WorkoutsListProps> = ({ searchResults }) => {
   const [difficulty, setDifficulty] = useState<string[]>([]);
   const [duration, setDuration] = useState<string[]>([]);
   const [filteredWorkouts, setFilteredWorkouts] = useState<Workout[]>(workouts);
+
+  // Live search: filter as you type
+  useEffect(() => {
+    const sourceWorkouts = searchResults && searchResults.length > 0 ? searchResults : workouts;
+    const filtered = sourceWorkouts.filter((workout: Workout) =>
+      workout.name.toLowerCase().includes(searchInput.toLowerCase()) ||
+      workout.description.toLowerCase().includes(searchInput.toLowerCase())
+    );
+    setFilteredWorkouts(filtered);
+  }, [searchInput, searchResults, workouts, equipment, difficulty, duration]);
 
   // Dynamically extract all unique equipment options from the workouts
   const allWorkouts = searchResults && searchResults.length > 0 ? searchResults : workouts;
@@ -210,18 +220,16 @@ const WorkoutsList: React.FC<WorkoutsListProps> = ({ searchResults }) => {
             </Offcanvas.Body>
           </Offcanvas>
 
-          <Form className="position-relative mb-4" onSubmit={handleSearch} style={{ maxWidth: "40vh", width: "100%" }}>
-              <Form.Control 
-                className={`${styles.searchbar} pe-5`}
-                type="text"
-                placeholder="Search workouts... "
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-                />
-              <Button type="submit" className={styles.searchButton} variant="link" >
-                <i className="fas fa-search" ></i>
-              </Button>
-              </Form>
+          <Form className="position-relative mb-4" style={{ maxWidth: "40vh", width: "100%" }}>
+            <Form.Control
+              className={`${styles.searchbar} pe-5`}
+              type="text"
+              placeholder="Search workouts... "
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
+          </Form>
+              
         </div>
 
 

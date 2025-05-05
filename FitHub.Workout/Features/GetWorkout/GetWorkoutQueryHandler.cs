@@ -1,28 +1,31 @@
-
+using FitHub.ModuleIntegration.WorkoutModule.Workout;
+using FitHub.Workout.Features.Shared.WorkoutShared;
 using FitHub.WorkoutManagement.Domain.WorkoutDomain;
-using FitHub.WorkoutManagement.Features.Shared.Workouts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using MediatR;
+using System.Threading;
 using System.Threading.Tasks;
 
-namespace FitHub.WorkoutManagement.Features.GetWorkout
+namespace FitHub.Workout.Features.GetWorkout
 {
-    public class GetWorkoutQueryHandler(IWorkoutQueryRepository workoutQueryRepository)
+    public class GetWorkoutQueryHandler : IRequestHandler<GetWorkoutQuery, WorkoutGetDTO>
     {
-        public async Task<WorkoutGetDTO?> Handle(GetWorkoutQuery query)
+        private readonly IWorkoutQueryRepository workoutQueryRepository;
+
+        public GetWorkoutQueryHandler(IWorkoutQueryRepository workoutQueryRepository)
         {
-            if (query.ID <= 0 || query.ID == null)
-            {
-                throw new ArgumentException("An ID must be provided", nameof(query.ID));
-            }
-            var workout = await workoutQueryRepository.GetWorkoutByID(query.ID);
+            this.workoutQueryRepository = workoutQueryRepository;
+        }
+
+        public async Task<WorkoutGetDTO> Handle(GetWorkoutQuery request, CancellationToken cancellationToken)
+        {
+            var workout = await workoutQueryRepository.GetWorkoutById(request.Id);
+
             if (workout == null)
             {
-                throw new InvalidOperationException($"No workout found with ID {query.ID}");
+                return null;
             }
-            return workout.ToWorkoutGetDTO();
+
+            return workout.ToDTO();
         }
     }
 }

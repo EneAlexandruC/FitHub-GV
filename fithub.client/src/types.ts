@@ -19,5 +19,5 @@ export interface Workout {
   duration: number;
   exercises: Exercise[];
   equipment: Equipment[];
-  image: string;
+  imageUrl: string;
 }

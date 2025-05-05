@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WorkoutGetDTO = FitHub.ModuleIntegration.WorkoutModule.Workout.WorkoutGetDTO;
 
 namespace FitHub.WorkoutManagement.Features.Shared.Workouts
 {

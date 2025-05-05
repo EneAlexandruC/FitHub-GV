@@ -9,7 +9,7 @@ namespace FitHub.WorkoutManagement.Features.GetEquipment
         public async Task<EquipmentGetDTO?> Handle(GetEquipmentQuery query)
         {
             var equipment = await equipmentQueryRepository.GetEquipmentById(query.ID);
-            return equipment.EquipmentGetDTO();
+            return equipment != null ? equipment.EquipmentGetDTO() : null;
         }
     }
 }

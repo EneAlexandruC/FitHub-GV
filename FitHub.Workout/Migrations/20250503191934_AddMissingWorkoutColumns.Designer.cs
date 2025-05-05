@@ -11,15 +11,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitHub.WorkoutManagement.Migrations
 {
     [DbContext(typeof(WorkoutDbContext))]
-    [Migration("20250424182634_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250503191934_AddMissingWorkoutColumns")]
+    partial class AddMissingWorkoutColumns
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.13")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -85,30 +85,36 @@ namespace FitHub.WorkoutManagement.Migrations
 
             modelBuilder.Entity("FitHub.WorkoutManagement.Domain.JoinEntry.ExercisesEquipments", b =>
                 {
-                    b.Property<int>("ExerciseID")
+                    b.Property<int>("ExerciseId")
                         .HasColumnType("int");
 
-                    b.Property<int>("EquipmentID")
+                    b.Property<int>("EquipmentId")
                         .HasColumnType("int");
 
-                    b.HasKey("ExerciseID", "EquipmentID");
+                    b.HasKey("ExerciseId", "EquipmentId");
 
-                    b.HasIndex("EquipmentID");
+                    b.HasIndex("EquipmentId");
 
                     b.ToTable("ExerciseEquipment", (string)null);
                 });
 
             modelBuilder.Entity("FitHub.WorkoutManagement.Domain.JoinEntry.WorkoutExercise", b =>
                 {
-                    b.Property<int>("WorkoutID")
+                    b.Property<int>("WorkoutId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ExerciseID")
+                    b.Property<int>("ExerciseId")
                         .HasColumnType("int");
 
-                    b.HasKey("WorkoutID", "ExerciseID");
+                    b.Property<int>("Reps")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ExerciseID");
+                    b.Property<int>("Sets")
+                        .HasColumnType("int");
+
+                    b.HasKey("WorkoutId", "ExerciseId");
+
+                    b.HasIndex("ExerciseId");
 
                     b.ToTable("WorkoutExercise", (string)null);
                 });
@@ -139,7 +145,7 @@ namespace FitHub.WorkoutManagement.Migrations
                         .HasMaxLength(3000)
                         .HasColumnType("nvarchar(3000)");
 
-                    b.Property<string>("Image")
+                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasMaxLength(3000)
                         .HasColumnType("nvarchar(3000)");
@@ -155,19 +161,76 @@ namespace FitHub.WorkoutManagement.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Workout", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            CaloriesBurned = "300-400",
+                            Description = "A complete workout targeting all major muscle groups",
+                            Difficulty = 1,
+                            Duration = "45 minutes",
+                            ImageUrl = "/assets/img/pexels-photo-669576.jpeg",
+                            Name = "Full Body Workout",
+                            Type = 0
+                        },
+                        new
+                        {
+                            ID = 2,
+                            CaloriesBurned = "400-500",
+                            Description = "High-intensity interval training for maximum calorie burn",
+                            Difficulty = 2,
+                            Duration = "30 minutes",
+                            ImageUrl = "/assets/img/pexels-photo-703012.jpeg",
+                            Name = "HIIT Cardio",
+                            Type = 1
+                        },
+                        new
+                        {
+                            ID = 3,
+                            CaloriesBurned = "200-300",
+                            Description = "A calming yoga session focusing on flexibility and mindfulness",
+                            Difficulty = 0,
+                            Duration = "60 minutes",
+                            ImageUrl = "/assets/img/photo-1485727749690-d091e8284ef3.jpg",
+                            Name = "Yoga Flow",
+                            Type = 2
+                        },
+                        new
+                        {
+                            ID = 4,
+                            CaloriesBurned = "250-350",
+                            Description = "Intense core workout to strengthen your abs and lower back",
+                            Difficulty = 1,
+                            Duration = "30 minutes",
+                            ImageUrl = "/assets/img/pexels-photo-416778.jpeg",
+                            Name = "Core Crusher",
+                            Type = 0
+                        },
+                        new
+                        {
+                            ID = 5,
+                            CaloriesBurned = "500-600",
+                            Description = "High-intensity functional movements for overall fitness",
+                            Difficulty = 3,
+                            Duration = "45 minutes",
+                            ImageUrl = "/assets/img/pexels-photo-949129.jpeg",
+                            Name = "CrossFit Challenge",
+                            Type = 5
+                        });
                 });
 
             modelBuilder.Entity("FitHub.WorkoutManagement.Domain.JoinEntry.ExercisesEquipments", b =>
                 {
                     b.HasOne("FitHub.WorkoutManagement.Domain.EquipmentDomain.Equipment", "Equipment")
                         .WithMany("ExercisesEquipments")
-                        .HasForeignKey("EquipmentID")
+                        .HasForeignKey("EquipmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FitHub.WorkoutManagement.Domain.ExerciseDomain.Exercise", "Exercise")
                         .WithMany("ExercisesEquipments")
-                        .HasForeignKey("ExerciseID")
+                        .HasForeignKey("ExerciseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -180,13 +243,13 @@ namespace FitHub.WorkoutManagement.Migrations
                 {
                     b.HasOne("FitHub.WorkoutManagement.Domain.ExerciseDomain.Exercise", "Exercise")
                         .WithMany("WorkoutExercises")
-                        .HasForeignKey("ExerciseID")
+                        .HasForeignKey("ExerciseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FitHub.WorkoutManagement.Domain.WorkoutDomain.Workout", "Workout")
                         .WithMany("WorkoutExercises")
-                        .HasForeignKey("WorkoutID")
+                        .HasForeignKey("WorkoutId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -5,10 +5,11 @@ namespace FitHub.WorkoutManagement.Domain.JoinEntry
 {
     public class WorkoutExercise
     {
-        public int WorkoutID { get; set; }
-        public Workout Workout { get; set; }
-
-        public int ExerciseID { get; set; }
+        public int WorkoutId { get; set; }
+        public int ExerciseId { get; set; }
+        public Domain.WorkoutDomain.Workout Workout { get; set; }
         public Exercise Exercise { get; set; }
+        public int Sets { get; set; }
+        public int Reps { get; set; }
     }
 }

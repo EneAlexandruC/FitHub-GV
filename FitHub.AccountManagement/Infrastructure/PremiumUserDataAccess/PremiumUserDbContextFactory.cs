@@ -14,7 +14,7 @@ namespace FitHub.AccountManagement.Infrastructure.PremiumUserDataAccess
                .Build();
 
             var optionsBuilder = new DbContextOptionsBuilder<PremiumUserDbContext>();
-            optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=FitHub;Trusted_Connection=True;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
 
             return new PremiumUserDbContext(optionsBuilder.Options);
         }

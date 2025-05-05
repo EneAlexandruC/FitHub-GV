@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react"; //
-import { Container, Row, Col, Form, Button, Offcanvas } from "react-bootstrap"; //
-import { useNavigate } from "react-router-dom"; //
+import React, { useEffect, useState } from "react"; 
+import { Container, Row, Col, Form, Button, Offcanvas } from "react-bootstrap"; 
+import { useNavigate } from "react-router-dom"; 
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import WorkoutCard from "./WorkoutCard";
@@ -21,6 +21,10 @@ const WorkoutsList: React.FC<WorkoutsListProps> = ({ searchResults }) => {
   useEffect(() => {
     dispatch(fetchWorkouts());
   }, [dispatch]);
+
+  useEffect(() => {
+    setFilteredWorkouts(workouts);
+  }, [workouts]);
 
   const [searchInput, setSearchInput] = useState<string>("");
   const navigate = useNavigate();

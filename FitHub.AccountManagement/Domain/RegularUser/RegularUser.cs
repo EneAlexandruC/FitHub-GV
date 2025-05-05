@@ -20,6 +20,7 @@ namespace FitHub.AccountManagement.Domain.RegularUser
         public DateTime DateOfBirth { get; private set; }
         public int Age => UserHelper.CalculateAge(DateOfBirth);
         public UserType Type { get; private set; }
+        public DateTime DateCreated { get; private set; }
 
         private RegularUser() { }
 
@@ -54,7 +55,8 @@ namespace FitHub.AccountManagement.Domain.RegularUser
                 Weight = weight,
                 Height = height,
                 DateOfBirth = dateOfBirth,
-                Type = UserType.Regular
+                Type = UserType.Regular,
+                DateCreated = DateTime.UtcNow
             };
         }
 

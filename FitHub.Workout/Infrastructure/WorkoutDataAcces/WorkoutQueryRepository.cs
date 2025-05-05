@@ -8,17 +8,24 @@ using System.Threading.Tasks;
 
 namespace FitHub.WorkoutManagement.Infrastructure.WorkoutDataAcces
 {
-    public class WorkoutQueryRepository(WorkoutDbContext dbContext) : IWorkoutQueryRepository
+    public class WorkoutQueryRepository : IWorkoutQueryRepository
     {
+        private readonly WorkoutDbContext dbContext;
 
-        public async Task<Workout?> GetWorkoutByID(int id)
+        public WorkoutQueryRepository(WorkoutDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
+
+        public async Task<Domain.WorkoutDomain.Workout?> GetWorkoutById(int id)
         {
             return await dbContext.Workouts
                 .Include(w => w.WorkoutExercises)
                 .ThenInclude(we => we.Exercise)
                 .FirstOrDefaultAsync(w => w.ID == id);
         }
-        public async Task<IEnumerable<Workout>> GetAllWorkouts()
+
+        public async Task<IEnumerable<Domain.WorkoutDomain.Workout>> GetAllWorkouts()
         {
             return await dbContext.Workouts
                 .Include(w => w.WorkoutExercises)

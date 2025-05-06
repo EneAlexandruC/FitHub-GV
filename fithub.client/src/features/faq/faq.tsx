@@ -40,87 +40,153 @@ const Faq: React.FC = () => {
             <>  
                 <div className={styles.banner} />
                 <div className={styles.qa}>
-                    {/* 2.1 General Questions */}
-                    <div className= {styles.faq_box}>
-                        <div className= {styles.faq_header} onClick={() => toggleQuestions('general', 'arrow1')}>
-                            <span>2.1 General Questions</span>
+                    {/* 1. General Questions */}
+                    <div className={styles.faq_box}>
+                        <div className={styles.faq_header} onClick={() => toggleQuestions('general', 'arrow1')}>
+                            <span>1. General Questions</span>
                             <span className="arrow" id="arrow1">▶</span>
                         </div>
-                        <div className= {styles.questions} id="general">
-                            <div className= {styles.question} onClick = {() => toggleAnswer('g1', 'qa1')}>
-                            <span>How do I create an account?</span>
-                            <span className={styles.q_arrow} id="qa1">▼</span>
+                        <div className={styles.questions} id="general">
+                            <div className={styles.question} onClick={() => toggleAnswer('g1', 'qa1')}>
+                                <span>What is FitHub?</span>
+                                <span className={styles.q_arrow} id="qa1">▼</span>
                             </div>
                             <div className={styles.answer} id="g1">
-                            Hi,<br />
-                            After accessing our website, FitHub, please click on “Sign Up” in the top right corner. There, you will enter the necessary details to create an account, such as: First Name, Last Name, Email, Password, Confirm Password, Weight, Height, and Date. Once you've filled in each field, you can click the “Submit” button. That’s how you create an account—quick and easy!
-                            </div>
-
-                            <div className={styles.question} onClick = {() => toggleAnswer('g2', 'qa2')}>
-                            <span>How do I reset my password? / What should I do if I forgot my password?</span>
-                            <span className={styles.q_arrow} id="qa2">▼</span>
-                            </div>
-                            <div className={styles.answer} id="g2">
-                            Hi,<br />
-                            After accessing the FitHub website, click on “Log In” in the top right corner. Then, click on “Forgot your password?”.
+                                FitHub is an all-in-one fitness platform designed to help you reach your health and wellness goals with personalized plans, community support, and progress tracking.
                             </div>
                         </div>
                     </div>
 
-                    {/* 2.2 Questions About Training Programs */}
+                    {/* 2. Account & Membership */}
                     <div className={styles.faq_box}>
-                    <div className={styles.faq_header} onClick={() => toggleQuestions('training', 'arrow2')}>
-                        <span>2.2 Questions About Training Programs</span>
-                        <span className={styles.arrow} id="arrow2">▶</span>
-                    </div>
-                    <div className={styles.questions} id="training">
-                        <div className={styles.question} onClick={() => toggleAnswer('t1', 'qa3')}>
-                        <span>What workouts do you offer?</span>
-                        <span className={styles.q_arrow} id="qa3">▼</span>
+                        <div className={styles.faq_header} onClick={() => toggleQuestions('account', 'arrow2')}>
+                            <span>2. Account & Membership</span>
+                            <span className="arrow" id="arrow2">▶</span>
                         </div>
-                        <div className={styles.answer} id="t1">
-                        Hi,<br />
-                        At the moment, if you go to the “Workouts” section, you will find two training programs: “Full Body Strength” and “HIIT Cardio”.
+                        <div className={styles.questions} id="account">
+                            <div className={styles.question} onClick={() => toggleAnswer('a1', 'qa2')}>
+                                <span>How do I create an account?</span>
+                                <span className={styles.q_arrow} id="qa2">▼</span>
+                            </div>
+                            <div className={styles.answer} id="a1">
+                                Click “Sign Up” in the top right corner and fill out the required information. After submitting, you’ll receive a confirmation email.
+                            </div>
+                            <div className={styles.question} onClick={() => toggleAnswer('a2', 'qa3')}>
+                                <span>How can I upgrade or cancel my membership?</span>
+                                <span className={styles.q_arrow} id="qa3">▼</span>
+                            </div>
+                            <div className={styles.answer} id="a2">
+                                Go to your account settings, select “Membership”, and follow the instructions to upgrade or cancel your plan.
+                            </div>
                         </div>
-
-                        <div className={styles.question} onClick={() => toggleAnswer('t2', 'qa4')}>
-                        <span>Are there short workout options?</span>
-                        <span className={styles.q_arrow} id="qa4">▼</span>
-                        </div>
-                        <div className={styles.answer} id="t2">
-                        Hi,<br />
-                        Yes, we also offer 10–15 minute workouts, perfect for busy days.
-                        </div>
-
-                        <div className={styles.question} onClick={() => toggleAnswer('t3', 'qa5')}>
-                        <span>How can I become a premium member and what are the benefits?</span>
-                        <span className={styles.q_arrow} id="qa5">▼</span>
-                        </div>
-                        <div className={styles.answer} id="t3">
-                        Hi,<br />
-                        The benefits you can enjoy include:<br />
-                        • Personalized workout plans<br />
-                        • Progress tracking<br />
-                        • Unlimited access to all programs
-                        </div>
-                    </div>
-                    </div>
                     </div>
 
-                    {/* 2.3 Questions About Safety and Privacy */}
+                    {/* 3. Workouts & Programs */}
                     <div className={styles.faq_box}>
-                    <div className={styles.faq_header} onClick={() => toggleQuestions('privacy', 'arrow3')}>
-                        <span>2.3 Questions About Safety and Privacy</span>
-                        <span className={styles.arrow} id="arrow3">▶</span>
-                    </div>
-                    <div className={styles.questions} id="privacy">
-                        <div className={styles.question} onClick={() => toggleAnswer('p1', 'qa6')}>
-                        <span>Is my personal data protected?</span>
-                        <span className={styles.q_arrow} id="qa6">▼</span>
+                        <div className={styles.faq_header} onClick={() => toggleQuestions('workouts', 'arrow3')}>
+                            <span>3. Workouts & Programs</span>
+                            <span className="arrow" id="arrow3">▶</span>
                         </div>
-                        <div className={styles.answer} id="p1">
-                        Hi,<br />
-                        Yes, we comply with all privacy and data protection standards.
+                        <div className={styles.questions} id="workouts">
+                            <div className={styles.question} onClick={() => toggleAnswer('w1', 'qa4')}>
+                                <span>Can I customize my workout plan?</span>
+                                <span className={styles.q_arrow} id="qa4">▼</span>
+                            </div>
+                            <div className={styles.answer} id="w1">
+                                Yes! Use the Workout Builder feature to create personalized routines tailored to your goals.
+                            </div>
+                            <div className={styles.question} onClick={() => toggleAnswer('w2', 'qa5')}>
+                                <span>Are the workouts suitable for beginners?</span>
+                                <span className={styles.q_arrow} id="qa5">▼</span>
+                            </div>
+                            <div className={styles.answer} id="w2">
+                                Absolutely. We offer beginner, intermediate, and advanced workouts for all fitness levels.
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* 4. Features & Tools */}
+                    <div className={styles.faq_box}>
+                        <div className={styles.faq_header} onClick={() => toggleQuestions('features', 'arrow4')}>
+                            <span>4. Features & Tools</span>
+                            <span className="arrow" id="arrow4">▶</span>
+                        </div>
+                        <div className={styles.questions} id="features">
+                            <div className={styles.question} onClick={() => toggleAnswer('f1', 'qa6')}>
+                                <span>What is the Community section for?</span>
+                                <span className={styles.q_arrow} id="qa6">▼</span>
+                            </div>
+                            <div className={styles.answer} id="f1">
+                                The Community section lets you connect, share progress, and support other members on their fitness journey.
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* 5. Payments & Security */}
+                    <div className={styles.faq_box}>
+                        <div className={styles.faq_header} onClick={() => toggleQuestions('payments', 'arrow5')}>
+                            <span>5. Payments & Security</span>
+                            <span className="arrow" id="arrow5">▶</span>
+                        </div>
+                        <div className={styles.questions} id="payments">
+                            <div className={styles.question} onClick={() => toggleAnswer('p1', 'qa7')}>
+                                <span>Is my payment information secure?</span>
+                                <span className={styles.q_arrow} id="qa7">▼</span>
+                            </div>
+                            <div className={styles.answer} id="p1">
+                                Yes, all payments are processed securely using industry-standard encryption.
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* 6. Technical Issues */}
+                    <div className={styles.faq_box}>
+                        <div className={styles.faq_header} onClick={() => toggleQuestions('tech', 'arrow6')}>
+                            <span>6. Technical Issues</span>
+                            <span className="arrow" id="arrow6">▶</span>
+                        </div>
+                        <div className={styles.questions} id="tech">
+                            <div className={styles.question} onClick={() => toggleAnswer('t1', 'qa8')}>
+                                <span>I forgot my password. What should I do?</span>
+                                <span className={styles.q_arrow} id="qa8">▼</span>
+                            </div>
+                            <div className={styles.answer} id="t1">
+                                Click “Log In” and then “Forgot your password?” to reset it via email.
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* 7. Product Offers */}
+                    <div className={styles.faq_box}>
+                        <div className={styles.faq_header} onClick={() => toggleQuestions('offers', 'arrow7')}>
+                            <span>7. Product Offers</span>
+                            <span className="arrow" id="arrow7">▶</span>
+                        </div>
+                        <div className={styles.questions} id="offers">
+                            <div className={styles.question} onClick={() => toggleAnswer('o1', 'qa9')}>
+                                <span>How can I access special offers on fitness products?</span>
+                                <span className={styles.q_arrow} id="qa9">▼</span>
+                            </div>
+                            <div className={styles.answer} id="o1">
+                                Go to the “Special Offers” section to view and redeem exclusive discounts from our partners.
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* 8. Other */}
+                    <div className={styles.faq_box}>
+                        <div className={styles.faq_header} onClick={() => toggleQuestions('other', 'arrow8')}>
+                            <span>8. Other</span>
+                            <span className="arrow" id="arrow8">▶</span>
+                        </div>
+                        <div className={styles.questions} id="other">
+                            <div className={styles.question} onClick={() => toggleAnswer('ot1', 'qa10')}>
+                                <span>How do I contact FitHub?</span>
+                                <span className={styles.q_arrow} id="qa10">▼</span>
+                            </div>
+                            <div className={styles.answer} id="ot1">
+                                You can reach us via the Contact page or by emailing support@fithub.com.
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -94,7 +94,14 @@ const WorkoutDetail: React.FC = () => {
                 <ListGroup className={styles.list1}  variant="flush">
                   <ListGroup.Item className={styles.list} >Sets: {exercise.sets}</ListGroup.Item>
                   <ListGroup.Item className={styles.list} >Reps: {exercise.reps}</ListGroup.Item>
-                  <ListGroup.Item className={styles.list} >{exercise.description}</ListGroup.Item>
+                  <ListGroup.Item className={styles.list} >
+  {exercise.description.split('\n').map((line, idx) => (
+    <React.Fragment key={idx}>
+      {line}
+      <br />
+    </React.Fragment>
+  ))}
+</ListGroup.Item>
                 </ListGroup>
               </Card.Body>
             </Card>

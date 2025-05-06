@@ -8,20 +8,22 @@
     object-fit: cover;
     object-position: top;
     z-index: -1; /* Ensure the image is below the text */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.74),rgba(0, 0, 0, 0.405)), linear-gradient(#17143d82,#1a234ea0), url("img/photo-1651840403916-d1e0515b32c4.jpg"); /* Replace with your desired color */
+    background-image: none;
     background-size: cover;
     background-position: center;
 }
 
 .faq {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.74),rgba(0, 0, 0, 0.405)), linear-gradient(#17143D,#1A234E,#484E69);
+    background-size: 100% 100%, 100% 100%;
+    background-repeat: no-repeat, no-repeat;
+    background-attachment: fixed, fixed;
     font-family: Arial, sans-serif;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.74),rgba(0, 0, 0, 0.405)), linear-gradient(#17143d,#1a234e ,#484e69);
-    background-size: cover; /* Ensure the background covers the entire page */
     height: 100%; /* Ensure the body takes the full height of the screen */
     margin: 0;
-  }
-  
-  .qa{
+}
+
+.qa{
     margin-top: 15vh;
   }
   .faq_box {

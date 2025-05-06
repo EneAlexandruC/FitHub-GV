@@ -76,7 +76,7 @@ app.post('/api/ai-assistant', async (req, res) => {
       body: JSON.stringify({
         model: 'mistral',
         messages: [
-          { role: 'system', content: 'You are a helpful fitness assistant for the FitHub app. Answer in Romanian.' },
+          { role: 'system', content: 'You are a helpful fitness assistant for the FitHub app. Answer in English, use Markdown formatting and be more concise and pragmatic.' },
           { role: 'user', content: message },
         ]
       })

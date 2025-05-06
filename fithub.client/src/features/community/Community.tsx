@@ -19,7 +19,7 @@ interface Workout {
 
 const WorkoutBuilder: React.FC = () => {
   const [workoutName, setWorkoutName] = useState('');
-  const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [exercises, setExercises] = useState<{ name: string; sets: number; reps: number; description: string }[]>([]);
   const [exercise, setExercise] = useState(initialExercise);
   const [savedWorkouts, setSavedWorkouts] = useState<Workout[]>([]);
   const [selectedWorkoutIdx, setSelectedWorkoutIdx] = useState<number | null>(null);
@@ -102,7 +102,7 @@ const WorkoutBuilder: React.FC = () => {
       )}
       <Box sx={{ mb: 3 }}>
         <TextField
-          label="Workout Name"
+          label="Nume antrenament"
           value={workoutName}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkoutName(e.target.value)}
           fullWidth
@@ -122,7 +122,7 @@ const WorkoutBuilder: React.FC = () => {
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={12} sm={3}>
             <TextField
-              label="Exercise Name"
+              label="Nume exercițiu"
               value={exercise.name}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setExercise({ ...exercise, name: e.target.value })}
               fullWidth
@@ -130,7 +130,7 @@ const WorkoutBuilder: React.FC = () => {
           </Grid>
           <Grid item xs={6} sm={2}>
             <TextField
-              label="Sets"
+              label="Seturi"
               type="number"
               value={exercise.sets}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setExercise({ ...exercise, sets: Number(e.target.value) })}
@@ -139,7 +139,7 @@ const WorkoutBuilder: React.FC = () => {
           </Grid>
           <Grid item xs={6} sm={2}>
             <TextField
-              label="Reps"
+              label="Repetări"
               type="number"
               value={exercise.reps}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setExercise({ ...exercise, reps: Number(e.target.value) })}
@@ -148,24 +148,24 @@ const WorkoutBuilder: React.FC = () => {
           </Grid>
           <Grid item xs={12} sm={4}>
             <TextField
-              label="Description"
+              label="Descriere"
               value={exercise.description}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setExercise({ ...exercise, description: e.target.value })}
               fullWidth
             />
           </Grid>
           <Grid item xs={12} sm={1}>
-            <Button variant="contained" color="primary" onClick={handleAddExercise} fullWidth>Add</Button>
+            <Button variant="contained" color="primary" onClick={handleAddExercise} fullWidth>Adaugă</Button>
           </Grid>
         </Grid>
       </Box>
       <Divider sx={{ my: 2 }} />
-      <Typography variant="h6" gutterBottom>Workout Preview</Typography>
+      <Typography variant="h6" gutterBottom>Previzualizare Antrenament</Typography>
       <Card>
         <CardContent>
-          <Typography variant="h6">{workoutName || 'Workout Name...'}</Typography>
+          <Typography variant="h6">{workoutName || 'Nume antrenament...'}</Typography>
           {exercises.length === 0 ? (
-            <Typography variant="body2" color="text.secondary">No exercises added.</Typography>
+            <Typography variant="body2" color="text.secondary">Niciun exercițiu adăugat.</Typography>
           ) : (
             <ul style={{ marginTop: 8, marginBottom: 0, paddingLeft: 16 }}>
               {exercises.map((ex, idx) => (

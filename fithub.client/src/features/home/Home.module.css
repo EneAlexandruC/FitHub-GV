@@ -1,7 +1,8 @@
 .container {
   display: flex;
   flex-direction: column;
-
+  color: white; /* text color */
+  background: linear-gradient(rgba(0, 0, 16, 0.92), rgba(0, 0, 16, 0.807)); /* Dark background for the container */
 }
 
 .banner {

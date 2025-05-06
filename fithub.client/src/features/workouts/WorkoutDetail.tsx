@@ -38,9 +38,8 @@ const WorkoutDetail: React.FC = () => {
   }
 
   return (
-    <Container className="py-5">
+    <Container className={`py-5 ${styles.background}`}>
 
-      <div className={styles.banner} />
       <Button 
         variant="link" 
         className="mb-4 p-0"

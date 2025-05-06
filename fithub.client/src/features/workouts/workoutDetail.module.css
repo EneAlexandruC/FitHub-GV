@@ -1,28 +1,50 @@
 .workoutDetail {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.74),rgba(0, 0, 0, 0.405)), linear-gradient(#17143d,#1a234e ,#484e69);
-    background-size: cover; /* Ensure the background covers the entire page */
+    min-height: 100vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.74),rgba(0, 0, 0, 0.405)), linear-gradient(#17143d,#1a234e,#484e69);
+    background-size: 100% 100%, 100% 100%;
+    background-repeat: no-repeat, no-repeat;
+    background-attachment: fixed, fixed;
     color: #C8C8D7;
 }
-.banner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top;
-    z-index: -1; /* Ensure the image is below the text */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.74),rgba(0, 0, 0, 0.405)), linear-gradient(#17143d82,#1a234ea0), url("img/photo-1637713871652-4c9f1e601209.jpg"); /* Replace with your desired color */
-    background-size: cover;
-    background-position: center;
+
+.card {
+    background: rgba(66, 66, 78, 0.85);
+    color: #C8C8D7;
+    border-radius: 22px;
+    box-shadow: 0 6px 32px 0 rgba(0,0,0,0.18), 0 1.5px 3px 0 rgba(23,20,61,0.13);
+    padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+    border: none;
+    backdrop-filter: blur(2px);
+    transition: transform 0.18s cubic-bezier(.4,2,.6,1), box-shadow 0.18s cubic-bezier(.4,2,.6,1);
 }
-.card{
-    background: #42424e;
-    color:#1c1b1b;
+.card:hover {
+    transform: translateY(-6px) scale(1.025);
+    box-shadow: 0 12px 40px 0 rgba(0,0,0,0.25), 0 2px 8px 0 rgba(23,20,61,0.18);
+}
+.card img {
+    border-radius: 12px;
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,0.10);
+    margin-bottom: 1rem;
+}
+.card .card-title {
+    font-size: 1.18rem;
+    font-weight: 600;
+    color: #F6F6FA;
+    margin-bottom: 0.7rem;
+}
+.card .list-group-item {
+    background: transparent;
+    border: none;
+    color: #C8C8D7;
+    font-size: 1rem;
+    padding: 0.4rem 0.2rem;
+}
+.card .list-group-item:not(:last-child) {
+    border-bottom: 1px solid #2a2a36;
 }
 .list{
-    background: #42424e;
-    border-color: #1c1b1b;
+    background: transparent;
+    border: none;
     color: #C8C8D7;
 }
 
